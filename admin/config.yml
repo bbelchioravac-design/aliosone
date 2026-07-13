@@ -5,7 +5,7 @@ backend:
   name: github
   repo: bbelchioravac-design/aliosone
   branch: main
-  # base_url: https://PREENCHER-NA-FASE-3.workers.dev
+  base_url: https://alios-admin-auth.bbelchior-avac.workers.dev
   commit_messages:
     create: "Novo artigo: {{slug}}"
     update: "Artigo actualizado: {{slug}}"
