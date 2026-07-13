@@ -681,6 +681,44 @@
 
     .os-btn-group { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 
+    /* ── Investigação ── */
+    .investigacao-sec { background: var(--navy); padding-top: 0; }
+
+    .inv-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .inv-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: invPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes invPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    }
+
+    .inv-card h3 {
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      line-height: 1.25;
+      margin-bottom: 0.8rem;
+    }
+
+    .inv-card h3 a { color: inherit; text-decoration: none; transition: color 0.3s; }
+    .inv-card h3 a:hover { color: var(--blue); }
+
     .pub-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -924,6 +962,7 @@
         <li><a href="#solucoes">Soluções</a></li>
         <li><a href="#metodo">Método</a></li>
         <li><a href="#opensource">Open Source</a></li>
+        <li><a href="#investigacao">Investigação</a></li>
         <li><a href="#publicacao">Publicações</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
@@ -1059,6 +1098,26 @@
               Ver no GitHub
             </a>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="opensource investigacao-sec" id="investigacao">
+    <div class="container">
+      <div class="reveal" style="text-align: center;">
+        <div class="section-eyebrow">Investigação</div>
+        <h2 class="section-title">O que estamos a observar</h2>
+        <p class="section-desc" style="margin: 0 auto;">Investigação independente em comportamento de LLMs e arquitecturas de memória — documentada em produção, não em teoria.</p>
+      </div>
+
+      <div class="os-card inv-card reveal">
+        <div class="inv-status"><span class="inv-dot"></span> Investigação em curso</div>
+        <h3><a href="investigacao-memoria.html">I Gave an LLM Persistent Memory and Autonomy Over It. Here's What Happened.</a></h3>
+        <p style="font-size: 0.95rem; color: var(--gray-400); line-height: 1.7; margin-bottom: 1.2rem;">A technical disclosure: a custom dual-layer memory architecture with autonomous retrieval, built from first principles and running in production since early 2026 — and the unprogrammed behaviours it produced.</p>
+        <div class="os-actions">
+          <div class="card-tech" style="padding-top: 0; border-top: none;"><span>→</span> Memória persistente hierárquica · Retrieval autónomo · Comportamento emergente</div>
+          <a class="os-btn" href="investigacao-memoria.html">Ler a disclosure</a>
         </div>
       </div>
     </div>

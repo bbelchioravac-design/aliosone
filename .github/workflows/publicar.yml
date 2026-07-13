@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "artigos/**"
+      - "investigacao/**"
       - "templates/**"
       - "build/**"
   workflow_dispatch:

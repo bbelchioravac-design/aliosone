@@ -19,6 +19,7 @@ import yaml
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_ARTIGOS = RAIZ / "artigos"
+PASTA_INVESTIGACAO = RAIZ / "investigacao"
 TEMPLATE = RAIZ / "templates" / "artigo.html"
 INDEX = RAIZ / "index.html"
 
@@ -176,26 +177,32 @@ def limpar_orfaos(slugs_actuais: set) -> None:
                 ficheiro.unlink()
 
 
-def main() -> int:
-    template = TEMPLATE.read_text(encoding="utf-8")
-    artigos = []
-    for md_file in sorted(PASTA_ARTIGOS.glob("*.md")):
+def ler_pasta(pasta: Path) -> list:
+    itens = []
+    for md_file in sorted(pasta.glob("*.md")):
         meta = ler_artigo(md_file)
         if not meta["publicado"]:
             print(f"  rascunho (publicado: false), ignorado: {md_file.name}")
             continue
-        artigos.append(meta)
+        itens.append(meta)
+    itens.sort(key=lambda a: a["data"], reverse=True)
+    return itens
 
-    artigos.sort(key=lambda a: a["data"], reverse=True)
 
-    for meta in artigos:
+def main() -> int:
+    template = TEMPLATE.read_text(encoding="utf-8")
+    artigos = ler_pasta(PASTA_ARTIGOS)
+    investigacoes = ler_pasta(PASTA_INVESTIGACAO)
+
+    for meta in artigos + investigacoes:
         destino = RAIZ / f"{meta['slug']}.html"
         destino.write_text(gerar_pagina(meta, template), encoding="utf-8")
         print(f"  gerado: {destino.name}  ({meta['data']} · {meta['tag']})")
 
+    # só os artigos entram na montra do index; as investigações têm secção própria
     actualizar_index(artigos)
     print(f"  index.html actualizado ({min(len(artigos), 3)} artigos na montra)")
-    limpar_orfaos({a["slug"] for a in artigos})
+    limpar_orfaos({a["slug"] for a in artigos + investigacoes})
     return 0
 
 

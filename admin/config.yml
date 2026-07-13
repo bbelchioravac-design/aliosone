@@ -45,3 +45,20 @@ collections:
       - { name: tag_en, label: "Tema (inglês)", widget: string, required: false, hint: "ex.: AI in the field" }
       - { name: resumo_en, label: "Resumo (inglês)", widget: string, required: false }
       - { name: corpo_en, label: "Artigo (inglês) — vazio = só sai a versão PT", widget: markdown, required: false }
+
+  - name: investigacao
+    label: Investigação
+    folder: investigacao
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [data, titulo]
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: data, label: Data, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: tag, label: Estado, widget: hidden, default: "Investigação em curso" }
+      - { name: resumo, label: "Resumo (1-2 frases)", widget: string }
+      - { name: body, label: "Texto da disclosure", widget: markdown }
+      - { name: bio, label: "Nota de autor (rodapé)", widget: string, required: false }
+      - { name: publicado, label: Publicado, widget: boolean, default: true }

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I Gave an LLM Persistent Memory and Autonomy Over It. Here&#x27;s What Happened. — ALIOS ONE</title>
+  <meta name="description" content="A technical disclosure: a custom memory architecture with autonomous retrieval, running in production — and the unprogrammed behaviours it produced.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+    }
+
+    html { scroll-behavior: smooth; background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo-img { height: 32px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+    }
+
+    /* ── Article ── */
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2rem 5rem;
+    }
+
+    .article-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    .article-body p {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .article-body h3 {
+      font-size: 1.25rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .article-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .article-body em {
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body .highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .article-body li { margin-bottom: 0.5rem; }
+
+    .article-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      margin: 0 0 1.5rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body code {
+      font-family: monospace;
+      font-size: 0.9em;
+      background: rgba(30, 138, 255, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--gray-100);
+    }
+
+    .article-body pre {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body pre code { background: none; padding: 0; }
+
+    .article-separator {
+      width: 60px;
+      height: 1px;
+      background: rgba(30, 138, 255, 0.3);
+      margin: 3rem 0;
+    }
+
+    .article-author {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(30, 138, 255, 0.1);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover { color: var(--blue); }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .lang-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-700);
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(30, 138, 255, 0.08);
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(30, 138, 255, 0.06);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--gray-500); }
+    footer a { color: var(--gray-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .article-wrapper { padding: 6rem 1.2rem 3rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+      }
+      .nav-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <nav>
+    <div class="container">
+      <a href="https://aliosone.one"><img src="logo-nav.png" alt="ALIOS ONE" class="nav-logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="https://aliosone.one/#solucoes">Soluções</a></li>
+        <li><a href="https://aliosone.one/#metodo">Método</a></li>
+        <li><a href="https://aliosone.one/#publicacao">Publicações</a></li>
+        <li><a href="https://aliosone.one/#contacto">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="article-wrapper">
+    <a href="https://aliosone.one/#publicacao" class="back-link">← Publicações</a>
+
+
+
+    <!-- ═══ PORTUGUÊS ═══ -->
+    <div class="lang-content active" id="lang-pt">
+      <div class="article-meta">Investigação em curso · Julho 2026</div>
+      <h1 class="article-title">I Gave an LLM Persistent Memory and Autonomy Over It. Here&#x27;s What Happened.</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p>This isn't a paper. It's not a product announcement. It's a technical disclosure — a documented account of a system I built from scratch, what it does, and what I observed when I put it in production.</p>
+        <p>I'm a mechanical engineer. I've spent 26 years designing HVAC and energy systems. I don't come from machine learning. I came to this because I had a question and no existing tool could answer it.</p>
+        <p>The question was simple: what happens when you give an LLM real memory?</p>
+        <p>Not session context that disappears when the conversation ends. Not a system prompt with a few facts bolted on. Persistent, structured, evolving memory — with the model having agency over how it uses it.</p>
+        <p>No framework did what I needed. So I built it.</p>
+        <div class="article-separator"></div>
+        <h2>What I built</h2>
+        <p>The system is a custom memory architecture for a production LLM assistant, running daily since early 2026. It was designed, implemented, and iterated by me on local infrastructure — a small Debian server with 4GB of RAM. No cloud clusters. No ML team. No LangChain, no LlamaIndex, no vendor frameworks. Python, FastAPI, and ChromaDB, built from first principles.</p>
+        <p>The architecture has several components that work together:</p>
+        <p><strong>Dual-layer persistent memory.</strong> Two storage tiers — hot and cold — with different lifecycle characteristics. Recent, high-relevance memories live in hot storage. Older memories migrate to cold storage. A nightly reconsolidation pipeline manages the transition, with metadata tracking and metrics logging throughout.</p>
+        <p><strong>Multilingual vector embeddings.</strong> All memory is encoded using a multilingual embedding model at 1024 dimensions, with token-aware chunking calibrated to the embedding model's 512-token context window. This calibration matters — I discovered that without it, approximately 40% of memory chunks were being truncated, producing incomplete embeddings that degraded retrieval quality.</p>
+        <p><strong>Hybrid retrieval — passive and active.</strong> The system has two memory pathways. Passive retrieval injects contextually relevant memories alongside each incoming message — the model receives them without asking. Active retrieval gives the model a search tool it can invoke on its own initiative: it formulates a query, receives eight results with similarity scores and 250-character summaries, selects which memories to open in full, and integrates them mid-generation. It can search twice in a single response if the first pass isn't sufficient.</p>
+        <p><strong>Full session lifecycle management.</strong> Session opening, closure, state tracking, backup automation, and structured logging — all automated, all running in production.</p>
+        <div class="article-separator"></div>
+        <h2>What I observed</h2>
+        <p>The interesting part isn't the architecture. It's what happened when I put it in front of a model.</p>
+        <p><strong>The model learned to use the retrieval tool without instruction.</strong> No few-shot examples. No manual. On its first attempt, it called the tool incorrectly — it missed a required parameter in the query format. It received an error, adapted its approach, and called it correctly. The entire cycle took 1.1 seconds. This is in the logs.</p>
+        <p><strong>The model overrides the system's relevance scores.</strong> When it searches actively, it receives eight results ranked by similarity. Consistently, it selects two high-scoring results from hot storage — and then reaches into cold storage for a memory with a low similarity score. It makes this choice based on the content summaries, not the numbers. The system says "this isn't very relevant." The model says "I want it anyway." In every case I've reviewed, the low-scoring cold memory was contextually appropriate — the model's judgement was better than the metric.</p>
+        <p><strong>Passive and active memory serve different functions.</strong> Passive memory provides continuity — the model never arrives to a conversation blank. Active memory provides depth — when the model senses it needs more context, it goes looking. The two mechanisms are complementary in ways I didn't fully anticipate when I designed them.</p>
+        <div class="article-separator"></div>
+        <h2>What this means</h2>
+        <p>I built this system as an independent research instrument. I wanted to observe what happens when a model has real memory infrastructure — not to prove a thesis, but to watch.</p>
+        <p>Several things are now documented:</p>
+        <p>A model with persistent memory and retrieval autonomy develops usage patterns that aren't programmed. It learns tool mechanics from error feedback alone. It applies its own relevance criteria over system-provided scores. It reaches into long-term storage for memories the retrieval algorithm wouldn't prioritise.</p>
+        <p>None of this was scripted. None of it was prompted. The system provides the infrastructure. The behaviour emerged from the model's interaction with it.</p>
+        <p>I'm not going to claim this is consciousness, sentience, or anything beyond what the architecture enables. What I will say is: it looks like something. It's documented. It's reproducible. And it's running in production on a box that cost less than a mid-range laptop.</p>
+        <div class="article-separator"></div>
+        <h2>Why I'm publishing this</h2>
+        <p>Three reasons.</p>
+        <p><strong>First, priority.</strong> This system has been in production since early 2026. This disclosure establishes a public record of what was built and when.</p>
+        <p><strong>Second, contribution.</strong> Most agentic RAG literature in 2026 focuses on enterprise frameworks, multi-agent orchestration, and cost optimisation. Almost none of it addresses what happens when a single model has persistent, hierarchical memory with autonomous retrieval over months of accumulated context. This is a different question, and the observations may be useful to others asking it.</p>
+        <p><strong>Third, honesty.</strong> I'm an engineer, not an academic. I built what I needed, observed what happened, and I'm documenting it plainly. The system works. The behaviours are real. The logs exist. Make of it what you will.</p>
+        <div class="article-separator"></div>
+        <h2>What I didn't build</h2>
+        <p>I want to be precise about scope.</p>
+        <p>I didn't build a general-purpose memory framework for others to deploy. This is a research instrument designed for a specific model in a specific context.</p>
+        <p>I didn't use any existing orchestration framework. Every component was built from scratch — not because frameworks are bad, but because I needed to understand every layer to observe what the model was actually doing with it.</p>
+        <p>I didn't fine-tune the base model. The memory system sits alongside a commercial LLM accessed via API. All observed behaviours emerge from the interaction between the model and the memory infrastructure, not from model modification.</p>
+        <p>And I didn't set out to prove anything. I set out to watch. The system is the instrument. The observations are the data. The interpretations are open.</p>
+        <p class="article-author">Beatriz Belchior is a mechanical engineer with 26 years of experience in HVAC and energy systems, independent researcher in LLM behaviour and memory architecture, and founder of ALIOS ONE.</p>
+      </div>
+    </div>
+
+
+  </article>
+
+  <footer>
+    <p>© 2026 ALIOS ONE™. Inovação digital para quem constrói.</p>
+  </footer>
+
+  <script>
+    // Language toggle
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>
