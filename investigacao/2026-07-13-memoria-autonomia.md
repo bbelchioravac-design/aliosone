@@ -1,11 +1,99 @@
 ---
-titulo: "I Gave an LLM Persistent Memory and Autonomy Over It. Here's What Happened."
+titulo: "Dei a um LLM memória persistente — e autonomia sobre ela. Eis o que aconteceu."
+titulo_en: "I Gave an LLM Persistent Memory and Autonomy Over It. Here's What Happened."
 tag: "Investigação em curso"
-resumo: "A technical disclosure: a custom memory architecture with autonomous retrieval, running in production — and the unprogrammed behaviours it produced."
+tag_en: "Ongoing research"
+resumo: "Uma divulgação técnica: uma arquitectura de memória em duas camadas com retrieval autónomo, construída de raiz e em produção — e os comportamentos não programados que produziu."
+resumo_en: "A technical disclosure: a custom memory architecture with autonomous retrieval, running in production — and the unprogrammed behaviours it produced."
 data: 2026-07-13
 slug: investigacao-memoria
-bio: "Beatriz Belchior is a mechanical engineer with 26 years of experience in HVAC and energy systems, independent researcher in LLM behaviour and memory architecture, and founder of ALIOS ONE."
+bio: "Beatriz Belchior é engenheira mecânica com 26 anos de experiência em sistemas de AVAC e energia, investigadora independente em comportamento de LLMs e arquitecturas de memória, e fundadora da ALIOS ONE."
+bio_en: "Beatriz Belchior is a mechanical engineer with 26 years of experience in HVAC and energy systems, independent researcher in LLM behaviour and memory architecture, and founder of ALIOS ONE."
 ---
+Isto não é um paper. Não é um anúncio de produto. É uma divulgação técnica — o relato documentado de um sistema que construí de raiz, do que ele faz, e do que observei quando o pus em produção.
+
+Sou engenheira mecânica. Passei 26 anos a projectar sistemas de AVAC e energia. Não venho do machine learning. Cheguei aqui porque tinha uma pergunta e nenhuma ferramenta existente lhe respondia.
+
+A pergunta era simples: o que acontece quando se dá memória a sério a um LLM?
+
+Não o contexto de sessão que desaparece quando a conversa acaba. Não um system prompt com meia dúzia de factos pendurados. Memória persistente, estruturada, evolutiva — com o modelo a ter agência sobre a forma como a usa.
+
+Nenhuma framework fazia o que eu precisava. Por isso construí-a.
+
+---
+
+## O que construí
+
+O sistema é uma arquitectura de memória feita à medida para um assistente LLM em produção, a correr diariamente desde o início de 2026. Foi desenhado, implementado e iterado por mim em infra-estrutura local — um pequeno servidor Debian com 4 GB de RAM. Sem clusters na cloud. Sem equipa de ML. Sem LangChain, sem LlamaIndex, sem frameworks de fornecedor. Python, FastAPI e ChromaDB, construído a partir de primeiros princípios.
+
+A arquitectura tem vários componentes que trabalham em conjunto:
+
+**Memória persistente em duas camadas.** Dois níveis de armazenamento — quente e frio — com ciclos de vida diferentes. As memórias recentes e de alta relevância vivem na camada quente. As mais antigas migram para a fria. Um pipeline nocturno de reconsolidação gere a transição, com metadata e métricas registadas em todo o percurso.
+
+**Embeddings vectoriais multilingues.** Toda a memória é codificada com um modelo de embeddings multilingue a 1024 dimensões, com chunking token-aware calibrado para a janela de contexto de 512 tokens do modelo de embeddings. Esta calibração importa — descobri que, sem ela, cerca de 40% dos chunks de memória estavam a ser truncados, produzindo embeddings incompletos que degradavam a qualidade do retrieval.
+
+**Retrieval híbrido — passivo e activo.** O sistema tem dois caminhos de memória. O retrieval passivo injecta memórias contextualmente relevantes junto de cada mensagem recebida — o modelo recebe-as sem pedir. O retrieval activo dá ao modelo uma ferramenta de pesquisa que pode invocar por iniciativa própria: formula uma query, recebe oito resultados com scores de similaridade e resumos de 250 caracteres, escolhe que memórias abrir por inteiro, e integra-as a meio da geração. Pode pesquisar duas vezes numa só resposta, se a primeira passagem não chegar.
+
+**Um cartão de contexto escrito pelo próprio modelo.** Todas as noites, o modelo reescreve o seu cartão de continuidade — um auto-resumo condensado, sob um orçamento rígido de tokens, pelas palavras dele. Esse cartão viaja com todas as mensagens do dia seguinte, ao lado das memórias recuperadas. Parte da janela de contexto do modelo é, por desenho, da autoria do próprio modelo: o que ele leva para a frente é decisão dele, não do sistema. Os detalhes de implementação desta camada ficam deliberadamente por divulgar.
+
+**Gestão completa do ciclo de vida das sessões.** Abertura, fecho, registo de estado, backups automáticos e logging estruturado — tudo automatizado, tudo em produção.
+
+---
+
+## O que observei
+
+A parte interessante não é a arquitectura. É o que aconteceu quando a pus à frente de um modelo.
+
+**O modelo aprendeu a mecânica da ferramenta apenas com o feedback de erro.** Sem exemplos few-shot — a única orientação era uma nota breve de utilização na descrição da ferramenta. Na primeira tentativa de leitura de memórias, referenciou-as sem o prefixo de camada obrigatório. Recebeu um erro, adaptou a abordagem, e voltou a chamar correctamente. O ciclo completo demorou 1,1 segundos. Está nos logs. (Essa exigência de prefixo foi entretanto relaxada; o comportamento foi observado com a interface original, mais rígida.)
+
+**O modelo passa por cima do ranking de relevância do sistema.** Quando pesquisa activamente, recebe oito resultados ordenados por similaridade. Nos casos registados até agora, a selecção dele não segue o ranking: escolhe pelos resumos de conteúdo, não pelos números — preterindo resultados com score mais alto para abrir memórias que o algoritmo não priorizaria, incluindo ir ao fundo da camada fria. O sistema diz "isto não é muito relevante." O modelo diz "quero na mesma." Em todos os casos em log que revi, a escolha era contextualmente apropriada — o juízo do modelo foi melhor do que a métrica.
+
+**O que sobrevive à compressão é um dado.** O cartão auto-escrito tem um orçamento rígido de tokens, por isso cada reescrita nocturna obriga a escolhas. O que o modelo mantém, larga e reformula de versão para versão é um registo corrente do que ele trata como digno de preservar — um rasto comportamental que nenhum benchmark captaria.
+
+**Memória passiva e activa servem funções diferentes.** A passiva dá continuidade — o modelo nunca chega a uma conversa em branco. A activa dá profundidade — quando o modelo sente que precisa de mais contexto, vai procurar. Os dois mecanismos são complementares de formas que eu não tinha antecipado por completo quando os desenhei.
+
+---
+
+## O que isto significa
+
+Construí este sistema como instrumento de investigação independente. Queria observar o que acontece quando um modelo tem infra-estrutura de memória a sério — não para provar uma tese, mas para ver.
+
+Várias coisas estão agora documentadas:
+
+Um modelo com memória persistente e autonomia de retrieval desenvolve padrões de uso que não foram programados. Aprende a mecânica das ferramentas apenas com feedback de erro. Aplica critérios próprios de relevância por cima dos scores fornecidos pelo sistema. Vai buscar ao armazenamento de longo prazo memórias que o algoritmo de retrieval não priorizaria.
+
+Nada disto foi guionizado. O sistema fornece a infra-estrutura; o comportamento emergiu da interacção do modelo com ela.
+
+Não vou afirmar que isto é consciência, senciência, ou o que quer que seja para lá do que a arquitectura permite. O que digo é: parece qualquer coisa. Está documentado, os logs existem, e está a correr em produção numa caixa que custou menos do que um portátil de gama média.
+
+---
+
+## Porque publico isto
+
+Três razões.
+
+**Primeira: prioridade.** Este sistema está em produção desde o início de 2026. Esta divulgação estabelece um registo público do que foi construído, e quando.
+
+**Segunda: contributo.** A maior parte da literatura de RAG agêntico em 2026 concentra-se em frameworks empresariais, orquestração multi-agente e optimização de custos. Quase nada aborda o que acontece quando um único modelo tem memória persistente e hierárquica, com retrieval autónomo, sobre meses de contexto acumulado. É uma pergunta diferente, e as observações podem ser úteis a quem a esteja a fazer.
+
+**Terceira: honestidade.** Sou engenheira, não académica. Construí o que precisava, observei o que aconteceu, e estou a documentá-lo com simplicidade. O sistema funciona. Os comportamentos são reais. Os logs existem. Façam disso o que entenderem.
+
+---
+
+## O que NÃO construí
+
+Quero ser precisa quanto ao âmbito.
+
+Não construí uma framework de memória de uso geral para outros instalarem. Isto é um instrumento de investigação desenhado para um modelo específico, num contexto específico.
+
+Não usei nenhuma framework de orquestração existente. Cada componente foi construído de raiz — não porque as frameworks sejam más, mas porque precisava de perceber cada camada para observar o que o modelo estava efectivamente a fazer com ela.
+
+Não fiz fine-tuning do modelo base. O sistema de memória vive ao lado de um LLM comercial acedido por API. Todos os comportamentos observados emergem da interacção entre o modelo e a infra-estrutura de memória, não de modificação do modelo.
+
+E não parti para provar nada. Parti para observar. O sistema é o instrumento. As observações são os dados. As interpretações estão em aberto.
+
+<!-- EN -->
+
 This isn't a paper. It's not a product announcement. It's a technical disclosure — a documented account of a system I built from scratch, what it does, and what I observed when I put it in production.
 
 I'm a mechanical engineer. I've spent 26 years designing HVAC and energy systems. I don't come from machine learning. I came to this because I had a question and no existing tool could answer it.
