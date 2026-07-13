@@ -1,0 +1,47 @@
+# Configuração do painel de administração (Decap CMS)
+# O login usa o GitHub via proxy de autenticação (base_url) — ver Fase 3.
+
+backend:
+  name: github
+  repo: bbelchioravac-design/aliosone
+  branch: main
+  # base_url: https://PREENCHER-NA-FASE-3.workers.dev
+  commit_messages:
+    create: "Novo artigo: {{slug}}"
+    update: "Artigo actualizado: {{slug}}"
+    delete: "Artigo removido: {{slug}}"
+    uploadMedia: "Imagem adicionada: {{path}}"
+    deleteMedia: "Imagem removida: {{path}}"
+
+locale: pt
+
+media_folder: "images"
+public_folder: "/images"
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: artigos
+    label: Artigos
+    folder: artigos
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [data, titulo]
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: data, label: Data, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - name: tag
+        label: Tema
+        widget: select
+        options: ["Conforto & Energia", "Regulamentação", "IA no terreno", "Bastidores"]
+      - { name: resumo, label: "Resumo (1 frase, aparece na montra)", widget: string }
+      - { name: body, label: "Artigo (português)", widget: markdown }
+      - { name: publicado, label: Publicado, widget: boolean, default: true, hint: "Desligar = rascunho, não aparece no site" }
+      - { name: titulo_en, label: "Título (inglês)", widget: string, required: false }
+      - { name: tag_en, label: "Tema (inglês)", widget: string, required: false, hint: "ex.: AI in the field" }
+      - { name: resumo_en, label: "Resumo (inglês)", widget: string, required: false }
+      - { name: corpo_en, label: "Artigo (inglês) — vazio = só sai a versão PT", widget: markdown, required: false }

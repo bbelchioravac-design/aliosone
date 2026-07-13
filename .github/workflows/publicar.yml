@@ -1,0 +1,41 @@
+name: Publicar artigos
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "artigos/**"
+      - "templates/**"
+      - "build/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install markdown pyyaml
+
+      - name: Gerar páginas e actualizar index
+        run: python build/gerar.py
+
+      - name: Commit do HTML gerado
+        run: |
+          git config user.name "alios-bot"
+          git config user.email "actions@github.com"
+          git add -A "*.html"
+          if git diff --cached --quiet; then
+            echo "Nada para publicar."
+          else
+            git commit -m "Publicação automática de artigos"
+            git push
+          fi
