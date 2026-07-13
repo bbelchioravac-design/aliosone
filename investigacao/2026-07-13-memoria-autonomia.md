@@ -30,6 +30,8 @@ The architecture has several components that work together:
 
 **Hybrid retrieval — passive and active.** The system has two memory pathways. Passive retrieval injects contextually relevant memories alongside each incoming message — the model receives them without asking. Active retrieval gives the model a search tool it can invoke on its own initiative: it formulates a query, receives eight results with similarity scores and 250-character summaries, selects which memories to open in full, and integrates them mid-generation. It can search twice in a single response if the first pass isn't sufficient.
 
+**A self-authored context card.** Each night, the model rewrites its own continuity card — a condensed self-summary under a hard token budget, in its own words. That card travels with every message the following day, alongside the retrieved memories. Part of the model's context window is, by design, authored by the model itself: what it carries forward is its decision, not the system's. The implementation details of this layer are deliberately not disclosed here.
+
 **Full session lifecycle management.** Session opening, closure, state tracking, backup automation, and structured logging — all automated, all running in production.
 
 ---
@@ -38,9 +40,11 @@ The architecture has several components that work together:
 
 The interesting part isn't the architecture. It's what happened when I put it in front of a model.
 
-**The model learned to use the retrieval tool without instruction.** No few-shot examples. No manual. On its first attempt, it called the tool incorrectly — it missed a required parameter in the query format. It received an error, adapted its approach, and called it correctly. The entire cycle took 1.1 seconds. This is in the logs.
+**The model learned the tool mechanics from error feedback alone.** No few-shot examples — the only guidance was a brief usage note in the tool's description. On its first attempt at reading memories, it referenced them without the required storage-tier prefix. It received an error, adapted its approach, and called again correctly. The entire cycle took 1.1 seconds. This is in the logs. (That prefix requirement has since been relaxed; the behaviour was observed under the original, stricter interface.)
 
-**The model overrides the system's relevance scores.** When it searches actively, it receives eight results ranked by similarity. Consistently, it selects two high-scoring results from hot storage — and then reaches into cold storage for a memory with a low similarity score. It makes this choice based on the content summaries, not the numbers. The system says "this isn't very relevant." The model says "I want it anyway." In every case I've reviewed, the low-scoring cold memory was contextually appropriate — the model's judgement was better than the metric.
+**The model overrides the system's relevance ranking.** When it searches actively, it receives eight results ranked by similarity. In the cases logged so far, its selection does not follow the ranking: it chooses by the content summaries, not the numbers — passing over higher-scoring results to open memories the algorithm wouldn't prioritise, including reaching deep into cold storage. The system says "this isn't very relevant." The model says "I want it anyway." In every logged case I've reviewed, the choice was contextually appropriate — the model's judgement was better than the metric.
+
+**What survives compression is data.** The self-authored card has a hard token budget, so every nightly rewrite forces choices. What the model keeps, drops, and rephrases across successive versions is a running record of what it treats as worth preserving — a behavioural trace no benchmark would capture.
 
 **Passive and active memory serve different functions.** Passive memory provides continuity — the model never arrives to a conversation blank. Active memory provides depth — when the model senses it needs more context, it goes looking. The two mechanisms are complementary in ways I didn't fully anticipate when I designed them.
 
@@ -54,9 +58,9 @@ Several things are now documented:
 
 A model with persistent memory and retrieval autonomy develops usage patterns that aren't programmed. It learns tool mechanics from error feedback alone. It applies its own relevance criteria over system-provided scores. It reaches into long-term storage for memories the retrieval algorithm wouldn't prioritise.
 
-None of this was scripted. None of it was prompted. The system provides the infrastructure. The behaviour emerged from the model's interaction with it.
+None of this was scripted. The system provides the infrastructure; the behaviour emerged from the model's interaction with it.
 
-I'm not going to claim this is consciousness, sentience, or anything beyond what the architecture enables. What I will say is: it looks like something. It's documented. It's reproducible. And it's running in production on a box that cost less than a mid-range laptop.
+I'm not going to claim this is consciousness, sentience, or anything beyond what the architecture enables. What I will say is: it looks like something. It's documented, the logs exist, and it's running in production on a box that cost less than a mid-range laptop.
 
 ---
 
