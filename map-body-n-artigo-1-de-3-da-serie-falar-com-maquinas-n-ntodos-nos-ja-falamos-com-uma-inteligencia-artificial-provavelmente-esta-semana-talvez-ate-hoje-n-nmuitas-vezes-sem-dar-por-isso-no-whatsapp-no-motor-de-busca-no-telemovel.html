@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como falar com uma IA (sem ser informático*) — ALIOS ONE</title>
+  <meta name="description" content="Toda a gente usa IA. Quase ninguém sabe falar com ela. Cinco regras práticas para mudar isso.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+    }
+
+    html { scroll-behavior: smooth; background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo-img { height: 32px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+    }
+
+    /* ── Article ── */
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2rem 5rem;
+    }
+
+    .article-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    .article-body p {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .article-body h3 {
+      font-size: 1.25rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .article-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .article-body em {
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body .highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .article-body li { margin-bottom: 0.5rem; }
+
+    .article-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      margin: 0 0 1.5rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body code {
+      font-family: monospace;
+      font-size: 0.9em;
+      background: rgba(30, 138, 255, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--gray-100);
+    }
+
+    .article-body pre {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body pre code { background: none; padding: 0; }
+
+    .article-separator {
+      width: 60px;
+      height: 1px;
+      background: rgba(30, 138, 255, 0.3);
+      margin: 3rem 0;
+    }
+
+    .article-author {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(30, 138, 255, 0.1);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover { color: var(--blue); }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .lang-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-700);
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(30, 138, 255, 0.08);
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(30, 138, 255, 0.06);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--gray-500); }
+    footer a { color: var(--gray-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .article-wrapper { padding: 6rem 1.2rem 3rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+      }
+      .nav-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <nav>
+    <div class="container">
+      <a href="https://aliosone.one"><img src="logo-nav.png" alt="ALIOS ONE" class="nav-logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="https://aliosone.one/#solucoes">Soluções</a></li>
+        <li><a href="https://aliosone.one/#metodo">Método</a></li>
+        <li><a href="https://aliosone.one/#publicacao">Publicações</a></li>
+        <li><a href="https://aliosone.one/#contacto">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="article-wrapper">
+    <a href="https://aliosone.one/#publicacao" class="back-link">← Publicações</a>
+
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="switchLang('pt')">PT</button>
+      <button class="lang-btn" onclick="switchLang('en')">EN</button>
+    </div>
+
+    <!-- ═══ PORTUGUÊS ═══ -->
+    <div class="lang-content active" id="lang-pt">
+      <div class="article-meta">IA no terreno · Julho 2026</div>
+      <h1 class="article-title">Como falar com uma IA (sem ser informático*)</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><em>*Artigo 1 de 3 da série "Falar com Máquinas"*</em></p>
+        <p>Todos nós já falámos com uma inteligência artificial — provavelmente esta semana, talvez até hoje. </p>
+        <p>Muitas vezes sem dar por isso: no WhatsApp, no motor de busca, no telemóvel. </p>
+        <p>Mas entre usar uma IA por acaso e falar bem com uma há uma distância enorme. E ninguém nos ensinou a atravessá-la.
+        Entretanto nasceu todo um mercado de formações e cursos de "prompt engineering" a vender a ideia de que isto é uma ciência oculta. Já escrevi sobre isso em ''<em>Até as máquinas têm sentimentos — ou porque é que "act as senior" é a maior treta da internet''</em>(https://lnkd.in/eudkyxxY), e a conclusão mantém-se: não precisas disso para nada!</p>
+        <p>Falar com um LLM é uma competência. Como conduzir ou usar uma folha de cálculo: qualquer pessoa aprende, mas há uma diferença clara entre quem aprendeu e quem vai tocando nos botões a ver o que acontece.</p>
+        <p>Este é o primeiro de três artigos. Hoje: o que é isto, onde se fala com um, e como falar de forma a obter respostas que prestem.</p>
+        <p><strong>O que é um LLM, em português corrente</strong>
+        LLM significa <em>*Large Language Model*</em> — grande modelo de linguagem. É um programa treinado com quantidades gigantescas de texto, do qual aprendeu os padrões da linguagem humana. Padrões, não um dicionário: aprendeu como as palavras se seguem umas às outras, como se estrutura um argumento, como se escreve um email, um contrato, um poema — não uma lista de definições que consulta.</p>
+        <p>Duas coisas importantes que resultam disto:
+        <strong>Não é um motor de busca.</strong> O Google devolve-te páginas que existem. Um LLM gera texto novo, palavra a palavra, com base no que aprendeu. Por isso consegue escrever-te uma carta que nunca existiu — e por isso também consegue inventar factos que nunca existiram.</p>
+        <p><strong>Não é uma pessoa, mas também não é uma calculadora.</strong> É uma terceira coisa, nova, para a qual ainda estamos todos a construir intuições. A melhor postura prática: trata-o como um assistente competente, rápido e incansável — que precisa de instruções claras e de verificação no fim.</p>
+        <p><strong>Onde falar com um — as plataformas</strong>
+        A forma mais simples de usar um LLM é através das plataformas oficiais. Não precisas de instalar nada: abres o site, crias conta, escreves.</p>
+        <ul>
+        <li>ChatGPT da OpenAI  - Gratuito: Sim, com limites</li>
+        <li>Claude da Anthropic - Gratuito: Sim, com limites (apertados)</li>
+        <li>Gemini da Google - Gratuito: Sim, com limites (para os modelos mais leves nunca atingi o limite)</li>
+        <li>Grok da xAI - Gratuito: Sim, com limites </li>
+        <li>Le Chat da Mistral - Grauito: Sim, com limites</li>
+        <li>Copilot da Microsoft - Gratuito: Sim </li>
+        <li>Meta AI da Meta - Gratuito: Sim</li>
+        </ul>
+        <p>Todas fazem relativamente bem o essencial: responder a perguntas, escrever e rever texto, resumir documentos, explicar conceitos, ajudar a pensar. As versões pagas (tipicamente ~20€/mês) dão acesso a modelos mais capazes e a mais utilização.</p>
+        <p>Qual escolher? Para experimentar, qualquer uma. As diferenças finas entre modelos — qual é melhor para escrever, qual é melhor para código, qual é melhor para analisar documentos — são o tema do próximo artigo desta série.</p>
+        <p><strong>Como falar — as cinco regras práticas</strong>
+        Aqui está o que realmente muda a qualidade das respostas que recebes. Não são truques nem "prompts secretos" — é comunicação básica, aplicada a um interlocutor novo.</p>
+        <p><strong>1. Dá contexto</strong>
+        A diferença entre uma resposta genérica e uma resposta útil está quase sempre no que tu deste à entrada.</p>
+        <p>- Fraco: <em>"Escreve-me um email ao meu senhorio sobre uma infiltração na cozinha."</em></p>
+        <p>- Bom: <em>"Tenho uma infiltração no tecto da cozinha. Avisei o meu senhorio por telefone há duas semanas e não fez nada. Quero enviar-lhe um email a expor o problema — tom firme mas educado, sem ser muito longo. O objectivo é que ele mande lá alguém resolver isto esta semana."</em></p>
+        <p>Repara na diferença: o primeiro dá o tema; o segundo conta a história e diz ao que vai. O modelo não sabe nada sobre a tua situação a não ser o que lhe contares. Conta-lhe.</p>
+        <p><strong>2. Diz o formato que queres</strong>
+        Queres uma lista? Uma tabela? Três parágrafos? Uma explicação para uma criança de dez anos? Pede exactamente isso. O modelo adapta-se ao formato com facilidade — mas só se lho pedires.</p>
+        <p><strong>3. Itera — a primeira resposta é um rascunho</strong>
+        Este é o erro mais comum: as pessoas fazem uma pergunta, recebem uma resposta mediana e desistem. Uma conversa com um LLM é isso mesmo — uma conversa. Pede um primeiro rascunho e depois trabalha em cima dele:
+        - <em>"Mais curto."</em></p>
+        <p>- <em>"Demasiado formal, torna-o mais natural."</em></p>
+        <p>- <em>"O segundo parágrafo não faz sentido — em vez disso, diz antes que…"</em></p>
+        <p>- <em>"Dá-me três alternativas ao título."</em>
+        Cada resposta é um ponto de partida, não um veredicto. Quem itera obtém resultados incomparavelmente melhores do que quem aceita a primeira versão.</p>
+        <p><strong>4. Fala como falarias com uma pessoa</strong>
+        Não precisas de aprender uma linguagem especial. Escreve com naturalidade, em português, como escreverias a um colega competente. Podes fazer perguntas de seguimento, pedir esclarecimentos, mudar de ideias a meio. O modelo acompanha.
+        E não te limites a pedir tarefas — pede-lhe ajuda para pensar: </p>
+        <p><em>"Tenho este problema, já considerei isto e aquilo. Qual das opções te parece mais sólida? Há alguma perspectiva que não esteja a ver?"</em> É nestas conversas que um LLM mostra o que vale.</p>
+        <p><strong>5. Desconfia com elegância</strong>
+        A regra de ouro: um LLM responde com a mesma confiança quando acerta e quando erra. Não hesita, não gagueja, não te avisa que está a inventar — porque não sabe que está.
+        Datas, números, nomes, legislação, referências, citações: verifica sempre antes de usar. Para brainstorming, rascunhos e explicações, o risco é baixo. Para decisões com consequências, a verificação é tua.
+        <strong>E há um truque que vale ouro: dá-lhe explicitamente permissão para dizer "não sei" ou "não tenho a certeza". Nem imaginas a diferença que faz.</strong></p>
+        <p><strong>O que nunca lá pores</strong>
+        Uma conversa com um LLM não é um cofre. Regra simples: não escrevas nada que não porias num email a um fornecedor externo.
+        - Passwords e dados de acesso</p>
+        <p>- Dados pessoais sensíveis (teus ou de terceiros)</p>
+        <p>- Dados de clientes ou informação confidencial da tua empresa
+        As plataformas têm políticas de privacidade e opções de controlo — mas a primeira linha de defesa é o que decides escrever.</p>
+        <p><strong>O essencial em três linhas</strong>
+        1. Contexto à entrada determina qualidade à saída.</p>
+        <ol start="2">
+        <li>
+        <p>A primeira resposta é um rascunho — itera.</p>
+        </li>
+        <li>
+        <p>Verifica factos antes de usar. Sempre.</p>
+        </li>
+        </ol>
+        <p>Já sabes falar. No próximo artigo: <strong>que modelo escolher</strong> — porque não são todos iguais, e as diferenças interessam mais do que parecem.</p>
+        <p>(*) Há uma ideia instalada de que os informáticos são quem melhor fala com LLMs. Tenho uma opinião totalmente diferente: quem melhor fala com um LLM é quem melhor comunica — quem sabe explicar um problema, dar contexto e ler uma resposta. E isso não se aprende num curso de programação.</p>
+        <p class="article-author">Beatriz Belchior é engenheira mecânica, investigadora independente em comportamento de LLMs, e fundadora da ALIOS ONE.</p>
+      </div>
+    </div>
+
+    <!-- ═══ ENGLISH ═══ -->
+    <div class="lang-content" id="lang-en">
+      <div class="article-meta">Al in the field · July 2026</div>
+      <h1 class="article-title">How to talk to an AI (without working in tech*)</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><strong>How to talk to an AI (without working in tech*)</strong></p>
+        <p><em>Article 1 of 3 in the "Talking to Machines" series</em></p>
+        <p>We've all talked to an artificial intelligence — probably this week, maybe even today. </p>
+        <p>Often without noticing: on WhatsApp, in a search engine, on our phones. </p>
+        <p>But there's a huge distance between stumbling into an AI and actually talking to one well. And nobody taught us how to cross it.
+        Meanwhile, a whole market of courses and "prompt engineering" training has sprung up, selling the idea that this is some kind of occult science. I've written about it before in ''<em>Even machines have feelings — or why 'act as senior' is the biggest scam on the internet''</em>(https://lnkd.in/eudkyxxY), and the conclusion still stands: you don't need any of it.</p>
+        <p>Talking to an LLM is a skill. Like driving or using a spreadsheet: anyone can learn, but there's a clear difference between someone who learned and someone who just pokes at buttons to see what happens.</p>
+        <p>This is the first of three articles. Today: what this thing is, where to talk to one, and how to talk to it in a way that gets you answers worth having.</p>
+        <p><strong>What an LLM is, in plain language</strong>
+        LLM stands for <em>*Large Language Model*</em>. It's a program trained on gigantic amounts of text, from which it learned the patterns of human language. Patterns, not a dictionary: it learned how words follow one another, how an argument is structured, how you write an email, a contract, a poem — not a list of definitions it looks up.
+        Two important things follow from this:</p>
+        <p><strong>It's not a search engine.</strong> Google returns pages that exist. An LLM generates new text, word by word, based on what it learned. That's why it can write you a letter that never existed — and also why it can invent facts that never existed.</p>
+        <p><strong>It's not a person, but it's not a calculator either.</strong> It's a third thing, something new, and we're all still building intuitions for it. The best practical stance: treat it like a competent, fast, tireless assistant — one that needs clear instructions and verification at the end.</p>
+        <p><strong>Where to talk to one — the platforms</strong>
+        The simplest way to use an LLM is through the official platforms. Nothing to install: open the site, create an account, start typing.</p>
+        <ul>
+        <li>ChatGPT from OpenAI  - Free tier: Yes, with limits</li>
+        <li>Claude from Anthropic - Free tier: Yes, with limits (tight ones)</li>
+        <li>Gemini from Google - Free tier: Yes, with limits (I've never hit them on the lighter models)</li>
+        <li>Grok from xAI - Gratuito - Free tier: Yes, with limits </li>
+        <li>Le Chat from Mistral - Free tier: Yes, with limits</li>
+        <li>Copilot from Microsoft - Free tier: Yes </li>
+        <li>Meta AI from Meta - Free tier: Yes</li>
+        </ul>
+        <p>All of them handle the essentials reasonably well: answering questions, writing and editing text, summarising documents, explaining concepts, helping you think. The paid tiers (typically ~€20/month) give you access to more capable models and higher usage.</p>
+        <p>Which one to pick? To get started, any of them. The finer differences between models — which one is better at writing, which one is better at code, which one is better at analysing documents — are the subject of the next article in this series.</p>
+        <p><strong>How to talk — the five practical rules</strong>
+        Here's what actually changes the quality of the answers you get. These aren't tricks or "secret prompts" — it's basic communication, applied to a new kind of interlocutor.</p>
+        <p><strong>1. Give context</strong>
+        The difference between a generic answer and a useful one almost always comes down to what you put in.
+        - Weak: <em>"Write me an email to my landlord about a leak in the kitchen."</em></p>
+        <p>- Good: <em>"I have a leak in my kitchen ceiling. I told my landlord over the phone two weeks ago and he's done nothing. I want to send him an email laying out the problem — firm but polite, not too long. The goal is to get him to send someone to fix it this week."</em></p>
+        <p>Notice the difference: the first gives the topic; the second tells the story and states what you're after. The model knows nothing about your situation except what you tell it. So tell it.</p>
+        <p><strong>2. Say what format you want</strong>
+        A list? A table? Three paragraphs? An explanation a ten-year-old could follow? Ask for exactly that. The model adapts to format easily — but only if you ask.</p>
+        <p><strong>3. Iterate — the first answer is a draft</strong>
+        This is the most common mistake: people ask a question, get a mediocre answer, and give up. A conversation with an LLM is exactly that — a conversation. Ask for a first draft and then work on top of it:
+        - <em>"Shorter."</em></p>
+        <p>- <em>"Too formal, make it more natural."</em></p>
+        <p>- <em>"The second paragraph doesn't work — instead, say that…"</em></p>
+        <p>- <em>"Give me three alternative titles."</em></p>
+        <p>Every answer is a starting point, not a verdict. People who iterate get results incomparably better than people who accept the first version.</p>
+        <p><strong>4. Talk like you'd talk to a person</strong>
+        You don't need to learn a special language. Write naturally, the way you'd write to a competent colleague. You can ask follow-up questions, request clarification, change your mind halfway through. The model keeps up.
+        And don't limit yourself to assigning tasks — ask it to help you think: </p>
+        <p><em>"I have this problem, I've considered this and that. Which option seems more solid to you? Is there an angle I'm not seeing?"</em> That's where an LLM shows what it's worth.</p>
+        <p><strong>5. Distrust with elegance</strong>
+        The golden rule: an LLM answers with the same confidence when it's right and when it's wrong. It doesn't hesitate, doesn't stammer, doesn't warn you it's making things up — because it doesn't know it is.
+        Dates, numbers, names, legislation, references, citations: always verify before using. For brainstorming, drafts and explanations, the risk is low. For decisions with consequences, verification is on you.
+        <strong>And here's a trick worth gold: explicitly give it permission to say "I don't know" or "I'm not sure". You wouldn't believe the difference it makes.</strong></p>
+        <p><strong>What never to put in there</strong>
+        A conversation with an LLM is not a vault. Simple rule: don't write anything you wouldn't put in an email to an external supplier.
+        - Passwords and access credentials</p>
+        <p>- Sensitive personal data (yours or anyone else's)</p>
+        <p>- Client data or confidential company information
+        The platforms have privacy policies and controls — but the first line of defence is what you decide to type.</p>
+        <p><strong>The essentials in three lines</strong>
+        1. Context in determines quality out.</p>
+        <ol start="2">
+        <li>
+        <p>The first answer is a draft — iterate.</p>
+        </li>
+        <li>
+        <p>Verify facts before using them. Always.
+        Now you know how to talk. In the next article: <strong>which model to choose</strong> — because they're not all the same, and the differences matter more than they seem.</p>
+        </li>
+        </ol>
+        <p>(*) There's a widespread idea that IT people are the ones who talk to LLMs best. I hold a completely different view: the people who talk to LLMs best are the people who communicate best — who can explain a problem, give context, and read an answer. And that isn't something you learn in a programming course.</p>
+        <p class="article-author">Beatriz Belchior is a mechanical engineer, independent researcher in LLM behaviour, and founder of ALIOS ONE.</p>
+      </div>
+    </div>
+
+  </article>
+
+  <footer>
+    <p>© 2026 ALIOS ONE™. Inovação digital para quem constrói.</p>
+  </footer>
+
+  <script>
+    // Language toggle
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>
