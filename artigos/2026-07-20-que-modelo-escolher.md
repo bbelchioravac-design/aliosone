@@ -138,7 +138,10 @@ corpo_en: >-
   Now you know how to talk, and who to talk to. In the next article: **what lies beneath the platforms** — API, CLI, tokens, and why some models can only be reached down there.
 seccao: "Descomplicador"
 edicao: 1
+ordem: 2
 ---
+![Que modelo escolher: cada modelo tem forças diferentes](/images/que-modelo-escolher-arte.jpg)
+
 *Artigo 2 de 3 da série "Falar com Máquinas"*
 
 No primeiro artigo (https://bit.ly/3Rnh7zq) aprendeste a falar com uma IA. Hoje: com *quem* falar. Porque não são todos iguais — e as diferenças interessam mais do que parecem.

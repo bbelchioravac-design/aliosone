@@ -151,7 +151,9 @@
     .peca-autor { font-size: 0.7rem; color: var(--gray-500); margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(30, 138, 255, 0.12); }
 
     /* ── capa ── */
-    .capa-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 2.6rem 2.2rem; text-align: left; }
+    .capa-cheia { position: absolute; inset: 0; }
+    .capa-cheia img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .capa-miolo { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 2.6rem 2.2rem; text-align: left; }
     .capa-logo img { height: 42px; width: auto; }
     .capa-rev {
       font-family: 'Rajdhani', sans-serif;
@@ -267,7 +269,7 @@
   <script src="motor/page-flip.browser.js"></script>
   <script>
   (function () {
-    var EDICAO = { numero: "{{NUMERO}}", titulo: "{{TITULO_EDICAO}}", data: "{{MES_ANO}}", destaque: "{{DESTAQUE}}" };
+    var EDICAO = { numero: "{{NUMERO}}", titulo: "{{TITULO_EDICAO}}", data: "{{MES_ANO}}", destaque: "{{DESTAQUE}}", capa: "{{CAPA}}" };
 
     var raiz = getComputedStyle(document.documentElement);
     var PAG_W = parseInt(raiz.getPropertyValue('--pag-w'));
@@ -303,6 +305,11 @@
     function fazerCapa() {
       var p = novaPagina('dura');
       p.setAttribute('data-density', 'hard');
+      if (EDICAO.capa) {
+        // capa desenhada de raiz: mostra-se limpa, sem texto sobreposto
+        folhaDe(p).innerHTML = '<div class="capa-cheia"><img src="' + EDICAO.capa + '" alt="Capa da edição"></div>';
+        return p;
+      }
       folhaDe(p).innerHTML =
         '<div class="capa-miolo">' +
           '<div class="capa-logo"><img src="../logo-hero.png" alt="ALIOS ONE"></div>' +
@@ -365,20 +372,51 @@
       return p;
     }
 
-    function fazerIndice() {
-      var p = novaPagina();
-      var html = '<div class="miolo"><div class="indice-cab">ÍNDICE</div>';
-      var seccaoActual = null;
-      indiceMapa.forEach(function (e) {
-        if (e.seccao !== seccaoActual) {
-          seccaoActual = e.seccao;
-          html += '<div class="ind-seccao" style="color:' + e.cor + '">' + e.seccao + '</div>';
-        }
-        html += '<div class="ind-item"><span>' + e.titulo + '</span><span class="pontos"></span><span class="num">' + e.pag + '</span></div>';
+    function fazerIndices() {
+      // reparte o índice por quantas páginas forem precisas (medição real)
+      var med = document.createElement('div');
+      med.style.cssText = 'width:' + JANELA_W + 'px;';
+      estaleiro.appendChild(med);
+
+      function itemHtml(e) {
+        return '<div class="ind-item"><span>' + e.titulo +
+               '</span><span class="pontos"></span><span class="num">' + (e.pag || 0) + '</span></div>';
+      }
+      function secHtml(e) {
+        return '<div class="ind-seccao" style="color:' + e.cor + '">' + e.seccao + '</div>';
+      }
+
+      function compor() {
+        var pags = [];
+        var actual = '<div class="indice-cab">ÍNDICE</div>';
+        var itens = 0;
+        var seccaoAberta = null;
+        indiceMapa.forEach(function (e) {
+          var bloco = (e.seccao !== seccaoAberta ? secHtml(e) : '') + itemHtml(e);
+          med.innerHTML = actual + bloco;
+          if (med.offsetHeight > JANELA_H && itens > 0) {
+            pags.push(actual);
+            actual = '';
+            bloco = secHtml(e) + itemHtml(e);  // secção repete-se na página nova
+            itens = 0;
+          }
+          actual += bloco;
+          itens += 1;
+          seccaoAberta = e.seccao;
+        });
+        pags.push(actual);
+        return pags;
+      }
+
+      var K = compor().length;  // 1.ª passagem: quantas páginas ocupa o índice
+      indiceMapa.forEach(function (e) { e.pag = K + 2 + e.off; });  // capa=1, índice=2..K+1
+      var finais = compor().map(function (htmlPag) {
+        var p = novaPagina();
+        folhaDe(p).innerHTML = '<div class="miolo">' + htmlPag + '</div>';
+        return p;
       });
-      html += '</div>';
-      folhaDe(p).innerHTML = html;
-      return p;
+      estaleiro.removeChild(med);
+      return finais;
     }
 
     function fazerContracapa() {
@@ -419,21 +457,18 @@
       g.artigos.push(a);
     });
 
-    // paginar: capa(1) + índice(1) + [separador + artigos]*
+    // paginar: capa(1) + índice(N páginas) + [separador + artigos]*
     var corpo = [];  // páginas depois do índice
-    var cursor = 3;  // capa=1, índice=2, corpo começa na 3
     grupos.forEach(function (g) {
       corpo.push(fazerSeparador(g.seccao, g.cor, g.artigos.map(function (a) { return a.titulo; })));
-      cursor += 1;
       g.artigos.forEach(function (a) {
         var pags = fazerArtigo(a);
-        indiceMapa.push({ titulo: a.titulo, seccao: g.seccao, cor: g.cor, pag: cursor });
+        indiceMapa.push({ titulo: a.titulo, seccao: g.seccao, cor: g.cor, off: corpo.length });
         corpo = corpo.concat(pags);
-        cursor += pags.length;
       });
     });
 
-    paginas = [fazerCapa(), fazerIndice()].concat(corpo);
+    paginas = [fazerCapa()].concat(fazerIndices()).concat(corpo);
     if (paginas.length % 2 === 1) paginas.push(novaPagina()); // miolo par antes da contracapa
     paginas.push(fazerContracapa());
 

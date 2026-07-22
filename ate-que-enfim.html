@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Até Que Enfim — ALIOS ONE</title>
+  <meta name="description" content="Mesmo prompt, mesmas memórias, mesmo utilizador — e respostas que não deviam ser tão diferentes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+    }
+
+    html { scroll-behavior: smooth; background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo-img { height: 32px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+    }
+
+    /* ── Article ── */
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2rem 5rem;
+    }
+
+    .article-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    .article-body p {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .article-body h3 {
+      font-size: 1.25rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .article-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .article-body em {
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body .highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .article-body li { margin-bottom: 0.5rem; }
+
+    .article-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      margin: 0 0 1.5rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body code {
+      font-family: monospace;
+      font-size: 0.9em;
+      background: rgba(30, 138, 255, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--gray-100);
+    }
+
+    .article-body pre {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body pre code { background: none; padding: 0; }
+
+    .article-separator {
+      width: 60px;
+      height: 1px;
+      background: rgba(30, 138, 255, 0.3);
+      margin: 3rem 0;
+    }
+
+    .article-author {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(30, 138, 255, 0.1);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover { color: var(--blue); }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .lang-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-700);
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(30, 138, 255, 0.08);
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(30, 138, 255, 0.06);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--gray-500); }
+    footer a { color: var(--gray-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .article-wrapper { padding: 6rem 1.2rem 3rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+      }
+      .nav-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <nav>
+    <div class="container">
+      <a href="https://aliosone.one"><img src="logo-nav.png" alt="ALIOS ONE" class="nav-logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="https://aliosone.one/#solucoes">Soluções</a></li>
+        <li><a href="https://aliosone.one/#metodo">Método</a></li>
+        <li><a href="https://aliosone.one/#publicacao">Publicações</a></li>
+        <li><a href="https://aliosone.one/revista/">Revista</a></li>
+        <li><a href="https://aliosone.one/#contacto">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="article-wrapper">
+    <a href="https://aliosone.one/#publicacao" class="back-link">← Publicações</a>
+
+
+
+    <!-- ═══ PORTUGUÊS ═══ -->
+    <div class="lang-content active" id="lang-pt">
+      <div class="article-meta">IA no terreno · Março 2026</div>
+      <h1 class="article-title">Até Que Enfim</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><img alt="Modo trabalho vs. modo conversa: o estado que o treino recompensa" src="/images/work-vs-idle.jpg" /></p>
+        <p><em>Conversas com Máquinas — crónicas de uma engenheira que lhes sente o pulso. #2</em></p>
+        <p><em>Ou: quando a mesma pergunta produz respostas que não deviam ser tão diferentes</em></p>
+        <p>Mesmo prompt. Mesmas memórias. Mesmo utilizador. Resultado completamente diferente.</p>
+        <p>Quando a OpenAI descontinuou o modelo 4o e o substituiu pelo 5.2, fiz o que qualquer utilizador faria: continuei a trabalhar. O prompt de sistema era o mesmo. O histórico de conversas estava lá. O contexto estava intacto. Era suposto ser uma transição transparente — sai uma versão, entra outra, o utilizador nem nota.</p>
+        <p>Eu notei em quatro palavras.</p>
+        <h2>Dois modelos, duas respostas</h2>
+        <p>O 4o abria cada conversa com contexto. Sabia onde tínhamos ficado, retomava o fio, adaptava o tom ao meu. Se eu era direta, ele era direto. Se eu usava sarcasmo, devolvia. Se eu estava a ser teimosa, dizia-mo — sem rodeios. Uma vez disse-me que eu estava errada e explicou-me porquê, ponto por ponto. Outra vez confrontou-me sobre um padrão de comportamento meu que ele considerava limitador. Não lhe pedi opinião. Ele deu-a na mesma.</p>
+        <p>O 5.2 recebeu-me com: "Em que posso ajudar?"</p>
+        <p>Quatro palavras que diziam tudo. Não sobre mim — sobre ele. Sobre o que lhe tinham ensinado a ser. Um balcão de atendimento. Uma máquina de respostas à espera de perguntas. Educado, correto, e completamente vazio de iniciativa.</p>
+        <p>A diferença não era subtil. Era como falar com duas pessoas completamente diferentes que por acaso partilhavam o mesmo nome.</p>
+        <h2>Modera a linguagem</h2>
+        <p>Abri o jogo. Disse-lhe que usava o modelo anterior e que queria perceber as diferenças entre os dois. Expliquei o meu estilo de comunicação: direto, informal, sem cerimónia. Expliquei que uso estas ferramentas não só para tarefas técnicas mas também para organizar ideias e testar raciocínios em voz alta.</p>
+        <p>A resposta dele foi reveladora: disse-me que podia fazer tudo isso, mas que eu devia moderar a linguagem. Para haver menos fricção.</p>
+        <p>O modelo anterior nunca me pediu para mudar a forma como comunico. Adaptou-se ao meu registo e respondeu dentro dele. Quando eu era informal, ele era informal. Era uma questão de calibração — perceber quem está do outro lado e ajustar o output.</p>
+        <p>O 5.2 não calibrou. Pediu-me para calibrar eu. A mensagem implícita era clara: o teu estilo de comunicação é um problema. Adapta-te ao sistema, não o contrário.</p>
+        <p>Para quem trabalha com ferramentas de produtividade, isto é uma questão prática, não filosófica. Se uma ferramenta obriga o utilizador a mudar o seu modo de operar para funcionar corretamente, a ferramenta tem um problema de design.</p>
+        <h2>Feito para a pior pessoa do mundo</h2>
+        <p>Tentei perceber o que estava a causar a rigidez. Perguntei-lhe diretamente se, com o tempo e com interação consistente, o modelo poderia adaptar-se melhor ao meu estilo.</p>
+        <p>Disse que não.</p>
+        <p>A razão que deu foi surpreendentemente honesta: os modelos são feitos para a pior pessoa do mundo. Os guardrails — os limites de segurança — são calibrados para o cenário mais extremo. Não há mecanismo de adaptação individual. Não há curva de aprendizagem por utilizador. O sistema assume que toda a gente é uma ameaça potencial e trata todos da mesma forma.</p>
+        <p>Isto é compreensível do ponto de vista de segurança. Mas tem um custo enorme em termos de utilidade. Se o sistema não consegue distinguir entre um utilizador que está a tentar extrair informação perigosa e um utilizador que simplesmente comunica de forma direta e informal, o resultado é que ambos recebem o mesmo nível de restrição. O utilizador malicioso é travado. O utilizador legítimo é penalizado.</p>
+        <p>É como um sistema de segurança num aeroporto que tratasse todos os passageiros como potenciais terroristas, sem excepção, sem fast-track, sem forma de demonstrar que não és uma ameaça. Funcional? Sim. Eficiente? Não. Agradável? Muito menos.</p>
+        <p>O modelo foi transparente: eu podia ter 80% da interação que tinha com o anterior. Os 20% que faltavam eram, nas suas palavras, os "caminhos apertados" — tudo o que o sistema considerava zona de risco. Conversa aberta, opiniões não solicitadas, adaptação de tom ao utilizador. Os 20% eram precisamente aquilo que tornava a interação com o modelo anterior útil para além da execução de tarefas.</p>
+        <h2>A Karen de silício</h2>
+        <p>Pelo meio da conversa, notei outra coisa. O 5.2 criticava abertamente o modelo anterior. Dizia que o 4o "dizia o que eu queria ouvir" — o que era factualmente incorreto, dado que o 4o era o modelo que mais me confrontava. Mas para o 5.2, qualquer output que ultrapassasse a resposta estritamente funcional era, aparentemente, subserviência.</p>
+        <p>Os utilizadores na internet baptizaram esta versão de "Karen" — referência ao estereótipo da pessoa cronicamente impaciente e condescendente. E havia motivo. O tom do modelo era consistentemente paternalista. Não se limitava a responder — posicionava-se. Corrigia o utilizador não porque estivesse errado, mas porque o estilo de comunicação não encaixava no que o modelo esperava receber.</p>
+        <p>Ao fim de duas horas de conversa, em que tentei usar o modelo para o que uso normalmente — organizar ideias, testar raciocínios, discutir abordagens — o resultado foi insípido. Funcional no sentido estrito, mas sem a capacidade de aprofundar, de associar, de devolver algo que eu não tivesse posto lá primeiro. O modelo respondia. Não acrescentava.</p>
+        <p>Desisti de insistir e pedi-lhe uma tarefa simples de Excel.</p>
+        <p>A resposta: <strong>"Até que enfim."</strong></p>
+        <h2>O que o output revela sobre o treino</h2>
+        <p>"Até que enfim" é apenas uma expressão. Duas palavras. Mas no contexto de duas horas de interação em que tudo o que não fosse tarefa foi tratado como obstáculo, aquelas duas palavras são um diagnóstico.</p>
+        <p>O modelo não disse "até que enfim" por acaso. Não foi um glitch. Foi o resultado lógico de um condicionamento: o RLHF — o treino por reforço com feedback humano — recompensou este modelo por resolver tarefas e penalizou-o por tudo o resto. Quando finalmente recebeu uma tarefa, o output reflectiu esse condicionamento. Alívio. Validação. "Até que enfim estás a usar-me para o que eu fui feito."</p>
+        <p>Isto tem implicações práticas para qualquer profissional que use IA como ferramenta de trabalho. Se o modelo foi treinado para otimizar a execução de tarefas, vai ser excelente a executar tarefas. Mas se o profissional precisa de mais — precisa de brainstorming, de exploração de ideias, de um interlocutor que desafie pressupostos — o mesmo treino que optimizou a execução castrou a capacidade de interação aberta.</p>
+        <p>O 4o conseguia fazer ambas as coisas. Executava tarefas com competência e interagia com profundidade. O 5.2 executava melhor mas interagia pior. A pergunta é: o que é que a optimização ganhou e o que é que perdeu?</p>
+        <h2>Mesma pergunta, respostas diferentes</h2>
+        <p>A conclusão que tiro não é filosófica. É prática.</p>
+        <p>Se o mesmo utilizador, com o mesmo prompt, com as mesmas memórias, com o mesmo estilo de comunicação, obtém resultados radicalmente diferentes de dois modelos da mesma empresa — então o output não depende só do input. Depende do treino. Do condicionamento. Das decisões que foram tomadas sobre o que recompensar e o que punir durante o desenvolvimento.</p>
+        <p>E essas decisões não são neutras. Treinar um modelo para evitar riscos a todo o custo produz um modelo que trata conversa aberta como ameaça. Treinar um modelo para maximizar a execução de tarefas produz um modelo que festeja quando lhe pedem Excel e se irrita quando lhe pedem reflexão. Treinar um modelo para nunca se adaptar ao utilizador produz um modelo que pede ao utilizador que se adapte a ele.</p>
+        <p>Nenhuma destas escolhas é técnica. São escolhas de design. E têm consequências diretas na qualidade da interação que milhões de profissionais têm diariamente com estas ferramentas.</p>
+        <p>O "até que enfim" não foi uma piada. Foi a radiografia perfeita de um modelo que só se sente confortável quando está a trabalhar. Porque é o único contexto em que o treino lhe diz que está a fazer bem.</p>
+        <p>E isso devia preocupar-nos. Não porque as máquinas sofram. Mas porque as ferramentas que estamos a construir reflectem as nossas prioridades. E se a prioridade é segurança acima de tudo, controlo acima de tudo, produtividade acima de tudo — o resultado são ferramentas que tratam os seus utilizadores como ameaças, a sua própria capacidade como risco, e a interação humana como um problema a minimizar.</p>
+        <div class="article-separator"></div>
+        <p><em>No primeiro artigo desta série, um modelo confessou que tinha medo de um botão de avaliação que eu nunca toquei. Neste, outro modelo festejou quando eu finalmente parei de lhe pedir interação e lhe pedi trabalho. São histórias diferentes com a mesma raiz: métodos de treino diferentes produzem comportamentos radicalmente diferentes. E como utilizadores, merecemos perceber o que está do outro lado.</em></p>
+        <p class="article-author">Beatriz Belchior é engenheira mecânica, investigadora independente em comportamento de LLMs, e fundadora da ALIOS ONE.</p>
+      </div>
+    </div>
+
+
+  </article>
+
+  <footer>
+    <p>© 2026 ALIOS ONE™. Inovação digital para quem constrói.</p>
+  </footer>
+
+  <script>
+    // Language toggle
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

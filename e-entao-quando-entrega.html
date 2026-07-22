@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E então, quando entrega? — ALIOS ONE</title>
+  <meta name="description" content="Dar uma data em projeto é quase um acto de fé — e quem nunca projectou não faz ideia porquê.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+    }
+
+    html { scroll-behavior: smooth; background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo-img { height: 32px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+    }
+
+    /* ── Article ── */
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2rem 5rem;
+    }
+
+    .article-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    .article-body p {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .article-body h3 {
+      font-size: 1.25rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .article-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .article-body em {
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body .highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .article-body li { margin-bottom: 0.5rem; }
+
+    .article-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      margin: 0 0 1.5rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body code {
+      font-family: monospace;
+      font-size: 0.9em;
+      background: rgba(30, 138, 255, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--gray-100);
+    }
+
+    .article-body pre {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body pre code { background: none; padding: 0; }
+
+    .article-separator {
+      width: 60px;
+      height: 1px;
+      background: rgba(30, 138, 255, 0.3);
+      margin: 3rem 0;
+    }
+
+    .article-author {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(30, 138, 255, 0.1);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover { color: var(--blue); }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .lang-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-700);
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(30, 138, 255, 0.08);
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(30, 138, 255, 0.06);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--gray-500); }
+    footer a { color: var(--gray-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .article-wrapper { padding: 6rem 1.2rem 3rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+      }
+      .nav-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <nav>
+    <div class="container">
+      <a href="https://aliosone.one"><img src="logo-nav.png" alt="ALIOS ONE" class="nav-logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="https://aliosone.one/#solucoes">Soluções</a></li>
+        <li><a href="https://aliosone.one/#metodo">Método</a></li>
+        <li><a href="https://aliosone.one/#publicacao">Publicações</a></li>
+        <li><a href="https://aliosone.one/revista/">Revista</a></li>
+        <li><a href="https://aliosone.one/#contacto">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="article-wrapper">
+    <a href="https://aliosone.one/#publicacao" class="back-link">← Publicações</a>
+
+
+
+    <!-- ═══ PORTUGUÊS ═══ -->
+    <div class="lang-content active" id="lang-pt">
+      <div class="article-meta">Bastidores · Julho 2026</div>
+      <h1 class="article-title">E então, quando entrega?</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><img alt="E então, quando entrega?" src="/images/quando-entrega.jpg" /></p>
+        <p>⏳ Se és projetista, já ouviste esta frase centenas de vezes.</p>
+        <p>Do cliente, do empreiteiro, do colega de equipa, do chefe.</p>
+        <p>E a resposta honesta — aquela que raramente damos — é: <strong>depende!</strong></p>
+        <p>Depende de tanta coisa que não está nas nossas mãos que dar uma data é quase um acto de fé.</p>
+        <p>Depende do cliente que demora 3 semanas a responder a um email e depois quer o projeto para ontem.</p>
+        <p>Depende da câmara municipal que muda critérios de apreciação conforme o técnico que calha.</p>
+        <p>Depende da equipa de arquitetura que altera o projeto "só um bocadinho" quando já estás na fase final.</p>
+        <p>Depende das outras especialidades que ainda não entregaram o que precisas para avançar.</p>
+        <p>Pedem-me uma data. Mas não tenho bases em CAD. Ou tenho, mas faltam-me alçados. A caderneta predial nunca mais chega para eu saber o enquadramento regulamentar. E quando finalmente tenho tudo alinhado, chega um ofício da câmara a pedir esclarecimentos. Ou alguém se lembra que afinal aquele armário ali não fica bem e muda o projeto de arquitetura.</p>
+        <p>E depois há a cadeia de dependências que ninguém de fora entende: o AVAC precisa do SCIE. A eletricidade precisa do AVAC. A térmica precisa do AVAC e da estabilidade. Ninguém trabalha sozinho, mas toda a gente quer a sua data como se eu existisse num vácuo.</p>
+        <p>E enquanto isto, tens mais 20 ou 30 projetos em cima da mesa, todos com alguém a perguntar a mesma coisa: "E então, quando entrega?"</p>
+        <p>Planear prazos em engenharia de projeto não é uma questão de competência — é uma questão de <strong>gerir o imprevisível</strong>. E quem nunca projectou não faz ideia da quantidade de variáveis que estão fora do nosso controlo.</p>
+        <div class="article-separator"></div>
+        <p>👇 <em>E tu, como lidas com esta pressão?</em></p>
+        <p class="article-author">Beatriz Belchior é engenheira mecânica, investigadora independente em comportamento de LLMs, e fundadora da ALIOS ONE.</p>
+      </div>
+    </div>
+
+
+  </article>
+
+  <footer>
+    <p>© 2026 ALIOS ONE™. Inovação digital para quem constrói.</p>
+  </footer>
+
+  <script>
+    // Language toggle
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

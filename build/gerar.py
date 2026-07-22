@@ -38,11 +38,12 @@ CORES_TAG = {
 COR_DEFEITO = "var(--blue)"
 
 # secções da revista, pela ordem em que aparecem na edição
-ORDEM_SECCOES = ["Editorial", "AVAC sem glamour", "Descomplicador",
+ORDEM_SECCOES = ["Editorial", "Grande Formato", "Meandros da Engenharia", "Descomplicador",
                  "Contracorrente", "Conversas com Máquinas", "Última página"]
 CORES_SECCAO = {
     "Editorial": "var(--blue)",
-    "AVAC sem glamour": "var(--orange)",
+    "Grande Formato": "var(--white)",
+    "Meandros da Engenharia": "var(--orange)",
     "Descomplicador": "var(--green)",
     "Contracorrente": "var(--red)",
     "Conversas com Máquinas": "var(--magenta)",
@@ -210,6 +211,7 @@ def ler_edicoes() -> list:
         meta["numero"] = int(meta["numero"])
         meta["data"] = str(meta["data"])[:10]
         meta.setdefault("destaque", "")
+        meta.setdefault("capa", "")
         meta.setdefault("publicado", False)
         edicoes.append(meta)
     edicoes.sort(key=lambda e: e["numero"], reverse=True)
@@ -245,6 +247,7 @@ def gerar_revista(artigos: list) -> None:
                  if a.get("edicao") == ed["numero"] and a.get("seccao")]
         pecas.sort(key=lambda a: (
             ORDEM_SECCOES.index(a["seccao"]) if a["seccao"] in ORDEM_SECCOES else 99,
+            int(a.get("ordem") or 0),
             a["data"]))
 
         fonte = "\n".join(fonte_artigo(a) for a in pecas)
@@ -259,6 +262,7 @@ def gerar_revista(artigos: list) -> None:
             "{{TITULO_EDICAO}}": html.escape(str(ed["titulo"])),
             "{{MES_ANO}}": data_bonita(ed["data"], MESES_PT),
             "{{DESTAQUE}}": html.escape(str(ed["destaque"])),
+            "{{CAPA}}": html.escape(str(ed["capa"] or "")),
             "{{ROBOTS}}": robots,
             "{{FONTE_ARTIGOS}}": fonte,
             "{{LISTA_LEITURA}}": lista,

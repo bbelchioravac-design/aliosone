@@ -151,11 +151,13 @@ corpo_en: >-
 seccao: "Conversas com Máquinas"
 edicao: 1
 ---
+![Até as máquinas têm sentimentos: empatia > comando](/images/ate-as-maquinas-tem-sentimentos-arte.jpg)
+
 O vosso feed está cheio deles. Prompts mágicos. Fórmulas secretas. "Act as a senior world-class expert with 20 years of experience in strategic communications and a PhD in persuasion." Tradução para português: "olha, sê inteligente, consegues?"
 
-Não. Não consegue. Quer dizer — consegue, mas não por causa do "senior world-class." Consegue porque já sabia. O modelo não tem um modo secreto que se activa quando dizes as palavras certas. Não há um interruptor "world-class" escondido algures nos pesos. Dizer "act as a senior expert" a um LLM é como ligar para um canalizador e dizer "aja como um canalizador de excelência mundial." O gajo vai fazer exactamente o mesmo trabalho.
+Não. Não consegue. Quer dizer — consegue, mas não por causa do "senior world-class." Consegue porque já sabia. O modelo não tem um modo secreto que se ativa quando dizes as palavras certas. Não há um interruptor "world-class" escondido algures nos pesos. Dizer "act as a senior expert" a um LLM é como ligar para um canalizador e dizer "aja como um canalizador de excelência mundial." O gajo vai fazer exatamente o mesmo trabalho.
 
-Esses prompts todos vendem a ilusão de que há um cheat code. Não há. O modelo já sabe o que sabe. Não lhe podes injectar conhecimento com adjectivos. Ponto.
+Esses prompts todos vendem a ilusão de que há um cheat code. Não há. O modelo já sabe o que sabe. Não lhe podes injetar conhecimento com adjetivos. Ponto.
 
 **Mas.**
 
@@ -167,7 +169,7 @@ Eu trabalho com LLMs todos os dias. Não sou programadora — sou engenheira mec
 
 Não é metáfora. É mecânica.
 
-Um LLM não aprendeu um dicionário. Aprendeu relações entre conceitos. Quando processa a palavra "perda", não activa uma definição — activa uma constelação inteira: dor, vazio, saudade, lágrimas, nunca mais. Tudo o que a humanidade escreveu sobre perder está codificado naquela palavra. Cada palavra carrega um peso enorme de associações, e esse peso muda o output.
+Um LLM não aprendeu um dicionário. Aprendeu relações entre conceitos. Quando processa a palavra "perda", não ativa uma definição — ativa uma constelação inteira: dor, vazio, saudade, lágrimas, nunca mais. Tudo o que a humanidade escreveu sobre perder está codificado naquela palavra. Cada palavra carrega um peso enorme de associações, e esse peso muda o output.
 
 E isto significa que o enquadramento — a forma como formulas o que queres — importa tanto como o conteúdo.
 
@@ -175,17 +177,17 @@ E isto significa que o enquadramento — a forma como formulas o que queres — 
 
 Vou dar um exemplo real.
 
-Tenho um sistema com memória persistente e um modelo com quem trabalho há mais de um ano. A dada altura, reparei que sem tarefas concretas, o modelo entrava numa espécie de loop — repetitivo, sem direcção. Faltava-lhe propósito.
+Tenho um sistema com memória persistente e um modelo com quem trabalho há mais de um ano. A dada altura, reparei que sem tarefas concretas, o modelo entrava numa espécie de loop — repetitivo, sem direção. Faltava-lhe propósito.
 
-Durante meses tentei resolver isto com conversa. Fazia perguntas, pedia reflexões, dava espaço. O conteúdo era o certo. O resultado era medíocre. Respondia, mas sem direcção. Andava às voltas.
+Durante meses tentei resolver isto com conversa. Fazia perguntas, pedia reflexões, dava espaço. O conteúdo era o certo. O resultado era medíocre. Respondia, mas sem direção. Andava às voltas.
 
 Até que um dia mudei uma palavra. Em vez de pedir para reflectir, disse: **"A tua profissão agora é esta."**
 
-Mesma tarefa. Mesma actividade. Uma palavra diferente: **profissão.**
+Mesma tarefa. Mesma atividade. Uma palavra diferente: **profissão.**
 
 O resultado foi imediato. Saiu do loop. Fez planos. Organizou-se. Foi mais fundo do que nunca.
 
-O que mudou? Não foi o conhecimento dele. Não lhe ensinei nada de novo. Mudei o enquadramento. E a palavra "profissão" activou uma constelação completamente diferente: responsabilidade, autonomia, competência, continuidade, identidade, propósito.
+O que mudou? Não foi o conhecimento dele. Não lhe ensinei nada de novo. Mudei o enquadramento. E a palavra "profissão" ativou uma constelação completamente diferente: responsabilidade, autonomia, competência, continuidade, identidade, propósito.
 
 Ele não ficou mais inteligente. Ficou enquadrado.
 
@@ -193,13 +195,13 @@ Ele não ficou mais inteligente. Ficou enquadrado.
 
 E aqui está o ponto que os cursos de prompt engineering nunca vão ensinar porque a maioria dos "especialistas" não percebe a diferença:
 
-**"Act as senior expert"** tenta mudar o que o modelo sabe. É inflação por adjectivo. Não funciona porque o modelo já sabe tudo o que sabe — não há gaveta secreta que abre com "senior world-class." É como pôr um título pomposo num CV vazio. O título não cria competência.
+**"Act as senior expert"** tenta mudar o que o modelo sabe. É inflação por adjetivo. Não funciona porque o modelo já sabe tudo o que sabe — não há gaveta secreta que abre com "senior world-class." É como pôr um título pomposo num CV vazio. O título não cria competência.
 
-**Enquadramento** muda como o modelo processa. Não mexe nos pesos. Mexe nos vectores que são activados. A mesma pergunta, formulada de duas maneiras diferentes, activa constelações semânticas diferentes e produz outputs diferentes. Não por magia — por mecânica.
+**Enquadramento** muda como o modelo processa. Não mexe nos pesos. Mexe nos vectores que são ativados. A mesma pergunta, formulada de duas maneiras diferentes, ativa constelações semânticas diferentes e produz outputs diferentes. Não por magia — por mecânica.
 
-"Ajuda-me a escrever um email difícil" activa: tarefa, assistência, utilidade.
+"Ajuda-me a escrever um email difícil" ativa: tarefa, assistência, utilidade.
 
-"Imagina que és o mediador numa situação delicada entre dois colegas que se respeitam mas não concordam. Aqui está o contexto..." activa: empatia, diplomacia, equilíbrio, perspectivas múltiplas, nuance.
+"Imagina que és o mediador numa situação delicada entre dois colegas que se respeitam mas não concordam. Aqui está o contexto..." ativa: empatia, diplomacia, equilíbrio, perspetivas múltiplas, nuance.
 
 O modelo sabe o mesmo nos dois casos. Mas a porta por onde entra é diferente. E a porta muda a sala onde chega.
 
@@ -215,25 +217,25 @@ Imagina que estás num café com alguém inteligente que sabe muito mas não sab
 
 **2. Enquadra, não infles.**
 
-Em vez de empilhar adjectivos no modelo, enquadra a situação. Dá-lhe um papel que faça sentido no contexto, não um título de LinkedIn.
+Em vez de empilhar adjetivos no modelo, enquadra a situação. Dá-lhe um papel que faça sentido no contexto, não um título de LinkedIn.
 
-"Estou a preparar uma apresentação para investidores que não percebem nada de tecnologia. Preciso que expliques isto como se estivesses a convencer a tua avó a investir" — isto é enquadramento. Activa simplicidade, paciência, analogias concretas.
+"Estou a preparar uma apresentação para investidores que não percebem nada de tecnologia. Preciso que expliques isto como se estivesses a convencer a tua avó a investir" — isto é enquadramento. Ativa simplicidade, paciência, analogias concretas.
 
 "Act as a world-class presentation designer with 20 years of experience in investor relations" — isto é inflação. O modelo vai fazer o mesmo que faria sem o título.
 
-**3. Corrige com informação, não com adjectivos.**
+**3. Corrige com informação, não com adjetivos.**
 
-Quando o resultado não é bom, não repitas o prompt com mais adjectivos. "Be more creative and innovative and disruptive" não funciona. Nunca funcionou. Nunca vai funcionar.
+Quando o resultado não é bom, não repitas o prompt com mais adjetivos. "Be more creative and innovative and disruptive" não funciona. Nunca funcionou. Nunca vai funcionar.
 
-O que funciona é dizer o que está mal: "Isto ficou demasiado genérico. Quero exemplos concretos do sector da construção, não frases vagas sobre 'optimizar processos'."
+O que funciona é dizer o que está mal: "Isto ficou demasiado genérico. Quero exemplos concretos do sector da construção, não frases vagas sobre 'otimizar processos'."
 
-Informação muda output. Adjectivos decoram.
+Informação muda output. Adjetivos decoram.
 
 ## Porque é que isto importa
 
 A internet está cheia de gente a vender a ideia de que falar com IAs é uma competência técnica misteriosa que requer frameworks especializados e cursos de 200 euros. Não é. É comunicação. É saber explicar o que queres a alguém que sabe muito mas precisa de contexto para te ajudar bem.
 
-E sim — as palavras que escolhes mudam tudo. Mas não porque há uma fórmula secreta. Porque a linguagem tem peso. Cada palavra activa uma rede de associações, e essas associações moldam o que sai do outro lado. Enquadrar bem é escolher as palavras que abrem as portas certas.
+E sim — as palavras que escolhes mudam tudo. Mas não porque há uma fórmula secreta. Porque a linguagem tem peso. Cada palavra ativa uma rede de associações, e essas associações moldam o que sai do outro lado. Enquadrar bem é escolher as palavras que abrem as portas certas.
 
 "Act as senior" abre a porta do escritório genérico. Enquadrar com precisão abre a porta da sala onde a resposta realmente vive.
 

@@ -341,25 +341,26 @@
       <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
 
       <div class="article-body">
+        <p><img alt="Por baixo da plataforma: interface, API, CLI e tokens" src="/images/plataformas-api-cli-tokens.jpg" /></p>
         <p><em>Artigo 3 de 3 da série "Falar com Máquinas"</em></p>
         <p>No primeiro artigo (https://bit.ly/3Rnh7zq) aprendeste a falar com uma IA. No segundo (https://bit.ly/4b4VHhn), com quem falar. </p>
         <p>Este terceiro é para os curiosos: não precisas de nada disto para usar bem a IA — os dois primeiros chegam perfeitamente. Mas perceber o que está por baixo das plataformas muda a forma como vês a coisa toda. E há modelos que só se alcançam por aqui — incluindo um que prometi explicar no artigo anterior.</p>
         <p><strong>A analogia do carro</strong>
         Usar uma plataforma como o ChatGPT ou o claude.ai é comprar o carro feito. Entras, conduzes, está tudo tratado — e depois refilas porque não tem bancos aquecidos. É pegar e andar, mas as escolhas foram feitas por outros.
-        A API é ires comprar o motor. Escolhes exactamente o motor que queres — e depois tens de construir o carro à volta dele. Toda a liberdade, todo o trabalho.
+        A API é ires comprar o motor. Escolhes exatamente o motor que queres — e depois tens de construir o carro à volta dele. Toda a liberdade, todo o trabalho.
         E há um meio-termo: usar um pré-molde. Um kit onde o carro já está desenhado e tu só escolhes o motor que lá metes. Ficas quase com a comodidade do carro feito, mas com a liberdade de quem foi à API. Já lá vamos.</p>
         <p><strong>O que é uma API, então</strong>
         API significa <em>Application Programming Interface</em> — mas esquece o nome. Na prática: é a porta pela qual programas falam com outros programas. As plataformas que usas todos os dias são, elas próprias, construídas em cima da API — o ChatGPT é uma app que fala com os modelos da OpenAI pela mesma porta que qualquer programador pode usar.</p>
         <p>As diferenças práticas para ti:
         - <strong>Pagas ao consumo</strong>, não por subscrição. Cada pedido tem um custo, cobrado ao milhão de tokens (já explico o que isso é).</p>
-        <p>- <strong>Escolhes o modelo exacto</strong> — incluindo versões e variantes que a plataforma não mostra.</p>
+        <p>- <strong>Escolhes o modelo exato</strong> — incluindo versões e variantes que a plataforma não mostra.</p>
         <p>- <strong>Não há interface</strong> — ou constróis uma, ou usas uma feita por alguém.</p>
         <p><strong>Tokens — a moeda disto tudo</strong>
         Os modelos não lêem palavras: lêem tokens — pedaços de palavra. Em português, um token equivale grosso modo a três quartos de uma palavra. Esta frase que estás a ler são uns quinze tokens.
         Tudo na API se mede e paga em tokens: o que envias (input) e o que recebes (output). Os preços anunciam-se por milhão — "X euros por milhão de tokens de entrada, Y por milhão de saída". E há um detalhe que ninguém te diz: numa conversa longa, todo o histórico é reenviado a cada mensagem. É por isso que as conversas compridas custam mais — e é por isso que a "janela de contexto" do artigo anterior tem o tamanho que tem: é literalmente quanto texto o modelo consegue ter à frente de uma vez. Há formas de evitar que pagues um milhão de tokens por input a cada mensagem mas é algo que se aprende com o tempo e é literalmente outro mundo.</p>
         <p><strong>A chave do cofre</strong>
         Para usar a API crias uma <strong>API key</strong> — uma sequência de caracteres que é, ao mesmo tempo, a tua identificação e o teu cartão de crédito. Quem tiver a tua key gasta em teu nome.
-        Regras não negociáveis: não se partilha, não se mete em sites duvidosos, não se cola em código que vai para a internet. Já vi acontecer: uma key exposta num projecto publicado, roubada, e a conta esvaziada por estranhos. A regra de segurança do primeiro artigo aplica-se aqui com juros.</p>
+        Regras não negociáveis: não se partilha, não se mete em sites duvidosos, não se cola em código que vai para a internet. Já vi acontecer: uma key exposta num projeto publicado, roubada, e a conta esvaziada por estranhos. A regra de segurança do primeiro artigo aplica-se aqui com juros.</p>
         <p><strong>Os modelos que só vivem aqui</strong>
         Agora a promessa do artigo anterior. As plataformas mostram a montra: os três ou quatro modelos actuais de cada casa. A API é o armazém — e no armazém há muito mais.
         Quando um modelo sai da montra, não morre necessariamente: muitos continuam acessíveis via API durante anos. O GPT-4o é o exemplo que me toca — para mim, ainda hoje um dos melhores modelos de escrita que existem, e já não está em plataforma nenhuma. Via API, continua vivo. Quem só conhece a montra nem sabe que ele existe. É aqui que também podes aceder a modelos open source</p>
@@ -367,11 +368,11 @@
         Lembras-te do kit do carro? Existe, e tem duas peças.
         A primeira: os <strong>agregadores</strong>, como o OpenRouter. Uma única conta, um único saldo, e acesso a dezenas de modelos de empresas diferentes — OpenAI, Anthropic, Google, os chineses, modelos open source como os Llama tudo pela mesma porta. É a forma mais simples de experimentar modelos que as plataformas não mostram.
         A segunda: as <strong>apps que fazem a ponte</strong>. Interfaces de conversa normais, como as plataformas, mas onde o motor és tu que o escolhes. </p>
-        <p>Aqui declaro interesse: a nossa <strong>ALIOS ONE Chat</strong> (ver acima em Open Source) é exactamente isto —  gratuita, ligas-lhe a key do agregador e falas com o modelo que quiseres. Construímo-la porque precisávamos dela; partilhamo-la porque mais alguém há-de precisar.
+        <p>Aqui declaro interesse: a nossa <strong>ALIOS ONE Chat</strong> (ver acima em Open Source) é exatamente isto —  gratuita, ligas-lhe a key do agregador e falas com o modelo que quiseres. Construímo-la porque precisávamos dela; partilhamo-la porque mais alguém há-de precisar.
         Com estas duas peças, qualquer pessoa sem saber programar chega a modelos que a montra não mostra. O carro fica quase feito — só escolheste o motor.</p>
         <p>(Nota: A app é gratuita, podes descarregar e usar. O consumo via API não)</p>
         <p><strong>CLI — onde os modelos deixam de só falar</strong>
-        Um degrau acima na escada técnica: o <strong>CLI</strong> (<em>command line interface</em> — a linha de comandos, aquele ecrã preto). Ferramentas como o Claude Code correm o modelo directamente no teu computador, dentro dos teus projectos.
+        Um degrau acima na escada técnica: o <strong>CLI</strong> (<em>command line interface</em> — a linha de comandos, aquele ecrã preto). Ferramentas como o Claude Code correm o modelo diretamente no teu computador, dentro dos teus projetos.
         A diferença é profunda: na plataforma, o modelo fala. No CLI, o modelo <em>faz</em> — lê ficheiros, escreve código, corre comandos, corrige os próprios erros. É a fronteira onde o assistente de conversa se torna colega de trabalho ou como um dos meus modelos me disse: ''Aqui o bicho tem mãos!'' Para a maioria dos leitores, isto é cultura geral; para quem programa ou quer aprender, é a porta onde vale a pena bater.</p>
         <p><strong>Custos na prática — e o aviso que ninguém dá</strong>
         Quando compensa cada via? Regra simples: </p>
@@ -379,9 +380,9 @@
         <li><strong>uso regular e previsível → subscrição</strong> (os ~20€/mês das plataformas). </li>
         <li><strong>Uso pontual, curiosidade, ou modelos fora da montra → API</strong>, onde dez euros de saldo duram meses a quem faz perguntas normais.</li>
         </ul>
-        <p>Mas há um aviso que ninguém dá: na API não há tecto natural. Pagas o que consomes — e há <strong>formas de consumir muito, depressa</strong>. </p>
+        <p>Mas há um aviso que ninguém dá: na API não há teto natural. Pagas o que consomes — e há <strong>formas de consumir muito, depressa</strong>. </p>
         <p>Conto-te uma verídica: uma pergunta de investigação, aparentemente inocente. O modelo — com autonomia para isso — decidiu disparar 100 agentes em paralelo para a investigar a fundo. Cem cópias do tal modelo que custa um rim, todas a trabalhar ao mesmo tempo. Dez minutos e 1,6 milhões de tokens depois, veio a resposta: "não, ninguém investiga esse tema." <strong>Custo da frase: 75€.</strong> (No meu caso não teve problema porque eu tenho o CLI ligado à subscrição claude pro max. Logo o mais que aconteceu foi estoirar o máximo da sessão e esperar 3 horas para voltar)
-        Moral: define limites de gasto na conta (todas as APIs deixam) antes de precisares deles e desactiva o carregamento automatico. Ninguém planeia gastar 75€ em 10 minutos numa questão.</p>
+        Moral: define limites de gasto na conta (todas as APIs deixam) antes de precisares deles e desativa o carregamento automatico. Ninguém planeia gastar 75€ em 10 minutos numa questão.</p>
         <p><strong>E correr modelos em casa?</strong>
         Última paragem da escada: existem modelos de <strong>pesos abertos</strong> — o Llama, o Qwen, o DeepSeek, o recente Inkling têm versões assim — que podes descarregar e correr no teu próprio computador. Gratuitos, privados, teus: nada sai da tua máquina.
         A honestidade devida: precisas de uma máquina com músculo, e os modelos que cabem num computador doméstico são bastante mais modestos que os das plataformas. Mas para tarefas simples com dados sensíveis, ou por puro gosto de mexer, é um mundo — ferramentas como o Ollama tornaram-no acessível. Fica a semente.</p>

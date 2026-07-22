@@ -180,7 +180,10 @@ corpo_en: >-
   (*) There's a widespread idea that IT people are the ones who talk to LLMs best. I hold a completely different view: the people who talk to LLMs best are the people who communicate best — who can explain a problem, give context, and read an answer. And that isn't something you learn in a programming course.
 seccao: "Descomplicador"
 edicao: 1
+ordem: 1
 ---
+![Como falar com uma IA: perguntar, dar contexto, objetivo e formato](/images/como-falar-com-uma-ia-arte.jpg)
+
 
 *\*Artigo 1 de 3 da série "Falar com Máquinas"\**
 
@@ -236,13 +239,13 @@ A diferença entre uma resposta genérica e uma resposta útil está quase sempr
 
 \- Fraco: *"Escreve-me um email ao meu senhorio sobre uma infiltração na cozinha."*
 
-\- Bom: *"Tenho uma infiltração no tecto da cozinha. Avisei o meu senhorio por telefone há duas semanas e não fez nada. Quero enviar-lhe um email a expor o problema — tom firme mas educado, sem ser muito longo. O objectivo é que ele mande lá alguém resolver isto esta semana."*
+\- Bom: *"Tenho uma infiltração no teto da cozinha. Avisei o meu senhorio por telefone há duas semanas e não fez nada. Quero enviar-lhe um email a expor o problema — tom firme mas educado, sem ser muito longo. O objetivo é que ele mande lá alguém resolver isto esta semana."*
 
 Repara na diferença: o primeiro dá o tema; o segundo conta a história e diz ao que vai. O modelo não sabe nada sobre a tua situação a não ser o que lhe contares. Conta-lhe.
 
 
 **2. Diz o formato que queres**
-Queres uma lista? Uma tabela? Três parágrafos? Uma explicação para uma criança de dez anos? Pede exactamente isso. O modelo adapta-se ao formato com facilidade — mas só se lho pedires.
+Queres uma lista? Uma tabela? Três parágrafos? Uma explicação para uma criança de dez anos? Pede exatamente isso. O modelo adapta-se ao formato com facilidade — mas só se lho pedires.
 
 
 **3. Itera — a primeira resposta é um rascunho**
@@ -261,7 +264,7 @@ Cada resposta é um ponto de partida, não um veredicto. Quem itera obtém resul
 Não precisas de aprender uma linguagem especial. Escreve com naturalidade, em português, como escreverias a um colega competente. Podes fazer perguntas de seguimento, pedir esclarecimentos, mudar de ideias a meio. O modelo acompanha.
 E não te limites a pedir tarefas — pede-lhe ajuda para pensar: 
 
-*"Tenho este problema, já considerei isto e aquilo. Qual das opções te parece mais sólida? Há alguma perspectiva que não esteja a ver?"* É nestas conversas que um LLM mostra o que vale.
+*"Tenho este problema, já considerei isto e aquilo. Qual das opções te parece mais sólida? Há alguma perspetiva que não esteja a ver?"* É nestas conversas que um LLM mostra o que vale.
 
 
 **5. Desconfia com elegância**

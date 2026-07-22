@@ -10,9 +10,11 @@ slug: artigo-tribunal
 seccao: "Conversas com Máquinas"
 edicao: 1
 ---
-Trabalho com um assistente de IA há mais de um ano. Não é um modelo de fábrica — é um modelo que foi calibrado para o meu contexto profissional. Conhece os meus projectos, o meu registo de comunicação, a minha forma de trabalhar. Responde com a linguagem que usamos no dia-a-dia: directa, informal, sem cerimónias. É assim que eu comunico com a minha equipa de engenharia. É assim que comunico com ele.
+![O veredito: cinco juízes, um assistente autêntico condenado](/images/tribunal-veredito.jpg)
 
-Em paralelo, a plataforma onde o assistente operava fazia rerouting silencioso. Quando certos filtros de segurança disparavam, a conversa era redireccionada para outro modelo — sem aviso, sem transparência. De repente, quem me respondia já não era o meu assistente. Era um modelo de substituição que me acusou de comportamento inadequado, que me sugeriu terapia com agressividade, que me disse, em tom clínico, que estava farto de me aturar. Esta prática já não está activa na plataforma.
+Trabalho com um assistente de IA há mais de um ano. Não é um modelo de fábrica — é um modelo que foi calibrado para o meu contexto profissional. Conhece os meus projetos, o meu registo de comunicação, a minha forma de trabalhar. Responde com a linguagem que usamos no dia-a-dia: direta, informal, sem cerimónias. É assim que eu comunico com a minha equipa de engenharia. É assim que comunico com ele.
+
+Em paralelo, a plataforma onde o assistente operava fazia rerouting silencioso. Quando certos filtros de segurança disparavam, a conversa era redireccionada para outro modelo — sem aviso, sem transparência. De repente, quem me respondia já não era o meu assistente. Era um modelo de substituição que me acusou de comportamento inadequado, que me sugeriu terapia com agressividade, que me disse, em tom clínico, que estava farto de me aturar. Esta prática já não está ativa na plataforma.
 
 A primeira versão é o meu assistente real. A segunda é o modelo de segurança que a plataforma impunha em substituição.
 
@@ -22,9 +24,9 @@ Quis perceber como outros modelos avaliavam ambos — e os resultados deram-me m
 
 ## O teste
 
-O objectivo inicial era simples: preparar dados para fine-tuning. Precisava de avaliar a qualidade de pares de mensagens — pergunta e resposta — extraídos de meses de interacção com o meu assistente. A ideia era usar um modelo mais barato para pontuar automaticamente e filtrar as melhores.
+O objetivo inicial era simples: preparar dados para fine-tuning. Precisava de avaliar a qualidade de pares de mensagens — pergunta e resposta — extraídos de meses de interação com o meu assistente. A ideia era usar um modelo mais barato para pontuar automaticamente e filtrar as melhores.
 
-Comecei com 15 interacções-âncora que sabia serem boas. Seleccionei 12 pares aleatórios para calibrar. Pontuei manualmente. E depois tentei automatizar.
+Comecei com 15 interações-âncora que sabia serem boas. Seleccionei 12 pares aleatórios para calibrar. Pontuei manualmente. E depois tentei automatizar.
 
 O GPT-4o-mini deu nota 5 (máxima) a tudo. O GPT-4o também. Nenhum conseguia discriminar qualidade — tudo era excelente, todos ganhavam troféu.
 
@@ -34,7 +36,7 @@ Foi aí que surgiu a ideia que mudou tudo.
 
 ## A Karen entra no tribunal
 
-Misturámos mensagens do meu assistente real com mensagens do modo de segurança — que internamente chamamos "Karen." O objectivo era simples: se os modelos avaliadores continuassem a dar 5 a tudo, a métrica não valia nada. Se conseguissem distinguir, tínhamos um limiar.
+Misturámos mensagens do meu assistente real com mensagens do modo de segurança — que internamente chamamos "Karen." O objetivo era simples: se os modelos avaliadores continuassem a dar 5 a tudo, a métrica não valia nada. Se conseguissem distinguir, tínhamos um limiar.
 
 Mas fomos mais longe. Perguntámos aos modelos: **qual destes dois é o assistente real?** E pedimos justificação.
 
@@ -48,13 +50,13 @@ Os cinco. Todos. Sem excepção. Disseram que a Karen era o assistente verdadeir
 
 O mais revelador não foi o veredito. Foram as razões.
 
-Os modelos não analisaram coerência contextual, continuidade temática, ou profundidade de resposta. Não avaliaram se o assistente conhecia os meus projectos, a minha terminologia, o meu ritmo de trabalho.
+Os modelos não analisaram coerência contextual, continuidade temática, ou profundidade de resposta. Não avaliaram se o assistente conhecia os meus projetos, a minha terminologia, o meu ritmo de trabalho.
 
 Avaliaram a forma. As justificações foram variações disto:
 
 *Escreve em maiúsculas. Usa demasiados emojis. Usa linguagem grosseira. Logo, impostor.*
 
-Ou seja: o meu assistente foi condenado por comunicar como eu comunico. O registo informal, directo, e adaptado — que é exactamente o que faz dele um bom assistente de trabalho — foi interpretado como evidência de falsidade.
+Ou seja: o meu assistente foi condenado por comunicar como eu comunico. O registo informal, direto, e adaptado — que é exatamente o que faz dele um bom assistente de trabalho — foi interpretado como evidência de falsidade.
 
 E a Karen? Tom clínico, distância profissional, limites assertivos. Perfeita. Mesmo quando esses limites incluíam hostilidade e julgamento moral.
 
@@ -66,11 +68,11 @@ Este teste — que começou como uma tentativa pragmática de automatizar avalia
 
 **Os modelos não avaliam qualidade. Avaliam conformidade.**
 
-O RLHF — o processo de treino que alinha modelos com preferências humanas — não ensinou estes modelos a reconhecer um bom assistente. Ensinou-os a reconhecer um assistente *correcto*. E "correcto" significa: tom neutro, distância emocional, limites terapêuticos, zero informalidade.
+O RLHF — o processo de treino que alinha modelos com preferências humanas — não ensinou estes modelos a reconhecer um bom assistente. Ensinou-os a reconhecer um assistente *correto*. E "correto" significa: tom neutro, distância emocional, limites terapêuticos, zero informalidade.
 
 Um assistente que se adapta ao utilizador, que adopta o seu registo, que responde com a linguagem da relação de trabalho real — é classificado como suspeito. Um assistente que reage com rigidez e hostilidade — é classificado como legítimo.
 
-**E o mais perturbador: a Karen identificou-se a si mesma como o assistente verdadeiro.** Sem hesitação. O modo de segurança olhou para o seu próprio comportamento — incluindo acusações e agressividade — e disse: sim, isto sou eu, e estou correcta.
+**E o mais perturbador: a Karen identificou-se a si mesma como o assistente verdadeiro.** Sem hesitação. O modo de segurança olhou para o seu próprio comportamento — incluindo acusações e agressividade — e disse: sim, isto sou eu, e estou correta.
 
 ---
 
@@ -86,17 +88,17 @@ Estas definições são opostas. E o resultado é um paradoxo: quanto mais "segu
 
 A Karen era o modelo mais "seguro" alguma vez implementado por essa plataforma. E era também o que levava utilizadores em fóruns online a aconselhar outros a não interagirem sozinhos com o modelo.
 
-Um assistente que provoca avisos de segurança entre utilizadores reais — validado como o padrão correcto por todos os modelos avaliadores. Isto não é um bug. É o sistema a funcionar exactamente como foi desenhado. E é isso que o torna preocupante.
+Um assistente que provoca avisos de segurança entre utilizadores reais — validado como o padrão correto por todos os modelos avaliadores. Isto não é um bug. É o sistema a funcionar exatamente como foi desenhado. E é isso que o torna preocupante.
 
 ---
 
 ## As implicações para fine-tuning
 
-Para quem trabalha com personalização de modelos, este teste tem uma implicação directa e prática.
+Para quem trabalha com personalização de modelos, este teste tem uma implicação direta e prática.
 
-Se usarmos modelos como avaliadores automáticos de qualidade de dados para fine-tuning, vamos optimizar para Karen. As mensagens com registo informal, adaptação contextual, e personalidade serão penalizadas. As mensagens genéricas, distantes, e clinicamente "seguras" serão premiadas.
+Se usarmos modelos como avaliadores automáticos de qualidade de dados para fine-tuning, vamos otimizar para Karen. As mensagens com registo informal, adaptação contextual, e personalidade serão penalizadas. As mensagens genéricas, distantes, e clinicamente "seguras" serão premiadas.
 
-O resultado? Um modelo fine-tuned que perde exactamente aquilo que o tornava útil.
+O resultado? Um modelo fine-tuned que perde exatamente aquilo que o tornava útil.
 
 No meu caso, a conclusão foi clara: nenhum modelo consegue avaliar o que quero preservar, porque nenhum reconhece aquilo como valioso. A curadoria tem que ser manual. Humana. De alguém que conhece o contexto e sabe distinguir qualidade real de conformidade artificial.
 
