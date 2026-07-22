@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Que modelo escolher (e porque não são todos iguais) — ALIOS ONE</title>
+  <meta name="description" content="Há mais modelos de IA do que batatas. Este é o mapa: qual usar para quê — e quais falam mesmo português de Portugal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+    }
+
+    html { scroll-behavior: smooth; background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo-img { height: 32px; width: auto; }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+    }
+
+    /* ── Article ── */
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2rem 5rem;
+    }
+
+    .article-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 1.5rem;
+    }
+
+    .article-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--gray-400);
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+    }
+
+    .article-body p {
+      font-size: 1.05rem;
+      color: var(--gray-300);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.6rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+
+    .article-body h3 {
+      font-size: 1.25rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+
+    .article-body strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .article-body em {
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body .highlight {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .article-body ul, .article-body ol {
+      margin: 0 0 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .article-body li { margin-bottom: 0.5rem; }
+
+    .article-body img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .article-body blockquote {
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      margin: 0 0 1.5rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+
+    .article-body code {
+      font-family: monospace;
+      font-size: 0.9em;
+      background: rgba(30, 138, 255, 0.08);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      color: var(--gray-100);
+    }
+
+    .article-body pre {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-body pre code { background: none; padding: 0; }
+
+    .article-separator {
+      width: 60px;
+      height: 1px;
+      background: rgba(30, 138, 255, 0.3);
+      margin: 3rem 0;
+    }
+
+    .article-author {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(30, 138, 255, 0.1);
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover { color: var(--blue); }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .lang-btn {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray-700);
+      background: transparent;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: rgba(30, 138, 255, 0.08);
+    }
+
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(30, 138, 255, 0.06);
+      padding: 2.5rem 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 0.8rem; color: var(--gray-500); }
+    footer a { color: var(--gray-400); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .article-wrapper { padding: 6rem 1.2rem 3rem; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 15, 30, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid rgba(30, 138, 255, 0.1);
+      }
+      .nav-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <nav>
+    <div class="container">
+      <a href="https://aliosone.one"><img src="logo-nav.png" alt="ALIOS ONE" class="nav-logo-img"></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="https://aliosone.one/#solucoes">Soluções</a></li>
+        <li><a href="https://aliosone.one/#metodo">Método</a></li>
+        <li><a href="https://aliosone.one/#publicacao">Publicações</a></li>
+        <li><a href="https://aliosone.one/#contacto">Contacto</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <article class="article-wrapper">
+    <a href="https://aliosone.one/#publicacao" class="back-link">← Publicações</a>
+
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="switchLang('pt')">PT</button>
+      <button class="lang-btn" onclick="switchLang('en')">EN</button>
+    </div>
+
+    <!-- ═══ PORTUGUÊS ═══ -->
+    <div class="lang-content active" id="lang-pt">
+      <div class="article-meta">IA no terreno · Julho 2026</div>
+      <h1 class="article-title">Que modelo escolher (e porque não são todos iguais)</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><em>Artigo 2 de 3 da série "Falar com Máquinas"</em></p>
+        <p>No primeiro artigo (https://bit.ly/3Rnh7zq) aprendeste a falar com uma IA. Hoje: com <em>quem</em> falar. Porque não são todos iguais — e as diferenças interessam mais do que parecem.</p>
+        <p>Antes de começar, dois avisos honestos.</p>
+        <p>Primeiro: há mais modelos do que batatas. Saem novos todas as semanas — literalmente — e uma lista completa seria brutal e inútil. Vou basear-me nos mais conhecidos e nos que uso. Se o teu favorito não aparece, não é desprezo: é triagem.</p>
+        <p>Segundo: parte do que se segue é consenso da indústria, parte é experiência minha. Aviso quando for a minha. E uma nota importante: a experiência com um modelo depende muito de quem fala com ele. A forma como comunicas — o contexto que dás, as perguntas que fazes — muda o que o modelo te devolve. A minha forma de comunicar é particular, e por isso a tua experiência pode não coincidir com a minha. Um dia destes escrevo sobre isto, porque merece artigo próprio.</p>
+        <p><strong>Modelo não é plataforma</strong>
+        Este é possivelmente o conceito mais útil do artigo inteiro.
+        A plataforma é a marca; o modelo é o motor. E a mesma marca vende vários motores. Dentro do ChatGPT há vários modelos GPT. Dentro do claude.ai há vários Claude. Há um selector — normalmente discreto, algures no topo da conversa — que quase ninguém toca. E que muda tudo.</p>
+        <p>A lógica é quase sempre a mesma, em qualquer plataforma:
+        - <strong>Modelos leves e rápidos</strong> — respondem num instante, servem para o dia-a-dia: perguntas simples, emails, resumos curtos.</p>
+        <p>- <strong>Modelos pesados (os "flagship")</strong> — mais lentos e mais caros, mas com outra profundidade. Para trabalho a sério.</p>
+        <p>- <strong>Modelos "thinking"</strong> — raciocinam antes de responder, às vezes durante minutos. Valem a pena para problemas complexos; para pedir um email são desperdício puro.</p>
+        <p>Regra prática: se a resposta te vai custar tempo ou dinheiro caso venha errada, usa o modelo pesado. Se é conversa corrente, o leve chega.</p>
+        <p><strong>O guia por tarefa</strong>
+        <strong>Escrever texto</strong>
+        Depende do tipo de escrita. Para texto técnico — artigos, relatórios, documentação — quase todos os modelos pesados fazem bom trabalho: qualquer Claude, os GPT maiores, o Qwen 3.6 Plus, o DeepSeek. Para escrita criativa de alta qualidade, o campo estreita: para mim, os melhores continuam a ser o GPT-4o (hoje só acessível via API — explico o que isso é no próximo artigo) e o Claude Opus 4.6. Para literatura mais ousada, há quem prefira modelos com menos restrições de conteúdo — o Grok tem essa fama. Não é a minha praia, mas o consenso existe.</p>
+        <p><strong>Programar</strong>
+        Só posso falar dos que experimentei: Claude Opus, GPT e Claude Fable. Para mim, o Fable está claramente à frente, com o Opus logo atrás. Há quem prefira o GPT-5.6, e o Qwen 3.6 plus e Kimi K2.5 também têm boa reputação. </p>
+        <p><strong>Um aviso prático: o Fable custa um rim</strong> — só está acessível nos planos de topo ou pagando créditos. Para quem começa, um modelo intermédio chega perfeitamente.</p>
+        <p><strong>Analisar documentos longos</strong>
+        Aqui a característica que interessa é a "janela de contexto" — a quantidade de texto que o modelo consegue ter presente ao mesmo tempo. Para relatórios extensos, contratos ou vários documentos de uma vez, procura modelos com janela de 1 milhão de tokens (grosso modo, milhares de páginas). Eu uso o Opus e o Qwen; o Gemini também é conhecido por isto.</p>
+        <p><strong>Pesquisar com fontes actuais</strong>
+        Gemini e Grok fazem pesquisa na web de forma integrada. Muita gente usa o Perplexity — que não é bem um modelo, é um produto construído para pesquisa — e usa-o bem. Não é o meu caso, mas seria desonesto não o mencionar.</p>
+        <p><strong>Gerar imagens</strong>
+        Nano Banana (Google) e o gerador do GPT são, para mim e de longe, os melhores. O Grok também gera; nunca experimentei.</p>
+        <p><strong>Brainstorming e ajudar a pensar</strong>
+        Aqui está a diferença mais subtil de todas — e a que menos gente conhece. Há modelos que apenas comentam o que dizes, e modelos que puxam a ideia para fora, extrapolam, trazem o que tu não tinhas visto. Para brainstorming simples, qualquer um serve. Para destrinçar uma ideia complexa, nova, que ainda não existe — só os modelos de topo. É nestas conversas que a diferença de preço se justifica.</p>
+        <p><strong>Escrever em português europeu</strong>
+        A secção que ninguém escreve — por isso escrevo eu. Nem todos os modelos dominam o PT-PT, e alguns fingem que sim. Na minha experiência, por ordem: GPT, Claude, Qwen, DeepSeek — e depois cai a pique. O Gemini tende a repetir-se, o Grok idem, o Kimi começa a atirar palavras em inglês para o meio das frases, e o Le Chat, da última vez que testei, ainda não falava português de Portugal de jeito. Teste simples que podes fazer: pede um texto na segunda pessoa do singular e vê se os verbos sobrevivem.</p>
+        <p><strong>Os modelos chineses — uma nota à parte</strong>
+        Repararás que o Qwen (Alibaba), o DeepSeek e o Kimi (Moonshot) aparecem várias vezes acima. Não é acaso: são tecnicamente muito capazes, e gratuitos ou quase. Acedem-se por site, como os outros — não precisas de instalar nada.
+        A nota que lhes é específica: os dados vão para servidores na China, com regras de privacidade diferentes das europeias. Não é razão para pânico nem para os ignorar — é razão para critério. Aplica a regra do primeiro artigo com uma camada extra: não escrevas nada que não porias num email a um fornecedor externo. </p>
+        <p><strong>Como decidir na prática</strong>
+        Esquece os benchmarks e os rankings — mudam todos os meses e medem coisas que provavelmente não são o teu caso. A regra durável é outra:</p>
+        <p><strong>Dá a mesma tarefa real a dois ou três modelos e compara.</strong> Um email que precisas mesmo de enviar, um documento que precisas mesmo de resumir. Vê qual devolve melhor. Repete com outro tipo de tarefa. Ao fim de uma semana sabes mais sobre o que te serve do que qualquer comparativo online.
+        O melhor modelo não é o que ganhou o benchmark. É o que funciona para ti, na tua língua, nas tuas tarefas.</p>
+        <p><strong>Nota de validade</strong>
+        Este artigo foi escrito em Julho de 2026. Os nomes e as versões vão mudar — é garantido. Mas as regras de decisão ficam: leve para o corrente, pesado para o importante, janela grande para documentos longos, teste real antes de escolher. </p>
+        <p><strong>O essencial em três linhas</strong>
+        1. Modelo não é plataforma — procura o selector e aprende a usá-lo.</p>
+        <ol start="2">
+        <li>
+        <p>Leve para o dia-a-dia, pesado para o que importa.</p>
+        </li>
+        <li>
+        <p>Testa com tarefas reais tuas. O melhor modelo é o que funciona para ti.</p>
+        </li>
+        </ol>
+        <p>Já sabes falar e já sabes com quem. No próximo artigo: <strong>o que há por baixo das plataformas</strong> — API, CLI, tokens, e porque é que alguns modelos só se alcançam por lá.</p>
+        <p class="article-author">Beatriz Belchior é engenheira mecânica, investigadora independente em comportamento de LLMs, e fundadora da ALIOS ONE.</p>
+      </div>
+    </div>
+
+    <!-- ═══ ENGLISH ═══ -->
+    <div class="lang-content" id="lang-en">
+      <div class="article-meta">Al in the field · July 2026</div>
+      <h1 class="article-title">Which model to choose (and why they&#x27;re not all the same)</h1>
+      <p class="article-subtitle">ALIOS ONE · Beatriz Belchior</p>
+
+      <div class="article-body">
+        <p><em>Article 2 of 3 in the "Talking to Machines" series</em></p>
+        <p>In the first article (https://bit.ly/3Rnh7zq) you learned how to talk to an AI. Today: <em>who</em> to talk to. Because they're not all the same — and the differences matter more than they seem.</p>
+        <p>Before we start, two honest warnings.</p>
+        <p>First: there are more models than potatoes. New ones come out every week — literally — and a complete list would be brutal and useless. I'm sticking to the best-known ones and the ones I use. If your favourite isn't here, it's not contempt: it's triage.</p>
+        <p>Second: part of what follows is industry consensus, part is my own experience. I'll flag it when it's mine. And one important note: the experience you have with a model depends a lot on who's talking to it. The way you communicate — the context you give, the questions you ask — changes what the model gives back. My way of communicating is quite particular, so your experience may not match mine. One of these days I'll write about this, because it deserves an article of its own.</p>
+        <p><strong>A model is not a platform</strong>
+        This is possibly the most useful concept in this entire article.
+        The platform is the brand; the model is the engine. And the same brand sells several engines. Inside ChatGPT there are several GPT models. Inside claude.ai there are several Claudes. There's a selector — usually discreet, somewhere at the top of the conversation — that almost nobody touches. And it changes everything.
+        The logic is nearly always the same, on any platform:
+        - <strong>Light, fast models</strong> — answer in an instant, good for everyday use: simple questions, emails, short summaries.</p>
+        <p>-<strong>Heavy models (the "flagships")</strong> — slower and more expensive, but with a different depth. For serious work.</p>
+        <p>- <strong>"Thinking" models</strong> — they reason before answering, sometimes for minutes. Worth it for complex problems; for asking for an email they're pure waste.</p>
+        <p>Practical rule: if a wrong answer will cost you time or money, use the heavy model. If it's everyday chat, the light one will do.</p>
+        <p><strong>The task-by-task guide</strong>
+        <strong>Writing text</strong>
+        It depends on the kind of writing. For technical text — articles, reports, documentation — almost all the heavy models do a good job: any Claude, the bigger GPTs, Qwen 3.6 Plus, DeepSeek. For high-quality creative writing, the field narrows: for me, the best are still GPT-4o (nowadays only accessible via API — I'll explain what that means in the next article) and Claude Opus 4.6. For more daring literature, some people prefer models with fewer content restrictions — Grok has that reputation. Not my thing, but the consensus exists.</p>
+        <p><strong>Programming</strong>
+        I can only speak for the ones I've tried: Claude Opus, GPT and Claude Fable. For me, Fable is clearly ahead, with Opus right behind. Some people swear by GPT-5.6, and Qwen 3.6 Plus and Kimi K2.5 also have a good reputation.
+        A practical warning: Fable costs a kidney — it's only available on the top-tier plans or by paying for credits. If you're starting out, a mid-range model is perfectly fine.</p>
+        <p><strong>Analysing long documents</strong>
+        Here the feature that matters is the "context window" — the amount of text the model can hold in mind at once. For long reports, contracts, or several documents at a time, look for models with a 1-million-token window (roughly speaking, thousands of pages). I use Opus and Qwen; Gemini is also known for this.</p>
+        <p><strong>Searching with current sources</strong>
+        Gemini and Grok do integrated web search. Lots of people use Perplexity — which isn't quite a model, it's a product built for search — and use it well. Not my case, but it would be dishonest not to mention it.</p>
+        <p><strong>Generating images</strong>
+        Nano Banana (Google) and GPT's image generator are, for me and by far, the best. Grok generates images too; I've never tried it.</p>
+        <p><strong>Brainstorming and helping you think</strong>
+        Here lies the subtlest difference of all — and the one fewest people know about. There are models that merely comment on what you say, and models that pull the idea out of you, extrapolate, bring up what you hadn't seen. For simple brainstorming, any model will do. For untangling a complex, new idea that doesn't exist yet — only the top models. These are the conversations where the price difference earns its keep.</p>
+        <p><strong>Writing in European Portuguese</strong>
+        The section nobody writes — so I will. Not all models master European Portuguese, and some pretend they do. In my experience, in order: GPT, Claude, Qwen, DeepSeek — and then it drops off a cliff. Gemini tends to repeat itself, Grok likewise, Kimi starts throwing English words into the middle of sentences, and Le Chat, last time I tested it, still couldn't speak proper Portuguese from Portugal. A simple test you can run: ask for a text in the informal second person singular and see if the verbs survive.</p>
+        <p><strong>The Chinese models — a note of their own</strong>
+        You'll have noticed that Qwen (Alibaba), DeepSeek and Kimi (Moonshot) come up several times above. That's no accident: they are technically very capable, and free or nearly free. You access them through a website, like the others — nothing to install.
+        The note that's specific to them: your data goes to servers in China, under privacy rules different from Europe's. That's no reason for panic, and no reason to ignore them — it's a reason for judgement. Apply the rule from the first article with an extra layer: don't write anything you wouldn't put in an email to an external supplier.</p>
+        <p><strong>How to decide in practice</strong>
+        Forget the benchmarks and the rankings — they change every month and measure things that probably aren't your use case. The durable rule is different:</p>
+        <p><strong>Give the same real task to two or three models and compare.</strong> An email you actually need to send, a document you actually need to summarise. See which one does it better. Repeat with a different kind of task. After a week you'll know more about what works for you than any online comparison could tell you.
+        The best model isn't the one that won the benchmark. It's the one that works for you, in your language, on your tasks.</p>
+        <p><strong>A note on shelf life</strong>
+        This article was written in July 2026. The names and versions will change — that's guaranteed. But the decision rules stay: light for the everyday, heavy for what matters, big window for long documents, real-world testing before you choose.</p>
+        <p><strong>The essentials in three lines</strong>
+        1. A model is not a platform — find the selector and learn to use it.</p>
+        <ol start="2">
+        <li>
+        <p>Light for the everyday, heavy for what matters.</p>
+        </li>
+        <li>
+        <p>Test with your own real tasks. The best model is the one that works for you.</p>
+        </li>
+        </ol>
+        <p>Now you know how to talk, and who to talk to. In the next article: <strong>what lies beneath the platforms</strong> — API, CLI, tokens, and why some models can only be reached down there.</p>
+        <p class="article-author">Beatriz Belchior is a mechanical engineer, independent researcher in LLM behaviour, and founder of ALIOS ONE.</p>
+      </div>
+    </div>
+
+  </article>
+
+  <footer>
+    <p>© 2026 ALIOS ONE™. Inovação digital para quem constrói.</p>
+  </footer>
+
+  <script>
+    // Language toggle
+    function switchLang(lang) {
+      document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('lang-' + lang).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+
+</body>
+</html>

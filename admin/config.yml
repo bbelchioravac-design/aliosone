@@ -29,6 +29,7 @@ collections:
     create: true
     format: yaml-frontmatter
     extension: md
+    identifier_field: titulo
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     sortable_fields: [data, titulo]
     fields:
@@ -52,6 +53,7 @@ collections:
     create: true
     format: yaml-frontmatter
     extension: md
+    identifier_field: titulo
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     sortable_fields: [data, titulo]
     fields:
