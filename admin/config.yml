@@ -40,12 +40,35 @@ collections:
         widget: select
         options: ["Conforto & Energia", "Regulamentação", "IA no terreno", "Bastidores"]
       - { name: resumo, label: "Resumo (1 frase, aparece na montra)", widget: string }
+      - name: seccao
+        label: "Secção da revista"
+        widget: select
+        required: false
+        options: ["Editorial", "AVAC sem glamour", "Descomplicador", "Contracorrente", "Conversas com Máquinas", "Última página"]
+        hint: "Em que secção da Revista ALIOS ONE entra este artigo"
+      - { name: edicao, label: "Edição da revista (número)", widget: number, required: false, value_type: int, hint: "Vazio = não entra na revista" }
       - { name: body, label: "Artigo (português)", widget: markdown }
       - { name: publicado, label: Publicado, widget: boolean, default: true, hint: "Desligar = rascunho, não aparece no site" }
       - { name: titulo_en, label: "Título (inglês)", widget: string, required: false }
       - { name: tag_en, label: "Tema (inglês)", widget: string, required: false, hint: "ex.: AI in the field" }
       - { name: resumo_en, label: "Resumo (inglês)", widget: string, required: false }
       - { name: corpo_en, label: "Artigo (inglês) — vazio = só sai a versão PT", widget: markdown, required: false }
+
+  - name: edicoes
+    label: "Revista — Edições"
+    folder: edicoes
+    create: true
+    format: yaml-frontmatter
+    extension: md
+    identifier_field: titulo
+    slug: "edicao-{{fields.numero}}"
+    fields:
+      - { name: numero, label: "Número", widget: number, value_type: int }
+      - { name: titulo, label: "Título da edição (ex.: Verão 2026)", widget: string }
+      - { name: data, label: Data, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: destaque, label: "Frase de capa (1 linha)", widget: string, required: false }
+      - { name: publicado, label: Publicada, widget: boolean, default: false, hint: "Desligada = edição em preparação, não aparece" }
+      - { name: body, label: "Nota editorial da capa (opcional)", widget: markdown, required: false }
 
   - name: investigacao
     label: Investigação

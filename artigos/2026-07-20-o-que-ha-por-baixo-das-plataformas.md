@@ -151,6 +151,8 @@ corpo_en: >-
   Three articles: you learned how to talk to an AI, how to choose which one, and what exists beneath it all. The rest — and there is a lot of rest — is learned the way everything in this field is learned: by using, by failing, and by iterating.
 
   If you take a single idea away from all this, let it be this one: talking to an AI is a skill, and it's yours. It doesn't belong to the IT people, or the prompt courses, or the machines. It belongs to whoever communicates well. And that can be trained.
+seccao: "Descomplicador"
+edicao: 1
 ---
 *Artigo 3 de 3 da série "Falar com Máquinas"*
 

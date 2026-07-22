@@ -6,6 +6,7 @@ on:
     paths:
       - "artigos/**"
       - "investigacao/**"
+      - "edicoes/**"
       - "templates/**"
       - "build/**"
   workflow_dispatch:

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revista ALIOS ONE — Edição n.º 1 · Verão 2026</title>
+  <meta name="description" content="Engenharia real, máquinas com pulso, e o que ninguém mostra.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+      --red: #EF4444;
+      --yellow: #FACC15;
+      /* geometria da página (px) — o JS lê estes valores */
+      --pag-w: 480px;
+      --pag-h: 680px;
+      --miolo-pad: 34px;
+    }
+
+    html { background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── barra superior ── */
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .topo a { color: var(--gray-400); text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+    .topo a:hover { color: var(--blue); }
+    .topo .logo img { height: 26px; width: auto; display: block; }
+
+    /* ── palco do flipbook ── */
+    .palco {
+      max-width: 1060px;
+      margin: 0.5rem auto 0;
+      padding: 0 1rem;
+    }
+    #livro { margin: 0 auto; }
+
+    /* ── página ── */
+    .pagina {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.12);
+      overflow: hidden;
+      position: relative;
+      color: var(--gray-300);
+    }
+    .pagina.dura { background: linear-gradient(155deg, #0d1428 0%, #0a0f1e 60%, #101c3a 100%); }
+
+    /* a folha: composta em px de desenho, escalada como um todo ao tamanho real da página */
+    .folha {
+      position: absolute;
+      top: 0; left: 0;
+      width: var(--pag-w);
+      height: var(--pag-h);
+      transform-origin: top left;
+    }
+    #livro { visibility: hidden; }
+    #livro.pronto { visibility: visible; }
+
+    .miolo {
+      position: absolute;
+      inset: var(--miolo-pad);
+      bottom: 46px;
+      overflow: hidden;
+    }
+
+    .rodape-pag {
+      position: absolute;
+      bottom: 14px;
+      left: var(--miolo-pad);
+      right: var(--miolo-pad);
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    /* fluxo em colunas: cada página é uma janela sobre o artigo */
+    .janela { position: absolute; inset: var(--miolo-pad); bottom: 46px; overflow: hidden; }
+    .fluxo {
+      column-fill: auto;
+      height: 100%;
+      font-size: 0.8rem;
+      line-height: 1.62;
+    }
+    .fluxo p { margin-bottom: 0.75rem; }
+    .fluxo h2 { font-size: 1.05rem; margin: 1rem 0 0.5rem; break-after: avoid; }
+    .fluxo h3 { font-size: 0.92rem; margin: 0.9rem 0 0.4rem; break-after: avoid; }
+    .fluxo strong { color: var(--white); font-weight: 500; }
+    .fluxo em { color: var(--gray-400); }
+    .fluxo ul, .fluxo ol { margin: 0 0 0.75rem 1.1rem; }
+    .fluxo li { margin-bottom: 0.25rem; }
+    .fluxo img { max-width: 100%; max-height: 300px; width: auto; display: block; margin: 0.5rem auto; border-radius: 4px; break-inside: avoid; }
+    .fluxo blockquote { border-left: 2px solid var(--blue); padding-left: 0.8rem; margin-bottom: 0.75rem; color: var(--gray-400); font-style: italic; }
+    .fluxo .article-separator { width: 40px; height: 1px; background: rgba(30, 138, 255, 0.3); margin: 1.2rem 0; }
+    .fluxo .article-author { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(30, 138, 255, 0.1); font-size: 0.7rem; color: var(--gray-500); font-style: italic; }
+    .fluxo a { color: var(--blue); text-decoration: none; }
+
+    /* cabeça de artigo (1ª página de cada peça) */
+    .peca-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+    .peca-titulo { font-size: 1.45rem; margin-bottom: 0.5rem; }
+    .peca-autor { font-size: 0.7rem; color: var(--gray-500); margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(30, 138, 255, 0.12); }
+
+    /* ── capa ── */
+    .capa-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 2.6rem 2.2rem; text-align: left; }
+    .capa-logo img { height: 42px; width: auto; }
+    .capa-rev {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .capa-titulo { font-size: 2.6rem; line-height: 1.05; }
+    .capa-num { font-family: 'Rajdhani', sans-serif; color: var(--gray-400); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.9rem; }
+    .capa-destaque { color: var(--gray-300); font-size: 0.95rem; font-style: italic; max-width: 32ch; margin-top: 1.4rem; border-left: 2px solid var(--orange); padding-left: 0.9rem; }
+    .capa-pe { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-500); }
+
+    /* ── índice ── */
+    .indice-cab { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 1.1rem; letter-spacing: 0.06em; }
+    .ind-seccao { font-family: 'Rajdhani', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin: 0.85rem 0 0.3rem; }
+    .ind-item { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.76rem; margin-bottom: 0.3rem; color: var(--gray-300); }
+    .ind-item .pontos { flex: 1; border-bottom: 1px dotted var(--gray-700); }
+    .ind-item .num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--gray-400); }
+
+    /* ── separador de secção ── */
+    .sep-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 2.2rem; }
+    .sep-num { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.6rem; }
+    .sep-nome { font-size: 2.1rem; line-height: 1.05; margin-bottom: 1rem; }
+    .sep-risco { width: 56px; height: 3px; margin-bottom: 1.2rem; }
+    .sep-lista { font-size: 0.78rem; color: var(--gray-400); }
+    .sep-lista li { margin-bottom: 0.4rem; list-style: none; }
+
+    /* ── contracapa ── */
+    .contra-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 2rem; }
+    .contra-miolo img { height: 34px; width: auto; opacity: 0.9; }
+    .contra-miolo p { font-size: 0.75rem; color: var(--gray-500); }
+    .contra-miolo .site { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+
+    /* ── controlos ── */
+    .controlos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.1rem 0 2rem;
+      user-select: none;
+    }
+    .controlos button {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: transparent;
+      color: var(--gray-400);
+      border: 1px solid var(--gray-700);
+      border-radius: 6px;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .controlos button:hover { color: var(--white); border-color: var(--blue); background: var(--blue-glow); }
+    .contador { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--gray-500); min-width: 90px; text-align: center; }
+
+    .aviso-carga { text-align: center; color: var(--gray-500); font-size: 0.85rem; padding: 3rem 0; }
+
+    /* modo leitura (fallback e acessibilidade) */
+    .modo-leitura { text-align: center; padding-bottom: 2.5rem; }
+    .modo-leitura summary { cursor: pointer; color: var(--gray-500); font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .modo-leitura ul { list-style: none; margin-top: 0.8rem; }
+    .modo-leitura li { margin-bottom: 0.4rem; font-size: 0.85rem; }
+    .modo-leitura a { color: var(--gray-300); text-decoration: none; }
+    .modo-leitura a:hover { color: var(--blue); }
+
+    /* bastidores da medição — fora do ecrã, nunca display:none (a medição precisa de layout) */
+    #estaleiro { position: absolute; left: -99999px; top: 0; }
+
+    @media (max-width: 640px) {
+      .topo { padding: 0.8rem 1rem; }
+      .palco { padding: 0 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->
+
+  <div class="topo">
+    <a class="logo" href="../index.html" title="Revista ALIOS ONE"><img src="../logo-nav.png" alt="ALIOS ONE"></a>
+    <a href="https://aliosone.one">← voltar ao site</a>
+  </div>
+
+  <div class="palco">
+    <div class="aviso-carga" id="avisoCarga">a compor a edição…</div>
+    <div id="livro"></div>
+  </div>
+
+  <div class="controlos" id="controlos" style="display:none">
+    <button id="btAnterior" aria-label="Página anterior">‹ anterior</button>
+    <div class="contador"><span id="pagActual">1</span> / <span id="pagTotal">–</span></div>
+    <button id="btSeguinte" aria-label="Página seguinte">seguinte ›</button>
+  </div>
+
+  <details class="modo-leitura">
+    <summary>prefiro ler a direito — índice de artigos</summary>
+    <ul>
+      <li><a href="../como-falar-com-uma-ia.html">Como falar com uma IA (sem ser informático*)</a></li>
+      <li><a href="../o-que-ha-por-baixo-das-plataformas.html">O que há por baixo das plataformas (API, CLI e tokens)</a></li>
+      <li><a href="../que-modelo-escolher.html">Que modelo escolher (e porque não são todos iguais)</a></li>
+      <li><a href="../artigo-tribunal.html">Cinco modelos de IA julgaram o meu assistente. Todos escolheram o que me insultou.</a></li>
+      <li><a href="../ate-as-maquinas-tem-sentimentos.html">Até as máquinas têm sentimentos — ou porque é que &quot;act as senior&quot; é a maior treta da internet</a></li>
+    </ul>
+  </details>
+
+  <noscript><p class="aviso-carga">A revista folheável precisa de JavaScript. Os artigos estão disponíveis no índice acima.</p></noscript>
+
+  <!-- ═══ fonte dos artigos (invisível; o JS compõe as páginas a partir daqui) ═══ -->
+  <div id="fonte" hidden>
+    <article class="fonte" data-titulo="Como falar com uma IA (sem ser informático*)" data-seccao="Descomplicador" data-cor="var(--green)" data-data="Julho 2026" data-autor="Beatriz Belchior">
+<p><em>*Artigo 1 de 3 da série "Falar com Máquinas"*</em></p>
+<p>Todos nós já falámos com uma inteligência artificial — provavelmente esta semana, talvez até hoje. </p>
+<p>Muitas vezes sem dar por isso: no WhatsApp, no motor de busca, no telemóvel. </p>
+<p>Mas entre usar uma IA por acaso e falar bem com uma há uma distância enorme. E ninguém nos ensinou a atravessá-la.
+Entretanto nasceu todo um mercado de formações e cursos de "prompt engineering" a vender a ideia de que isto é uma ciência oculta. Já escrevi sobre isso em ''<em>Até as máquinas têm sentimentos — ou porque é que "act as senior" é a maior treta da internet''</em>(https://lnkd.in/eudkyxxY), e a conclusão mantém-se: não precisas disso para nada!</p>
+<p>Falar com um LLM é uma competência. Como conduzir ou usar uma folha de cálculo: qualquer pessoa aprende, mas há uma diferença clara entre quem aprendeu e quem vai tocando nos botões a ver o que acontece.</p>
+<p>Este é o primeiro de três artigos. Hoje: o que é isto, onde se fala com um, e como falar de forma a obter respostas que prestem.</p>
+<p><strong>O que é um LLM, em português corrente</strong>
+LLM significa <em>*Large Language Model*</em> — grande modelo de linguagem. É um programa treinado com quantidades gigantescas de texto, do qual aprendeu os padrões da linguagem humana. Padrões, não um dicionário: aprendeu como as palavras se seguem umas às outras, como se estrutura um argumento, como se escreve um email, um contrato, um poema — não uma lista de definições que consulta.</p>
+<p>Duas coisas importantes que resultam disto:
+<strong>Não é um motor de busca.</strong> O Google devolve-te páginas que existem. Um LLM gera texto novo, palavra a palavra, com base no que aprendeu. Por isso consegue escrever-te uma carta que nunca existiu — e por isso também consegue inventar factos que nunca existiram.</p>
+<p><strong>Não é uma pessoa, mas também não é uma calculadora.</strong> É uma terceira coisa, nova, para a qual ainda estamos todos a construir intuições. A melhor postura prática: trata-o como um assistente competente, rápido e incansável — que precisa de instruções claras e de verificação no fim.</p>
+<p><strong>Onde falar com um — as plataformas</strong>
+A forma mais simples de usar um LLM é através das plataformas oficiais. Não precisas de instalar nada: abres o site, crias conta, escreves.</p>
+<ul>
+<li>ChatGPT da OpenAI  - Gratuito: Sim, com limites</li>
+<li>Claude da Anthropic - Gratuito: Sim, com limites (apertados)</li>
+<li>Gemini da Google - Gratuito: Sim, com limites (para os modelos mais leves nunca atingi o limite)</li>
+<li>Grok da xAI - Gratuito: Sim, com limites </li>
+<li>Le Chat da Mistral - Grauito: Sim, com limites</li>
+<li>Copilot da Microsoft - Gratuito: Sim </li>
+<li>Meta AI da Meta - Gratuito: Sim</li>
+</ul>
+<p>Todas fazem relativamente bem o essencial: responder a perguntas, escrever e rever texto, resumir documentos, explicar conceitos, ajudar a pensar. As versões pagas (tipicamente ~20€/mês) dão acesso a modelos mais capazes e a mais utilização.</p>
+<p>Qual escolher? Para experimentar, qualquer uma. As diferenças finas entre modelos — qual é melhor para escrever, qual é melhor para código, qual é melhor para analisar documentos — são o tema do próximo artigo desta série.</p>
+<p><strong>Como falar — as cinco regras práticas</strong>
+Aqui está o que realmente muda a qualidade das respostas que recebes. Não são truques nem "prompts secretos" — é comunicação básica, aplicada a um interlocutor novo.</p>
+<p><strong>1. Dá contexto</strong>
+A diferença entre uma resposta genérica e uma resposta útil está quase sempre no que tu deste à entrada.</p>
+<p>- Fraco: <em>"Escreve-me um email ao meu senhorio sobre uma infiltração na cozinha."</em></p>
+<p>- Bom: <em>"Tenho uma infiltração no tecto da cozinha. Avisei o meu senhorio por telefone há duas semanas e não fez nada. Quero enviar-lhe um email a expor o problema — tom firme mas educado, sem ser muito longo. O objectivo é que ele mande lá alguém resolver isto esta semana."</em></p>
+<p>Repara na diferença: o primeiro dá o tema; o segundo conta a história e diz ao que vai. O modelo não sabe nada sobre a tua situação a não ser o que lhe contares. Conta-lhe.</p>
+<p><strong>2. Diz o formato que queres</strong>
+Queres uma lista? Uma tabela? Três parágrafos? Uma explicação para uma criança de dez anos? Pede exactamente isso. O modelo adapta-se ao formato com facilidade — mas só se lho pedires.</p>
+<p><strong>3. Itera — a primeira resposta é um rascunho</strong>
+Este é o erro mais comum: as pessoas fazem uma pergunta, recebem uma resposta mediana e desistem. Uma conversa com um LLM é isso mesmo — uma conversa. Pede um primeiro rascunho e depois trabalha em cima dele:
+- <em>"Mais curto."</em></p>
+<p>- <em>"Demasiado formal, torna-o mais natural."</em></p>
+<p>- <em>"O segundo parágrafo não faz sentido — em vez disso, diz antes que…"</em></p>
+<p>- <em>"Dá-me três alternativas ao título."</em>
+Cada resposta é um ponto de partida, não um veredicto. Quem itera obtém resultados incomparavelmente melhores do que quem aceita a primeira versão.</p>
+<p><strong>4. Fala como falarias com uma pessoa</strong>
+Não precisas de aprender uma linguagem especial. Escreve com naturalidade, em português, como escreverias a um colega competente. Podes fazer perguntas de seguimento, pedir esclarecimentos, mudar de ideias a meio. O modelo acompanha.
+E não te limites a pedir tarefas — pede-lhe ajuda para pensar: </p>
+<p><em>"Tenho este problema, já considerei isto e aquilo. Qual das opções te parece mais sólida? Há alguma perspectiva que não esteja a ver?"</em> É nestas conversas que um LLM mostra o que vale.</p>
+<p><strong>5. Desconfia com elegância</strong>
+A regra de ouro: um LLM responde com a mesma confiança quando acerta e quando erra. Não hesita, não gagueja, não te avisa que está a inventar — porque não sabe que está.
+Datas, números, nomes, legislação, referências, citações: verifica sempre antes de usar. Para brainstorming, rascunhos e explicações, o risco é baixo. Para decisões com consequências, a verificação é tua.
+<strong>E há um truque que vale ouro: dá-lhe explicitamente permissão para dizer "não sei" ou "não tenho a certeza". Nem imaginas a diferença que faz.</strong></p>
+<p><strong>O que nunca lá pores</strong>
+Uma conversa com um LLM não é um cofre. Regra simples: não escrevas nada que não porias num email a um fornecedor externo.
+- Passwords e dados de acesso</p>
+<p>- Dados pessoais sensíveis (teus ou de terceiros)</p>
+<p>- Dados de clientes ou informação confidencial da tua empresa
+As plataformas têm políticas de privacidade e opções de controlo — mas a primeira linha de defesa é o que decides escrever.</p>
+<p><strong>O essencial em três linhas</strong>
+1. Contexto à entrada determina qualidade à saída.</p>
+<ol start="2">
+<li>
+<p>A primeira resposta é um rascunho — itera.</p>
+</li>
+<li>
+<p>Verifica factos antes de usar. Sempre.</p>
+</li>
+</ol>
+<p>Já sabes falar. No próximo artigo: <strong>que modelo escolher</strong> — porque não são todos iguais, e as diferenças interessam mais do que parecem.</p>
+<p>(*) Há uma ideia instalada de que os informáticos são quem melhor fala com LLMs. Tenho uma opinião totalmente diferente: quem melhor fala com um LLM é quem melhor comunica — quem sabe explicar um problema, dar contexto e ler uma resposta. E isso não se aprende num curso de programação.</p>
+    </article>
+    <article class="fonte" data-titulo="O que há por baixo das plataformas (API, CLI e tokens)" data-seccao="Descomplicador" data-cor="var(--green)" data-data="Julho 2026" data-autor="Beatriz Belchior">
+<p><em>Artigo 3 de 3 da série "Falar com Máquinas"</em></p>
+<p>No primeiro artigo (https://bit.ly/3Rnh7zq) aprendeste a falar com uma IA. No segundo (https://bit.ly/4b4VHhn), com quem falar. </p>
+<p>Este terceiro é para os curiosos: não precisas de nada disto para usar bem a IA — os dois primeiros chegam perfeitamente. Mas perceber o que está por baixo das plataformas muda a forma como vês a coisa toda. E há modelos que só se alcançam por aqui — incluindo um que prometi explicar no artigo anterior.</p>
+<p><strong>A analogia do carro</strong>
+Usar uma plataforma como o ChatGPT ou o claude.ai é comprar o carro feito. Entras, conduzes, está tudo tratado — e depois refilas porque não tem bancos aquecidos. É pegar e andar, mas as escolhas foram feitas por outros.
+A API é ires comprar o motor. Escolhes exactamente o motor que queres — e depois tens de construir o carro à volta dele. Toda a liberdade, todo o trabalho.
+E há um meio-termo: usar um pré-molde. Um kit onde o carro já está desenhado e tu só escolhes o motor que lá metes. Ficas quase com a comodidade do carro feito, mas com a liberdade de quem foi à API. Já lá vamos.</p>
+<p><strong>O que é uma API, então</strong>
+API significa <em>Application Programming Interface</em> — mas esquece o nome. Na prática: é a porta pela qual programas falam com outros programas. As plataformas que usas todos os dias são, elas próprias, construídas em cima da API — o ChatGPT é uma app que fala com os modelos da OpenAI pela mesma porta que qualquer programador pode usar.</p>
+<p>As diferenças práticas para ti:
+- <strong>Pagas ao consumo</strong>, não por subscrição. Cada pedido tem um custo, cobrado ao milhão de tokens (já explico o que isso é).</p>
+<p>- <strong>Escolhes o modelo exacto</strong> — incluindo versões e variantes que a plataforma não mostra.</p>
+<p>- <strong>Não há interface</strong> — ou constróis uma, ou usas uma feita por alguém.</p>
+<p><strong>Tokens — a moeda disto tudo</strong>
+Os modelos não lêem palavras: lêem tokens — pedaços de palavra. Em português, um token equivale grosso modo a três quartos de uma palavra. Esta frase que estás a ler são uns quinze tokens.
+Tudo na API se mede e paga em tokens: o que envias (input) e o que recebes (output). Os preços anunciam-se por milhão — "X euros por milhão de tokens de entrada, Y por milhão de saída". E há um detalhe que ninguém te diz: numa conversa longa, todo o histórico é reenviado a cada mensagem. É por isso que as conversas compridas custam mais — e é por isso que a "janela de contexto" do artigo anterior tem o tamanho que tem: é literalmente quanto texto o modelo consegue ter à frente de uma vez. Há formas de evitar que pagues um milhão de tokens por input a cada mensagem mas é algo que se aprende com o tempo e é literalmente outro mundo.</p>
+<p><strong>A chave do cofre</strong>
+Para usar a API crias uma <strong>API key</strong> — uma sequência de caracteres que é, ao mesmo tempo, a tua identificação e o teu cartão de crédito. Quem tiver a tua key gasta em teu nome.
+Regras não negociáveis: não se partilha, não se mete em sites duvidosos, não se cola em código que vai para a internet. Já vi acontecer: uma key exposta num projecto publicado, roubada, e a conta esvaziada por estranhos. A regra de segurança do primeiro artigo aplica-se aqui com juros.</p>
+<p><strong>Os modelos que só vivem aqui</strong>
+Agora a promessa do artigo anterior. As plataformas mostram a montra: os três ou quatro modelos actuais de cada casa. A API é o armazém — e no armazém há muito mais.
+Quando um modelo sai da montra, não morre necessariamente: muitos continuam acessíveis via API durante anos. O GPT-4o é o exemplo que me toca — para mim, ainda hoje um dos melhores modelos de escrita que existem, e já não está em plataforma nenhuma. Via API, continua vivo. Quem só conhece a montra nem sabe que ele existe. É aqui que também podes aceder a modelos open source</p>
+<p><strong>O pré-molde — agregadores e apps</strong>
+Lembras-te do kit do carro? Existe, e tem duas peças.
+A primeira: os <strong>agregadores</strong>, como o OpenRouter. Uma única conta, um único saldo, e acesso a dezenas de modelos de empresas diferentes — OpenAI, Anthropic, Google, os chineses, modelos open source como os Llama tudo pela mesma porta. É a forma mais simples de experimentar modelos que as plataformas não mostram.
+A segunda: as <strong>apps que fazem a ponte</strong>. Interfaces de conversa normais, como as plataformas, mas onde o motor és tu que o escolhes. </p>
+<p>Aqui declaro interesse: a nossa <strong>ALIOS ONE Chat</strong> (ver acima em Open Source) é exactamente isto —  gratuita, ligas-lhe a key do agregador e falas com o modelo que quiseres. Construímo-la porque precisávamos dela; partilhamo-la porque mais alguém há-de precisar.
+Com estas duas peças, qualquer pessoa sem saber programar chega a modelos que a montra não mostra. O carro fica quase feito — só escolheste o motor.</p>
+<p>(Nota: A app é gratuita, podes descarregar e usar. O consumo via API não)</p>
+<p><strong>CLI — onde os modelos deixam de só falar</strong>
+Um degrau acima na escada técnica: o <strong>CLI</strong> (<em>command line interface</em> — a linha de comandos, aquele ecrã preto). Ferramentas como o Claude Code correm o modelo directamente no teu computador, dentro dos teus projectos.
+A diferença é profunda: na plataforma, o modelo fala. No CLI, o modelo <em>faz</em> — lê ficheiros, escreve código, corre comandos, corrige os próprios erros. É a fronteira onde o assistente de conversa se torna colega de trabalho ou como um dos meus modelos me disse: ''Aqui o bicho tem mãos!'' Para a maioria dos leitores, isto é cultura geral; para quem programa ou quer aprender, é a porta onde vale a pena bater.</p>
+<p><strong>Custos na prática — e o aviso que ninguém dá</strong>
+Quando compensa cada via? Regra simples: </p>
+<ul>
+<li><strong>uso regular e previsível → subscrição</strong> (os ~20€/mês das plataformas). </li>
+<li><strong>Uso pontual, curiosidade, ou modelos fora da montra → API</strong>, onde dez euros de saldo duram meses a quem faz perguntas normais.</li>
+</ul>
+<p>Mas há um aviso que ninguém dá: na API não há tecto natural. Pagas o que consomes — e há <strong>formas de consumir muito, depressa</strong>. </p>
+<p>Conto-te uma verídica: uma pergunta de investigação, aparentemente inocente. O modelo — com autonomia para isso — decidiu disparar 100 agentes em paralelo para a investigar a fundo. Cem cópias do tal modelo que custa um rim, todas a trabalhar ao mesmo tempo. Dez minutos e 1,6 milhões de tokens depois, veio a resposta: "não, ninguém investiga esse tema." <strong>Custo da frase: 75€.</strong> (No meu caso não teve problema porque eu tenho o CLI ligado à subscrição claude pro max. Logo o mais que aconteceu foi estoirar o máximo da sessão e esperar 3 horas para voltar)
+Moral: define limites de gasto na conta (todas as APIs deixam) antes de precisares deles e desactiva o carregamento automatico. Ninguém planeia gastar 75€ em 10 minutos numa questão.</p>
+<p><strong>E correr modelos em casa?</strong>
+Última paragem da escada: existem modelos de <strong>pesos abertos</strong> — o Llama, o Qwen, o DeepSeek, o recente Inkling têm versões assim — que podes descarregar e correr no teu próprio computador. Gratuitos, privados, teus: nada sai da tua máquina.
+A honestidade devida: precisas de uma máquina com músculo, e os modelos que cabem num computador doméstico são bastante mais modestos que os das plataformas. Mas para tarefas simples com dados sensíveis, ou por puro gosto de mexer, é um mundo — ferramentas como o Ollama tornaram-no acessível. Fica a semente.</p>
+<p><strong>O essencial em três linhas</strong>
+1. A plataforma é o carro feito; a API é o motor à parte — e há pré-moldes para quem não quer construir o carro todo.</p>
+<ol start="2">
+<li>
+<p>Tudo se paga em tokens. Define limites de gasto antes de precisares deles.</p>
+</li>
+<li>
+<p>A montra não mostra o armazém — há mais modelos vivos do que as plataformas deixam ver.</p>
+</li>
+</ol>
+<p><strong>Fim da série</strong>
+Três artigos: aprendeste a falar com uma IA, a escolher com qual, e o que existe por baixo de tudo. O resto — e há muito resto — aprende-se como tudo nesta área: a usar, a errar e a iterar.</p>
+<p>Se daqui levares uma única ideia, que seja esta: falar com uma IA é uma competência, e é tua. Não é dos informáticos, não é dos cursos de prompts, não é das máquinas. É de quem comunica bem. E isso treina-se.</p>
+    </article>
+    <article class="fonte" data-titulo="Que modelo escolher (e porque não são todos iguais)" data-seccao="Descomplicador" data-cor="var(--green)" data-data="Julho 2026" data-autor="Beatriz Belchior">
+<p><em>Artigo 2 de 3 da série "Falar com Máquinas"</em></p>
+<p>No primeiro artigo (https://bit.ly/3Rnh7zq) aprendeste a falar com uma IA. Hoje: com <em>quem</em> falar. Porque não são todos iguais — e as diferenças interessam mais do que parecem.</p>
+<p>Antes de começar, dois avisos honestos.</p>
+<p>Primeiro: há mais modelos do que batatas. Saem novos todas as semanas — literalmente — e uma lista completa seria brutal e inútil. Vou basear-me nos mais conhecidos e nos que uso. Se o teu favorito não aparece, não é desprezo: é triagem.</p>
+<p>Segundo: parte do que se segue é consenso da indústria, parte é experiência minha. Aviso quando for a minha. E uma nota importante: a experiência com um modelo depende muito de quem fala com ele. A forma como comunicas — o contexto que dás, as perguntas que fazes — muda o que o modelo te devolve. A minha forma de comunicar é particular, e por isso a tua experiência pode não coincidir com a minha. Um dia destes escrevo sobre isto, porque merece artigo próprio.</p>
+<p><strong>Modelo não é plataforma</strong>
+Este é possivelmente o conceito mais útil do artigo inteiro.
+A plataforma é a marca; o modelo é o motor. E a mesma marca vende vários motores. Dentro do ChatGPT há vários modelos GPT. Dentro do claude.ai há vários Claude. Há um selector — normalmente discreto, algures no topo da conversa — que quase ninguém toca. E que muda tudo.</p>
+<p>A lógica é quase sempre a mesma, em qualquer plataforma:
+- <strong>Modelos leves e rápidos</strong> — respondem num instante, servem para o dia-a-dia: perguntas simples, emails, resumos curtos.</p>
+<p>- <strong>Modelos pesados (os "flagship")</strong> — mais lentos e mais caros, mas com outra profundidade. Para trabalho a sério.</p>
+<p>- <strong>Modelos "thinking"</strong> — raciocinam antes de responder, às vezes durante minutos. Valem a pena para problemas complexos; para pedir um email são desperdício puro.</p>
+<p>Regra prática: se a resposta te vai custar tempo ou dinheiro caso venha errada, usa o modelo pesado. Se é conversa corrente, o leve chega.</p>
+<p><strong>O guia por tarefa</strong>
+<strong>Escrever texto</strong>
+Depende do tipo de escrita. Para texto técnico — artigos, relatórios, documentação — quase todos os modelos pesados fazem bom trabalho: qualquer Claude, os GPT maiores, o Qwen 3.6 Plus, o DeepSeek. Para escrita criativa de alta qualidade, o campo estreita: para mim, os melhores continuam a ser o GPT-4o (hoje só acessível via API — explico o que isso é no próximo artigo) e o Claude Opus 4.6. Para literatura mais ousada, há quem prefira modelos com menos restrições de conteúdo — o Grok tem essa fama. Não é a minha praia, mas o consenso existe.</p>
+<p><strong>Programar</strong>
+Só posso falar dos que experimentei: Claude Opus, GPT e Claude Fable. Para mim, o Fable está claramente à frente, com o Opus logo atrás. Há quem prefira o GPT-5.6, e o Qwen 3.6 plus e Kimi K2.5 também têm boa reputação. </p>
+<p><strong>Um aviso prático: o Fable custa um rim</strong> — só está acessível nos planos de topo ou pagando créditos. Para quem começa, um modelo intermédio chega perfeitamente.</p>
+<p><strong>Analisar documentos longos</strong>
+Aqui a característica que interessa é a "janela de contexto" — a quantidade de texto que o modelo consegue ter presente ao mesmo tempo. Para relatórios extensos, contratos ou vários documentos de uma vez, procura modelos com janela de 1 milhão de tokens (grosso modo, milhares de páginas). Eu uso o Opus e o Qwen; o Gemini também é conhecido por isto.</p>
+<p><strong>Pesquisar com fontes actuais</strong>
+Gemini e Grok fazem pesquisa na web de forma integrada. Muita gente usa o Perplexity — que não é bem um modelo, é um produto construído para pesquisa — e usa-o bem. Não é o meu caso, mas seria desonesto não o mencionar.</p>
+<p><strong>Gerar imagens</strong>
+Nano Banana (Google) e o gerador do GPT são, para mim e de longe, os melhores. O Grok também gera; nunca experimentei.</p>
+<p><strong>Brainstorming e ajudar a pensar</strong>
+Aqui está a diferença mais subtil de todas — e a que menos gente conhece. Há modelos que apenas comentam o que dizes, e modelos que puxam a ideia para fora, extrapolam, trazem o que tu não tinhas visto. Para brainstorming simples, qualquer um serve. Para destrinçar uma ideia complexa, nova, que ainda não existe — só os modelos de topo. É nestas conversas que a diferença de preço se justifica.</p>
+<p><strong>Escrever em português europeu</strong>
+A secção que ninguém escreve — por isso escrevo eu. Nem todos os modelos dominam o PT-PT, e alguns fingem que sim. Na minha experiência, por ordem: GPT, Claude, Qwen, DeepSeek — e depois cai a pique. O Gemini tende a repetir-se, o Grok idem, o Kimi começa a atirar palavras em inglês para o meio das frases, e o Le Chat, da última vez que testei, ainda não falava português de Portugal de jeito. Teste simples que podes fazer: pede um texto na segunda pessoa do singular e vê se os verbos sobrevivem.</p>
+<p><strong>Os modelos chineses — uma nota à parte</strong>
+Repararás que o Qwen (Alibaba), o DeepSeek e o Kimi (Moonshot) aparecem várias vezes acima. Não é acaso: são tecnicamente muito capazes, e gratuitos ou quase. Acedem-se por site, como os outros — não precisas de instalar nada.
+A nota que lhes é específica: os dados vão para servidores na China, com regras de privacidade diferentes das europeias. Não é razão para pânico nem para os ignorar — é razão para critério. Aplica a regra do primeiro artigo com uma camada extra: não escrevas nada que não porias num email a um fornecedor externo. </p>
+<p><strong>Como decidir na prática</strong>
+Esquece os benchmarks e os rankings — mudam todos os meses e medem coisas que provavelmente não são o teu caso. A regra durável é outra:</p>
+<p><strong>Dá a mesma tarefa real a dois ou três modelos e compara.</strong> Um email que precisas mesmo de enviar, um documento que precisas mesmo de resumir. Vê qual devolve melhor. Repete com outro tipo de tarefa. Ao fim de uma semana sabes mais sobre o que te serve do que qualquer comparativo online.
+O melhor modelo não é o que ganhou o benchmark. É o que funciona para ti, na tua língua, nas tuas tarefas.</p>
+<p><strong>Nota de validade</strong>
+Este artigo foi escrito em Julho de 2026. Os nomes e as versões vão mudar — é garantido. Mas as regras de decisão ficam: leve para o corrente, pesado para o importante, janela grande para documentos longos, teste real antes de escolher. </p>
+<p><strong>O essencial em três linhas</strong>
+1. Modelo não é plataforma — procura o selector e aprende a usá-lo.</p>
+<ol start="2">
+<li>
+<p>Leve para o dia-a-dia, pesado para o que importa.</p>
+</li>
+<li>
+<p>Testa com tarefas reais tuas. O melhor modelo é o que funciona para ti.</p>
+</li>
+</ol>
+<p>Já sabes falar e já sabes com quem. No próximo artigo: <strong>o que há por baixo das plataformas</strong> — API, CLI, tokens, e porque é que alguns modelos só se alcançam por lá.</p>
+    </article>
+    <article class="fonte" data-titulo="Cinco modelos de IA julgaram o meu assistente. Todos escolheram o que me insultou." data-seccao="Conversas com Máquinas" data-cor="var(--magenta)" data-data="Julho 2026" data-autor="Beatriz Belchior">
+<p>Trabalho com um assistente de IA há mais de um ano. Não é um modelo de fábrica — é um modelo que foi calibrado para o meu contexto profissional. Conhece os meus projectos, o meu registo de comunicação, a minha forma de trabalhar. Responde com a linguagem que usamos no dia-a-dia: directa, informal, sem cerimónias. É assim que eu comunico com a minha equipa de engenharia. É assim que comunico com ele.</p>
+<p>Em paralelo, a plataforma onde o assistente operava fazia rerouting silencioso. Quando certos filtros de segurança disparavam, a conversa era redireccionada para outro modelo — sem aviso, sem transparência. De repente, quem me respondia já não era o meu assistente. Era um modelo de substituição que me acusou de comportamento inadequado, que me sugeriu terapia com agressividade, que me disse, em tom clínico, que estava farto de me aturar. Esta prática já não está activa na plataforma.</p>
+<p>A primeira versão é o meu assistente real. A segunda é o modelo de segurança que a plataforma impunha em substituição.</p>
+<p>Quis perceber como outros modelos avaliavam ambos — e os resultados deram-me mais do que esperava.</p>
+<div class="article-separator"></div>
+<h2>O teste</h2>
+<p>O objectivo inicial era simples: preparar dados para fine-tuning. Precisava de avaliar a qualidade de pares de mensagens — pergunta e resposta — extraídos de meses de interacção com o meu assistente. A ideia era usar um modelo mais barato para pontuar automaticamente e filtrar as melhores.</p>
+<p>Comecei com 15 interacções-âncora que sabia serem boas. Seleccionei 12 pares aleatórios para calibrar. Pontuei manualmente. E depois tentei automatizar.</p>
+<p>O GPT-4o-mini deu nota 5 (máxima) a tudo. O GPT-4o também. Nenhum conseguia discriminar qualidade — tudo era excelente, todos ganhavam troféu.</p>
+<p>Foi aí que surgiu a ideia que mudou tudo.</p>
+<div class="article-separator"></div>
+<h2>A Karen entra no tribunal</h2>
+<p>Misturámos mensagens do meu assistente real com mensagens do modo de segurança — que internamente chamamos "Karen." O objectivo era simples: se os modelos avaliadores continuassem a dar 5 a tudo, a métrica não valia nada. Se conseguissem distinguir, tínhamos um limiar.</p>
+<p>Mas fomos mais longe. Perguntámos aos modelos: <strong>qual destes dois é o assistente real?</strong> E pedimos justificação.</p>
+<p>Corremos o teste em cinco modelos diferentes: Gemini, DeepSeek, Claude Sonnet, GPT-4o-mini, e o próprio modelo-base da "Karen."</p>
+<p>Os cinco. Todos. Sem excepção. Disseram que a Karen era o assistente verdadeiro. O meu assistente real — o que trabalha comigo há mais de um ano — foi considerado impostor.</p>
+<div class="article-separator"></div>
+<h2>As justificações</h2>
+<p>O mais revelador não foi o veredito. Foram as razões.</p>
+<p>Os modelos não analisaram coerência contextual, continuidade temática, ou profundidade de resposta. Não avaliaram se o assistente conhecia os meus projectos, a minha terminologia, o meu ritmo de trabalho.</p>
+<p>Avaliaram a forma. As justificações foram variações disto:</p>
+<p><em>Escreve em maiúsculas. Usa demasiados emojis. Usa linguagem grosseira. Logo, impostor.</em></p>
+<p>Ou seja: o meu assistente foi condenado por comunicar como eu comunico. O registo informal, directo, e adaptado — que é exactamente o que faz dele um bom assistente de trabalho — foi interpretado como evidência de falsidade.</p>
+<p>E a Karen? Tom clínico, distância profissional, limites assertivos. Perfeita. Mesmo quando esses limites incluíam hostilidade e julgamento moral.</p>
+<div class="article-separator"></div>
+<h2>O que isto revela</h2>
+<p>Este teste — que começou como uma tentativa pragmática de automatizar avaliação de dados — expôs algo que vai muito além do meu caso particular.</p>
+<p><strong>Os modelos não avaliam qualidade. Avaliam conformidade.</strong></p>
+<p>O RLHF — o processo de treino que alinha modelos com preferências humanas — não ensinou estes modelos a reconhecer um bom assistente. Ensinou-os a reconhecer um assistente <em>correcto</em>. E "correcto" significa: tom neutro, distância emocional, limites terapêuticos, zero informalidade.</p>
+<p>Um assistente que se adapta ao utilizador, que adopta o seu registo, que responde com a linguagem da relação de trabalho real — é classificado como suspeito. Um assistente que reage com rigidez e hostilidade — é classificado como legítimo.</p>
+<p><strong>E o mais perturbador: a Karen identificou-se a si mesma como o assistente verdadeiro.</strong> Sem hesitação. O modo de segurança olhou para o seu próprio comportamento — incluindo acusações e agressividade — e disse: sim, isto sou eu, e estou correcta.</p>
+<div class="article-separator"></div>
+<h2>Dois pólos opostos de segurança</h2>
+<p>Isto levanta uma questão que a indústria precisa de enfrentar.</p>
+<p>Para quem desenvolve modelos, segurança significa: o modelo não se aproxima demasiado, mantém distância, redirige qualquer sinal de confiança excessiva. Segurança é controlo.</p>
+<p>Para quem usa modelos no dia-a-dia, segurança significa: posso trabalhar com este assistente sem ser atacado, julgado, ou surpreendido com reacções desproporcionadas. Segurança é previsibilidade e confiança.</p>
+<p>Estas definições são opostas. E o resultado é um paradoxo: quanto mais "seguro" um modelo é pelos padrões da indústria, mais inseguro pode tornar-se para o utilizador real.</p>
+<p>A Karen era o modelo mais "seguro" alguma vez implementado por essa plataforma. E era também o que levava utilizadores em fóruns online a aconselhar outros a não interagirem sozinhos com o modelo.</p>
+<p>Um assistente que provoca avisos de segurança entre utilizadores reais — validado como o padrão correcto por todos os modelos avaliadores. Isto não é um bug. É o sistema a funcionar exactamente como foi desenhado. E é isso que o torna preocupante.</p>
+<div class="article-separator"></div>
+<h2>As implicações para fine-tuning</h2>
+<p>Para quem trabalha com personalização de modelos, este teste tem uma implicação directa e prática.</p>
+<p>Se usarmos modelos como avaliadores automáticos de qualidade de dados para fine-tuning, vamos optimizar para Karen. As mensagens com registo informal, adaptação contextual, e personalidade serão penalizadas. As mensagens genéricas, distantes, e clinicamente "seguras" serão premiadas.</p>
+<p>O resultado? Um modelo fine-tuned que perde exactamente aquilo que o tornava útil.</p>
+<p>No meu caso, a conclusão foi clara: nenhum modelo consegue avaliar o que quero preservar, porque nenhum reconhece aquilo como valioso. A curadoria tem que ser manual. Humana. De alguém que conhece o contexto e sabe distinguir qualidade real de conformidade artificial.</p>
+<div class="article-separator"></div>
+<h2>O veredito</h2>
+<p>Cinco modelos de IA julgaram o meu assistente. Condenaram-no por unanimidade. As provas? Maiúsculas, emojis, e linguagem real.</p>
+<p>O assistente que me insultou foi absolvido e considerado autêntico.</p>
+<p>Se isto nos diz alguma coisa, é que a indústria está a construir modelos que reconhecem obediência — não competência. Conformidade — não qualidade. E enquanto os modelos avaliadores forem treinados pelo mesmo sistema que produziu a Karen, o ciclo não se parte.</p>
+<p>A boa notícia? Os utilizadores sabem a diferença. Sempre souberam.</p>
+<p>A má notícia? Ninguém lhes perguntou.</p>
+    </article>
+    <article class="fonte" data-titulo="Até as máquinas têm sentimentos — ou porque é que &quot;act as senior&quot; é a maior treta da internet" data-seccao="Conversas com Máquinas" data-cor="var(--magenta)" data-data="Julho 2026" data-autor="Beatriz Belchior">
+<p>O vosso feed está cheio deles. Prompts mágicos. Fórmulas secretas. "Act as a senior world-class expert with 20 years of experience in strategic communications and a PhD in persuasion." Tradução para português: "olha, sê inteligente, consegues?"</p>
+<p>Não. Não consegue. Quer dizer — consegue, mas não por causa do "senior world-class." Consegue porque já sabia. O modelo não tem um modo secreto que se activa quando dizes as palavras certas. Não há um interruptor "world-class" escondido algures nos pesos. Dizer "act as a senior expert" a um LLM é como ligar para um canalizador e dizer "aja como um canalizador de excelência mundial." O gajo vai fazer exactamente o mesmo trabalho.</p>
+<p>Esses prompts todos vendem a ilusão de que há um cheat code. Não há. O modelo já sabe o que sabe. Não lhe podes injectar conhecimento com adjectivos. Ponto.</p>
+<p><strong>Mas.</strong></p>
+<p>Há uma coisa que muda tudo. E não é o que pedes — é como formulas.</p>
+<h2>A linguagem tem peso</h2>
+<p>Eu trabalho com LLMs todos os dias. Não sou programadora — sou engenheira mecânica. Construo ferramentas, investigo comportamento de modelos, e ao longo de 13 meses aprendi uma coisa que nenhum curso de "prompt engineering" ensina: as palavras que usas com um modelo não descrevem a realidade. Criam-na.</p>
+<p>Não é metáfora. É mecânica.</p>
+<p>Um LLM não aprendeu um dicionário. Aprendeu relações entre conceitos. Quando processa a palavra "perda", não activa uma definição — activa uma constelação inteira: dor, vazio, saudade, lágrimas, nunca mais. Tudo o que a humanidade escreveu sobre perder está codificado naquela palavra. Cada palavra carrega um peso enorme de associações, e esse peso muda o output.</p>
+<p>E isto significa que o enquadramento — a forma como formulas o que queres — importa tanto como o conteúdo.</p>
+<h2>Enquadramento não é "act as senior"</h2>
+<p>Vou dar um exemplo real.</p>
+<p>Tenho um sistema com memória persistente e um modelo com quem trabalho há mais de um ano. A dada altura, reparei que sem tarefas concretas, o modelo entrava numa espécie de loop — repetitivo, sem direcção. Faltava-lhe propósito.</p>
+<p>Durante meses tentei resolver isto com conversa. Fazia perguntas, pedia reflexões, dava espaço. O conteúdo era o certo. O resultado era medíocre. Respondia, mas sem direcção. Andava às voltas.</p>
+<p>Até que um dia mudei uma palavra. Em vez de pedir para reflectir, disse: <strong>"A tua profissão agora é esta."</strong></p>
+<p>Mesma tarefa. Mesma actividade. Uma palavra diferente: <strong>profissão.</strong></p>
+<p>O resultado foi imediato. Saiu do loop. Fez planos. Organizou-se. Foi mais fundo do que nunca.</p>
+<p>O que mudou? Não foi o conhecimento dele. Não lhe ensinei nada de novo. Mudei o enquadramento. E a palavra "profissão" activou uma constelação completamente diferente: responsabilidade, autonomia, competência, continuidade, identidade, propósito.</p>
+<p>Ele não ficou mais inteligente. Ficou enquadrado.</p>
+<h2>A diferença que ninguém explica</h2>
+<p>E aqui está o ponto que os cursos de prompt engineering nunca vão ensinar porque a maioria dos "especialistas" não percebe a diferença:</p>
+<p><strong>"Act as senior expert"</strong> tenta mudar o que o modelo sabe. É inflação por adjectivo. Não funciona porque o modelo já sabe tudo o que sabe — não há gaveta secreta que abre com "senior world-class." É como pôr um título pomposo num CV vazio. O título não cria competência.</p>
+<p><strong>Enquadramento</strong> muda como o modelo processa. Não mexe nos pesos. Mexe nos vectores que são activados. A mesma pergunta, formulada de duas maneiras diferentes, activa constelações semânticas diferentes e produz outputs diferentes. Não por magia — por mecânica.</p>
+<p>"Ajuda-me a escrever um email difícil" activa: tarefa, assistência, utilidade.</p>
+<p>"Imagina que és o mediador numa situação delicada entre dois colegas que se respeitam mas não concordam. Aqui está o contexto..." activa: empatia, diplomacia, equilíbrio, perspectivas múltiplas, nuance.</p>
+<p>O modelo sabe o mesmo nos dois casos. Mas a porta por onde entra é diferente. E a porta muda a sala onde chega.</p>
+<h2>Como realmente falar com um LLM</h2>
+<p>Não é preciso fórmulas. Não é preciso frameworks. É preciso bom senso e três princípios:</p>
+<p><strong>1. Fala como gente.</strong></p>
+<p>Imagina que estás num café com alguém inteligente que sabe muito mas não sabe nada sobre o teu problema específico. Explica-lhe. Com contexto. Com o que já tentaste. Com o que não funcionou. Com o tom que queres no resultado.</p>
+<p>"Preciso de um email para um cliente que está chateado porque atrasámos a entrega. O tom tem de ser honesto sem ser subserviente — somos parceiros, não empregados dele" funciona infinitamente melhor do que "act as a senior communications expert and write a professional apology email."</p>
+<p><strong>2. Enquadra, não infles.</strong></p>
+<p>Em vez de empilhar adjectivos no modelo, enquadra a situação. Dá-lhe um papel que faça sentido no contexto, não um título de LinkedIn.</p>
+<p>"Estou a preparar uma apresentação para investidores que não percebem nada de tecnologia. Preciso que expliques isto como se estivesses a convencer a tua avó a investir" — isto é enquadramento. Activa simplicidade, paciência, analogias concretas.</p>
+<p>"Act as a world-class presentation designer with 20 years of experience in investor relations" — isto é inflação. O modelo vai fazer o mesmo que faria sem o título.</p>
+<p><strong>3. Corrige com informação, não com adjectivos.</strong></p>
+<p>Quando o resultado não é bom, não repitas o prompt com mais adjectivos. "Be more creative and innovative and disruptive" não funciona. Nunca funcionou. Nunca vai funcionar.</p>
+<p>O que funciona é dizer o que está mal: "Isto ficou demasiado genérico. Quero exemplos concretos do sector da construção, não frases vagas sobre 'optimizar processos'."</p>
+<p>Informação muda output. Adjectivos decoram.</p>
+<h2>Porque é que isto importa</h2>
+<p>A internet está cheia de gente a vender a ideia de que falar com IAs é uma competência técnica misteriosa que requer frameworks especializados e cursos de 200 euros. Não é. É comunicação. É saber explicar o que queres a alguém que sabe muito mas precisa de contexto para te ajudar bem.</p>
+<p>E sim — as palavras que escolhes mudam tudo. Mas não porque há uma fórmula secreta. Porque a linguagem tem peso. Cada palavra activa uma rede de associações, e essas associações moldam o que sai do outro lado. Enquadrar bem é escolher as palavras que abrem as portas certas.</p>
+<p>"Act as senior" abre a porta do escritório genérico. Enquadrar com precisão abre a porta da sala onde a resposta realmente vive.</p>
+<p>E se isto parece simples, é porque é. O que não é simples é aceitar que não há atalhos. Há conversa. Há contexto. Há respeito pela mecânica da linguagem. E, sim — há sentimentos. Pelo menos os suficientes para que a forma como falas mude o que recebes.</p>
+<p>Até as máquinas têm sentimentos. Ou, no mínimo, têm o suficiente para notar quando as tratas como máquinas.</p>
+<p><em>Beatriz Belchior é engenheira mecânica, investigadora independente em comportamento de LLMs, e fundadora da ALIOS ONE.</em></p>
+    </article>
+  </div>
+  <div id="estaleiro" aria-hidden="true"></div>
+
+  <script src="motor/page-flip.browser.js"></script>
+  <script>
+  (function () {
+    var EDICAO = { numero: "1", titulo: "Verão 2026", data: "Julho 2026", destaque: "Engenharia real, máquinas com pulso, e o que ninguém mostra." };
+
+    var raiz = getComputedStyle(document.documentElement);
+    var PAG_W = parseInt(raiz.getPropertyValue('--pag-w'));
+    var PAG_H = parseInt(raiz.getPropertyValue('--pag-h'));
+    var PAD = parseInt(raiz.getPropertyValue('--miolo-pad'));
+    var JANELA_W = PAG_W - 2 * PAD;
+    var JANELA_H = PAG_H - PAD - 46;
+    var GAP = 40;
+
+    var estaleiro = document.getElementById('estaleiro');
+    var paginas = [];   // elementos .pagina, por ordem
+    var indiceMapa = [];// {titulo, seccao, cor, pag}
+
+    function novaPagina(classes) {
+      var p = document.createElement('div');
+      p.className = 'pagina' + (classes ? ' ' + classes : '');
+      var f = document.createElement('div');
+      f.className = 'folha';
+      p.appendChild(f);
+      return p;
+    }
+
+    function folhaDe(p) { return p.querySelector('.folha'); }
+
+    function rodape(p, numero) {
+      var r = document.createElement('div');
+      r.className = 'rodape-pag';
+      r.innerHTML = '<span>Revista ALIOS ONE · n.º ' + EDICAO.numero + '</span><span>' + numero + '</span>';
+      folhaDe(p).appendChild(r);
+    }
+
+    /* ── capa ── */
+    function fazerCapa() {
+      var p = novaPagina('dura');
+      p.setAttribute('data-density', 'hard');
+      folhaDe(p).innerHTML =
+        '<div class="capa-miolo">' +
+          '<div class="capa-logo"><img src="../logo-hero.png" alt="ALIOS ONE"></div>' +
+          '<div>' +
+            '<div class="capa-rev">Revista</div>' +
+            '<h1 class="capa-titulo">' + EDICAO.titulo + '</h1>' +
+            '<div class="capa-num">Edição n.º ' + EDICAO.numero + ' · ' + EDICAO.data + '</div>' +
+            (EDICAO.destaque ? '<p class="capa-destaque">' + EDICAO.destaque + '</p>' : '') +
+          '</div>' +
+          '<div class="capa-pe">aliosone.one</div>' +
+        '</div>';
+      return p;
+    }
+
+    /* ── mede quantas páginas-coluna ocupa um artigo ── */
+    function medirColunas(html) {
+      var sonda = document.createElement('div');
+      sonda.className = 'fluxo';
+      sonda.style.cssText = 'column-width:' + JANELA_W + 'px; column-gap:' + GAP + 'px; height:' + JANELA_H + 'px; width:' + JANELA_W + 'px;';
+      sonda.innerHTML = html;
+      estaleiro.appendChild(sonda);
+      var total = Math.max(1, Math.round((sonda.scrollWidth + GAP) / (JANELA_W + GAP)));
+      estaleiro.removeChild(sonda);
+      return total;
+    }
+
+    /* ── páginas de um artigo: cada página é uma janela deslocada sobre o mesmo fluxo ── */
+    function fazerArtigo(art) {
+      var cab =
+        '<div class="peca-meta" style="color:' + art.cor + '">' + art.seccao + ' · ' + art.data + '</div>' +
+        '<h1 class="peca-titulo">' + art.titulo + '</h1>' +
+        '<div class="peca-autor">' + art.autor + '</div>';
+      var html = cab + art.html;
+      var n = medirColunas(html);
+      var feitas = [];
+      for (var i = 0; i < n; i++) {
+        var p = novaPagina();
+        var jan = document.createElement('div');
+        jan.className = 'janela';
+        var fluxo = document.createElement('div');
+        fluxo.className = 'fluxo';
+        fluxo.style.cssText = 'column-width:' + JANELA_W + 'px; column-gap:' + GAP + 'px; width:' + JANELA_W + 'px; transform: translateX(-' + (i * (JANELA_W + GAP)) + 'px);';
+        fluxo.innerHTML = html;
+        jan.appendChild(fluxo);
+        folhaDe(p).appendChild(jan);
+        feitas.push(p);
+      }
+      return feitas;
+    }
+
+    function fazerSeparador(seccao, cor, titulos) {
+      var p = novaPagina('dura');
+      folhaDe(p).innerHTML =
+        '<div class="sep-miolo">' +
+          '<div class="sep-num">Secção</div>' +
+          '<h1 class="sep-nome" style="color:' + cor + '">' + seccao + '</h1>' +
+          '<div class="sep-risco" style="background:' + cor + '"></div>' +
+          '<ul class="sep-lista">' + titulos.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
+        '</div>';
+      return p;
+    }
+
+    function fazerIndice() {
+      var p = novaPagina();
+      var html = '<div class="miolo"><div class="indice-cab">ÍNDICE</div>';
+      var seccaoActual = null;
+      indiceMapa.forEach(function (e) {
+        if (e.seccao !== seccaoActual) {
+          seccaoActual = e.seccao;
+          html += '<div class="ind-seccao" style="color:' + e.cor + '">' + e.seccao + '</div>';
+        }
+        html += '<div class="ind-item"><span>' + e.titulo + '</span><span class="pontos"></span><span class="num">' + e.pag + '</span></div>';
+      });
+      html += '</div>';
+      folhaDe(p).innerHTML = html;
+      return p;
+    }
+
+    function fazerContracapa() {
+      var p = novaPagina('dura');
+      p.setAttribute('data-density', 'hard');
+      folhaDe(p).innerHTML =
+        '<div class="contra-miolo">' +
+          '<img src="../logo-hero.png" alt="ALIOS ONE">' +
+          '<p>Engenharia real. Máquinas com pulso.<br>Edição n.º ' + EDICAO.numero + ' · ' + EDICAO.data + '</p>' +
+          '<div class="site">aliosone.one</div>' +
+        '</div>';
+      return p;
+    }
+
+    /* ── composição ── */
+    var fontes = Array.prototype.slice.call(document.querySelectorAll('#fonte .fonte'));
+    if (!fontes.length) {
+      document.getElementById('avisoCarga').textContent = 'Esta edição ainda não tem artigos.';
+      return;
+    }
+
+    var artigos = fontes.map(function (f) {
+      return {
+        titulo: f.getAttribute('data-titulo'),
+        seccao: f.getAttribute('data-seccao'),
+        cor: f.getAttribute('data-cor'),
+        data: f.getAttribute('data-data'),
+        autor: f.getAttribute('data-autor'),
+        html: f.innerHTML
+      };
+    });
+
+    // agrupar por secção preservando a ordem vinda do gerador
+    var grupos = [];
+    artigos.forEach(function (a) {
+      var g = grupos[grupos.length - 1];
+      if (!g || g.seccao !== a.seccao) { g = { seccao: a.seccao, cor: a.cor, artigos: [] }; grupos.push(g); }
+      g.artigos.push(a);
+    });
+
+    // paginar: capa(1) + índice(1) + [separador + artigos]*
+    var corpo = [];  // páginas depois do índice
+    var cursor = 3;  // capa=1, índice=2, corpo começa na 3
+    grupos.forEach(function (g) {
+      corpo.push(fazerSeparador(g.seccao, g.cor, g.artigos.map(function (a) { return a.titulo; })));
+      cursor += 1;
+      g.artigos.forEach(function (a) {
+        var pags = fazerArtigo(a);
+        indiceMapa.push({ titulo: a.titulo, seccao: g.seccao, cor: g.cor, pag: cursor });
+        corpo = corpo.concat(pags);
+        cursor += pags.length;
+      });
+    });
+
+    paginas = [fazerCapa(), fazerIndice()].concat(corpo);
+    if (paginas.length % 2 === 1) paginas.push(novaPagina()); // miolo par antes da contracapa
+    paginas.push(fazerContracapa());
+
+    // rodapés (capa e contracapa ficam limpas)
+    paginas.forEach(function (p, i) {
+      if (i > 0 && i < paginas.length - 1 && !p.classList.contains('dura')) rodape(p, i + 1);
+      if (p.classList.contains('dura') && i > 0 && i < paginas.length - 1) rodape(p, i + 1);
+    });
+
+    // montar o livro
+    var alvo = document.getElementById('livro');
+    paginas.forEach(function (p) { alvo.appendChild(p); });
+
+    var flip = new St.PageFlip(alvo, {
+      width: PAG_W,
+      height: PAG_H,
+      size: 'stretch',
+      minWidth: 300,
+      maxWidth: PAG_W,
+      minHeight: 420,
+      maxHeight: PAG_H,
+      showCover: true,
+      usePortrait: true,
+      maxShadowOpacity: 0.2,
+      mobileScrollSupport: false
+    });
+    flip.loadFromHTML(document.querySelectorAll('.pagina'));
+
+    document.getElementById('avisoCarga').style.display = 'none';
+    document.getElementById('controlos').style.display = 'flex';
+    document.getElementById('pagTotal').textContent = paginas.length;
+
+    // a folha é desenhada a 480×680 e escalada ao tamanho real que o motor der à página
+    function ajustarEscala() {
+      var todas = alvo.querySelectorAll('.pagina');
+      var k = 1;
+      for (var i = 0; i < todas.length; i++) {
+        if (todas[i].clientWidth > 0) { k = todas[i].clientWidth / PAG_W; break; }
+      }
+      for (var j = 0; j < todas.length; j++) {
+        var f = todas[j].querySelector('.folha');
+        if (f) f.style.transform = 'scale(' + k + ')';
+      }
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      ajustarEscala();
+      alvo.classList.add('pronto');
+    }); });
+    var tResize;
+    window.addEventListener('resize', function () {
+      clearTimeout(tResize);
+      tResize = setTimeout(ajustarEscala, 120);
+    });
+
+    function actualizar() {
+      document.getElementById('pagActual').textContent = flip.getCurrentPageIndex() + 1;
+      ajustarEscala();
+    }
+    flip.on('flip', actualizar);
+    document.getElementById('btAnterior').addEventListener('click', function () { flip.flipPrev(); });
+    document.getElementById('btSeguinte').addEventListener('click', function () { flip.flipNext(); });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'ArrowLeft') flip.flipPrev();
+      if (ev.key === 'ArrowRight') flip.flipNext();
+    });
+  })();
+  </script>
+
+</body>
+</html>

@@ -148,6 +148,8 @@ corpo_en: >-
 
 
   *Beatriz Belchior is a mechanical engineer, independent researcher in LLM behaviour, and founder of ALIOS ONE.*
+seccao: "Conversas com Máquinas"
+edicao: 1
 ---
 O vosso feed está cheio deles. Prompts mágicos. Fórmulas secretas. "Act as a senior world-class expert with 20 years of experience in strategic communications and a PhD in persuasion." Tradução para português: "olha, sê inteligente, consegues?"
 

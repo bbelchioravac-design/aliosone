@@ -136,6 +136,8 @@ corpo_en: >-
 
 
   Now you know how to talk, and who to talk to. In the next article: **what lies beneath the platforms** — API, CLI, tokens, and why some models can only be reached down there.
+seccao: "Descomplicador"
+edicao: 1
 ---
 *Artigo 2 de 3 da série "Falar com Máquinas"*
 

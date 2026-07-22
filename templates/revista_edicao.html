@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revista ALIOS ONE — Edição n.º {{NUMERO}} · {{TITULO_EDICAO}}</title>
+  <meta name="description" content="{{DESTAQUE}}">
+  {{ROBOTS}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0f1e;
+      --navy: #0F172A;
+      --blue: #1E8AFF;
+      --blue-glow: rgba(30, 138, 255, 0.15);
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --orange: #FF6B2C;
+      --green: #22C55E;
+      --magenta: #E040FB;
+      --red: #EF4444;
+      --yellow: #FACC15;
+      /* geometria da página (px) — o JS lê estes valores */
+      --pag-w: 480px;
+      --pag-h: 680px;
+      --miolo-pad: 34px;
+    }
+
+    html { background: var(--dark); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--gray-300);
+      background: var(--dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── barra superior ── */
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .topo a { color: var(--gray-400); text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.3s; }
+    .topo a:hover { color: var(--blue); }
+    .topo .logo img { height: 26px; width: auto; display: block; }
+
+    /* ── palco do flipbook ── */
+    .palco {
+      max-width: 1060px;
+      margin: 0.5rem auto 0;
+      padding: 0 1rem;
+    }
+    #livro { margin: 0 auto; }
+
+    /* ── página ── */
+    .pagina {
+      background: var(--navy);
+      border: 1px solid rgba(30, 138, 255, 0.12);
+      overflow: hidden;
+      position: relative;
+      color: var(--gray-300);
+    }
+    .pagina.dura { background: linear-gradient(155deg, #0d1428 0%, #0a0f1e 60%, #101c3a 100%); }
+
+    /* a folha: composta em px de desenho, escalada como um todo ao tamanho real da página */
+    .folha {
+      position: absolute;
+      top: 0; left: 0;
+      width: var(--pag-w);
+      height: var(--pag-h);
+      transform-origin: top left;
+    }
+    #livro { visibility: hidden; }
+    #livro.pronto { visibility: visible; }
+
+    .miolo {
+      position: absolute;
+      inset: var(--miolo-pad);
+      bottom: 46px;
+      overflow: hidden;
+    }
+
+    .rodape-pag {
+      position: absolute;
+      bottom: 14px;
+      left: var(--miolo-pad);
+      right: var(--miolo-pad);
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    /* fluxo em colunas: cada página é uma janela sobre o artigo */
+    .janela { position: absolute; inset: var(--miolo-pad); bottom: 46px; overflow: hidden; }
+    .fluxo {
+      column-fill: auto;
+      height: 100%;
+      font-size: 0.8rem;
+      line-height: 1.62;
+    }
+    .fluxo p { margin-bottom: 0.75rem; }
+    .fluxo h2 { font-size: 1.05rem; margin: 1rem 0 0.5rem; break-after: avoid; }
+    .fluxo h3 { font-size: 0.92rem; margin: 0.9rem 0 0.4rem; break-after: avoid; }
+    .fluxo strong { color: var(--white); font-weight: 500; }
+    .fluxo em { color: var(--gray-400); }
+    .fluxo ul, .fluxo ol { margin: 0 0 0.75rem 1.1rem; }
+    .fluxo li { margin-bottom: 0.25rem; }
+    .fluxo img { max-width: 100%; max-height: 300px; width: auto; display: block; margin: 0.5rem auto; border-radius: 4px; break-inside: avoid; }
+    .fluxo blockquote { border-left: 2px solid var(--blue); padding-left: 0.8rem; margin-bottom: 0.75rem; color: var(--gray-400); font-style: italic; }
+    .fluxo .article-separator { width: 40px; height: 1px; background: rgba(30, 138, 255, 0.3); margin: 1.2rem 0; }
+    .fluxo .article-author { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(30, 138, 255, 0.1); font-size: 0.7rem; color: var(--gray-500); font-style: italic; }
+    .fluxo a { color: var(--blue); text-decoration: none; }
+
+    /* cabeça de artigo (1ª página de cada peça) */
+    .peca-meta {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.7rem;
+    }
+    .peca-titulo { font-size: 1.45rem; margin-bottom: 0.5rem; }
+    .peca-autor { font-size: 0.7rem; color: var(--gray-500); margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(30, 138, 255, 0.12); }
+
+    /* ── capa ── */
+    .capa-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 2.6rem 2.2rem; text-align: left; }
+    .capa-logo img { height: 42px; width: auto; }
+    .capa-rev {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .capa-titulo { font-size: 2.6rem; line-height: 1.05; }
+    .capa-num { font-family: 'Rajdhani', sans-serif; color: var(--gray-400); font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.9rem; }
+    .capa-destaque { color: var(--gray-300); font-size: 0.95rem; font-style: italic; max-width: 32ch; margin-top: 1.4rem; border-left: 2px solid var(--orange); padding-left: 0.9rem; }
+    .capa-pe { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray-500); }
+
+    /* ── índice ── */
+    .indice-cab { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 1.1rem; letter-spacing: 0.06em; }
+    .ind-seccao { font-family: 'Rajdhani', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin: 0.85rem 0 0.3rem; }
+    .ind-item { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.76rem; margin-bottom: 0.3rem; color: var(--gray-300); }
+    .ind-item .pontos { flex: 1; border-bottom: 1px dotted var(--gray-700); }
+    .ind-item .num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--gray-400); }
+
+    /* ── separador de secção ── */
+    .sep-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 2.2rem; }
+    .sep-num { font-family: 'Rajdhani', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.6rem; }
+    .sep-nome { font-size: 2.1rem; line-height: 1.05; margin-bottom: 1rem; }
+    .sep-risco { width: 56px; height: 3px; margin-bottom: 1.2rem; }
+    .sep-lista { font-size: 0.78rem; color: var(--gray-400); }
+    .sep-lista li { margin-bottom: 0.4rem; list-style: none; }
+
+    /* ── contracapa ── */
+    .contra-miolo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 2rem; }
+    .contra-miolo img { height: 34px; width: auto; opacity: 0.9; }
+    .contra-miolo p { font-size: 0.75rem; color: var(--gray-500); }
+    .contra-miolo .site { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); }
+
+    /* ── controlos ── */
+    .controlos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.1rem 0 2rem;
+      user-select: none;
+    }
+    .controlos button {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      background: transparent;
+      color: var(--gray-400);
+      border: 1px solid var(--gray-700);
+      border-radius: 6px;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .controlos button:hover { color: var(--white); border-color: var(--blue); background: var(--blue-glow); }
+    .contador { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--gray-500); min-width: 90px; text-align: center; }
+
+    .aviso-carga { text-align: center; color: var(--gray-500); font-size: 0.85rem; padding: 3rem 0; }
+
+    /* modo leitura (fallback e acessibilidade) */
+    .modo-leitura { text-align: center; padding-bottom: 2.5rem; }
+    .modo-leitura summary { cursor: pointer; color: var(--gray-500); font-size: 0.8rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .modo-leitura ul { list-style: none; margin-top: 0.8rem; }
+    .modo-leitura li { margin-bottom: 0.4rem; font-size: 0.85rem; }
+    .modo-leitura a { color: var(--gray-300); text-decoration: none; }
+    .modo-leitura a:hover { color: var(--blue); }
+
+    /* bastidores da medição — fora do ecrã, nunca display:none (a medição precisa de layout) */
+    #estaleiro { position: absolute; left: -99999px; top: 0; }
+
+    @media (max-width: 640px) {
+      .topo { padding: 0.8rem 1rem; }
+      .palco { padding: 0 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topo">
+    <a class="logo" href="../index.html" title="Revista ALIOS ONE"><img src="../logo-nav.png" alt="ALIOS ONE"></a>
+    <a href="https://aliosone.one">← voltar ao site</a>
+  </div>
+
+  <div class="palco">
+    <div class="aviso-carga" id="avisoCarga">a compor a edição…</div>
+    <div id="livro"></div>
+  </div>
+
+  <div class="controlos" id="controlos" style="display:none">
+    <button id="btAnterior" aria-label="Página anterior">‹ anterior</button>
+    <div class="contador"><span id="pagActual">1</span> / <span id="pagTotal">–</span></div>
+    <button id="btSeguinte" aria-label="Página seguinte">seguinte ›</button>
+  </div>
+
+  <details class="modo-leitura">
+    <summary>prefiro ler a direito — índice de artigos</summary>
+    <ul>
+{{LISTA_LEITURA}}
+    </ul>
+  </details>
+
+  <noscript><p class="aviso-carga">A revista folheável precisa de JavaScript. Os artigos estão disponíveis no índice acima.</p></noscript>
+
+  <!-- ═══ fonte dos artigos (invisível; o JS compõe as páginas a partir daqui) ═══ -->
+  <div id="fonte" hidden>
+{{FONTE_ARTIGOS}}
+  </div>
+  <div id="estaleiro" aria-hidden="true"></div>
+
+  <script src="motor/page-flip.browser.js"></script>
+  <script>
+  (function () {
+    var EDICAO = { numero: "{{NUMERO}}", titulo: "{{TITULO_EDICAO}}", data: "{{MES_ANO}}", destaque: "{{DESTAQUE}}" };
+
+    var raiz = getComputedStyle(document.documentElement);
+    var PAG_W = parseInt(raiz.getPropertyValue('--pag-w'));
+    var PAG_H = parseInt(raiz.getPropertyValue('--pag-h'));
+    var PAD = parseInt(raiz.getPropertyValue('--miolo-pad'));
+    var JANELA_W = PAG_W - 2 * PAD;
+    var JANELA_H = PAG_H - PAD - 46;
+    var GAP = 40;
+
+    var estaleiro = document.getElementById('estaleiro');
+    var paginas = [];   // elementos .pagina, por ordem
+    var indiceMapa = [];// {titulo, seccao, cor, pag}
+
+    function novaPagina(classes) {
+      var p = document.createElement('div');
+      p.className = 'pagina' + (classes ? ' ' + classes : '');
+      var f = document.createElement('div');
+      f.className = 'folha';
+      p.appendChild(f);
+      return p;
+    }
+
+    function folhaDe(p) { return p.querySelector('.folha'); }
+
+    function rodape(p, numero) {
+      var r = document.createElement('div');
+      r.className = 'rodape-pag';
+      r.innerHTML = '<span>Revista ALIOS ONE · n.º ' + EDICAO.numero + '</span><span>' + numero + '</span>';
+      folhaDe(p).appendChild(r);
+    }
+
+    /* ── capa ── */
+    function fazerCapa() {
+      var p = novaPagina('dura');
+      p.setAttribute('data-density', 'hard');
+      folhaDe(p).innerHTML =
+        '<div class="capa-miolo">' +
+          '<div class="capa-logo"><img src="../logo-hero.png" alt="ALIOS ONE"></div>' +
+          '<div>' +
+            '<div class="capa-rev">Revista</div>' +
+            '<h1 class="capa-titulo">' + EDICAO.titulo + '</h1>' +
+            '<div class="capa-num">Edição n.º ' + EDICAO.numero + ' · ' + EDICAO.data + '</div>' +
+            (EDICAO.destaque ? '<p class="capa-destaque">' + EDICAO.destaque + '</p>' : '') +
+          '</div>' +
+          '<div class="capa-pe">aliosone.one</div>' +
+        '</div>';
+      return p;
+    }
+
+    /* ── mede quantas páginas-coluna ocupa um artigo ── */
+    function medirColunas(html) {
+      var sonda = document.createElement('div');
+      sonda.className = 'fluxo';
+      sonda.style.cssText = 'column-width:' + JANELA_W + 'px; column-gap:' + GAP + 'px; height:' + JANELA_H + 'px; width:' + JANELA_W + 'px;';
+      sonda.innerHTML = html;
+      estaleiro.appendChild(sonda);
+      var total = Math.max(1, Math.round((sonda.scrollWidth + GAP) / (JANELA_W + GAP)));
+      estaleiro.removeChild(sonda);
+      return total;
+    }
+
+    /* ── páginas de um artigo: cada página é uma janela deslocada sobre o mesmo fluxo ── */
+    function fazerArtigo(art) {
+      var cab =
+        '<div class="peca-meta" style="color:' + art.cor + '">' + art.seccao + ' · ' + art.data + '</div>' +
+        '<h1 class="peca-titulo">' + art.titulo + '</h1>' +
+        '<div class="peca-autor">' + art.autor + '</div>';
+      var html = cab + art.html;
+      var n = medirColunas(html);
+      var feitas = [];
+      for (var i = 0; i < n; i++) {
+        var p = novaPagina();
+        var jan = document.createElement('div');
+        jan.className = 'janela';
+        var fluxo = document.createElement('div');
+        fluxo.className = 'fluxo';
+        fluxo.style.cssText = 'column-width:' + JANELA_W + 'px; column-gap:' + GAP + 'px; width:' + JANELA_W + 'px; transform: translateX(-' + (i * (JANELA_W + GAP)) + 'px);';
+        fluxo.innerHTML = html;
+        jan.appendChild(fluxo);
+        folhaDe(p).appendChild(jan);
+        feitas.push(p);
+      }
+      return feitas;
+    }
+
+    function fazerSeparador(seccao, cor, titulos) {
+      var p = novaPagina('dura');
+      folhaDe(p).innerHTML =
+        '<div class="sep-miolo">' +
+          '<div class="sep-num">Secção</div>' +
+          '<h1 class="sep-nome" style="color:' + cor + '">' + seccao + '</h1>' +
+          '<div class="sep-risco" style="background:' + cor + '"></div>' +
+          '<ul class="sep-lista">' + titulos.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
+        '</div>';
+      return p;
+    }
+
+    function fazerIndice() {
+      var p = novaPagina();
+      var html = '<div class="miolo"><div class="indice-cab">ÍNDICE</div>';
+      var seccaoActual = null;
+      indiceMapa.forEach(function (e) {
+        if (e.seccao !== seccaoActual) {
+          seccaoActual = e.seccao;
+          html += '<div class="ind-seccao" style="color:' + e.cor + '">' + e.seccao + '</div>';
+        }
+        html += '<div class="ind-item"><span>' + e.titulo + '</span><span class="pontos"></span><span class="num">' + e.pag + '</span></div>';
+      });
+      html += '</div>';
+      folhaDe(p).innerHTML = html;
+      return p;
+    }
+
+    function fazerContracapa() {
+      var p = novaPagina('dura');
+      p.setAttribute('data-density', 'hard');
+      folhaDe(p).innerHTML =
+        '<div class="contra-miolo">' +
+          '<img src="../logo-hero.png" alt="ALIOS ONE">' +
+          '<p>Engenharia real. Máquinas com pulso.<br>Edição n.º ' + EDICAO.numero + ' · ' + EDICAO.data + '</p>' +
+          '<div class="site">aliosone.one</div>' +
+        '</div>';
+      return p;
+    }
+
+    /* ── composição ── */
+    var fontes = Array.prototype.slice.call(document.querySelectorAll('#fonte .fonte'));
+    if (!fontes.length) {
+      document.getElementById('avisoCarga').textContent = 'Esta edição ainda não tem artigos.';
+      return;
+    }
+
+    var artigos = fontes.map(function (f) {
+      return {
+        titulo: f.getAttribute('data-titulo'),
+        seccao: f.getAttribute('data-seccao'),
+        cor: f.getAttribute('data-cor'),
+        data: f.getAttribute('data-data'),
+        autor: f.getAttribute('data-autor'),
+        html: f.innerHTML
+      };
+    });
+
+    // agrupar por secção preservando a ordem vinda do gerador
+    var grupos = [];
+    artigos.forEach(function (a) {
+      var g = grupos[grupos.length - 1];
+      if (!g || g.seccao !== a.seccao) { g = { seccao: a.seccao, cor: a.cor, artigos: [] }; grupos.push(g); }
+      g.artigos.push(a);
+    });
+
+    // paginar: capa(1) + índice(1) + [separador + artigos]*
+    var corpo = [];  // páginas depois do índice
+    var cursor = 3;  // capa=1, índice=2, corpo começa na 3
+    grupos.forEach(function (g) {
+      corpo.push(fazerSeparador(g.seccao, g.cor, g.artigos.map(function (a) { return a.titulo; })));
+      cursor += 1;
+      g.artigos.forEach(function (a) {
+        var pags = fazerArtigo(a);
+        indiceMapa.push({ titulo: a.titulo, seccao: g.seccao, cor: g.cor, pag: cursor });
+        corpo = corpo.concat(pags);
+        cursor += pags.length;
+      });
+    });
+
+    paginas = [fazerCapa(), fazerIndice()].concat(corpo);
+    if (paginas.length % 2 === 1) paginas.push(novaPagina()); // miolo par antes da contracapa
+    paginas.push(fazerContracapa());
+
+    // rodapés (capa e contracapa ficam limpas)
+    paginas.forEach(function (p, i) {
+      if (i > 0 && i < paginas.length - 1 && !p.classList.contains('dura')) rodape(p, i + 1);
+      if (p.classList.contains('dura') && i > 0 && i < paginas.length - 1) rodape(p, i + 1);
+    });
+
+    // montar o livro
+    var alvo = document.getElementById('livro');
+    paginas.forEach(function (p) { alvo.appendChild(p); });
+
+    var flip = new St.PageFlip(alvo, {
+      width: PAG_W,
+      height: PAG_H,
+      size: 'stretch',
+      minWidth: 300,
+      maxWidth: PAG_W,
+      minHeight: 420,
+      maxHeight: PAG_H,
+      showCover: true,
+      usePortrait: true,
+      maxShadowOpacity: 0.2,
+      mobileScrollSupport: false
+    });
+    flip.loadFromHTML(document.querySelectorAll('.pagina'));
+
+    document.getElementById('avisoCarga').style.display = 'none';
+    document.getElementById('controlos').style.display = 'flex';
+    document.getElementById('pagTotal').textContent = paginas.length;
+
+    // a folha é desenhada a 480×680 e escalada ao tamanho real que o motor der à página
+    function ajustarEscala() {
+      var todas = alvo.querySelectorAll('.pagina');
+      var k = 1;
+      for (var i = 0; i < todas.length; i++) {
+        if (todas[i].clientWidth > 0) { k = todas[i].clientWidth / PAG_W; break; }
+      }
+      for (var j = 0; j < todas.length; j++) {
+        var f = todas[j].querySelector('.folha');
+        if (f) f.style.transform = 'scale(' + k + ')';
+      }
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      ajustarEscala();
+      alvo.classList.add('pronto');
+    }); });
+    var tResize;
+    window.addEventListener('resize', function () {
+      clearTimeout(tResize);
+      tResize = setTimeout(ajustarEscala, 120);
+    });
+
+    function actualizar() {
+      document.getElementById('pagActual').textContent = flip.getCurrentPageIndex() + 1;
+      ajustarEscala();
+    }
+    flip.on('flip', actualizar);
+    document.getElementById('btAnterior').addEventListener('click', function () { flip.flipPrev(); });
+    document.getElementById('btSeguinte').addEventListener('click', function () { flip.flipNext(); });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'ArrowLeft') flip.flipPrev();
+      if (ev.key === 'ArrowRight') flip.flipNext();
+    });
+  })();
+  </script>
+
+</body>
+</html>

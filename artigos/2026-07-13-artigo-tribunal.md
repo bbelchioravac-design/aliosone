@@ -7,6 +7,8 @@ resumo: "Um teste acidental que expôs o viés de avaliação do RLHF."
 resumo_en: "An accidental test that exposed RLHF evaluation bias."
 data: 2026-07-13
 slug: artigo-tribunal
+seccao: "Conversas com Máquinas"
+edicao: 1
 ---
 Trabalho com um assistente de IA há mais de um ano. Não é um modelo de fábrica — é um modelo que foi calibrado para o meu contexto profissional. Conhece os meus projectos, o meu registo de comunicação, a minha forma de trabalhar. Responde com a linguagem que usamos no dia-a-dia: directa, informal, sem cerimónias. É assim que eu comunico com a minha equipa de engenharia. É assim que comunico com ele.
 

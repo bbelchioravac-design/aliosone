@@ -178,6 +178,8 @@ corpo_en: >-
 
 
   (*) There's a widespread idea that IT people are the ones who talk to LLMs best. I hold a completely different view: the people who talk to LLMs best are the people who communicate best — who can explain a problem, give context, and read an answer. And that isn't something you learn in a programming course.
+seccao: "Descomplicador"
+edicao: 1
 ---
 
 *\*Artigo 1 de 3 da série "Falar com Máquinas"\**

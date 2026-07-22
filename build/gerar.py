@@ -20,7 +20,11 @@ import yaml
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_ARTIGOS = RAIZ / "artigos"
 PASTA_INVESTIGACAO = RAIZ / "investigacao"
+PASTA_EDICOES = RAIZ / "edicoes"
+PASTA_REVISTA = RAIZ / "revista"
 TEMPLATE = RAIZ / "templates" / "artigo.html"
+TEMPLATE_EDICAO = RAIZ / "templates" / "revista_edicao.html"
+TEMPLATE_REVISTA = RAIZ / "templates" / "revista_capa.html"
 INDEX = RAIZ / "index.html"
 
 MARCA_GERADO = "<!-- gerado automaticamente por build/gerar.py — NÃO editar à mão -->"
@@ -32,6 +36,18 @@ CORES_TAG = {
     "Bastidores": "var(--green)",
 }
 COR_DEFEITO = "var(--blue)"
+
+# secções da revista, pela ordem em que aparecem na edição
+ORDEM_SECCOES = ["Editorial", "AVAC sem glamour", "Descomplicador",
+                 "Contracorrente", "Conversas com Máquinas", "Última página"]
+CORES_SECCAO = {
+    "Editorial": "var(--blue)",
+    "AVAC sem glamour": "var(--orange)",
+    "Descomplicador": "var(--green)",
+    "Contracorrente": "var(--red)",
+    "Conversas com Máquinas": "var(--magenta)",
+    "Última página": "var(--yellow)",
+}
 
 MESES_PT = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
@@ -177,6 +193,118 @@ def limpar_orfaos(slugs_actuais: set) -> None:
                 ficheiro.unlink()
 
 
+def ler_edicoes() -> list:
+    """Lê edicoes/*.md — metadados de cada edição da revista."""
+    if not PASTA_EDICOES.exists():
+        return []
+    edicoes = []
+    for md_file in sorted(PASTA_EDICOES.glob("*.md")):
+        texto = md_file.read_text(encoding="utf-8")
+        partes = re.match(r"\A---\s*\n(.*?)\n---\s*(?:\n(.*))?\Z", texto, re.DOTALL)
+        if not partes:
+            raise ValueError(f"{md_file.name}: falta o cabeçalho YAML (--- ... ---)")
+        meta = yaml.safe_load(partes.group(1)) or {}
+        for obrigatorio in ("numero", "titulo", "data"):
+            if meta.get(obrigatorio) is None:
+                raise ValueError(f"{md_file.name}: falta o campo '{obrigatorio}'")
+        meta["numero"] = int(meta["numero"])
+        meta["data"] = str(meta["data"])[:10]
+        meta.setdefault("destaque", "")
+        meta.setdefault("publicado", False)
+        edicoes.append(meta)
+    edicoes.sort(key=lambda e: e["numero"], reverse=True)
+    return edicoes
+
+
+def fonte_artigo(meta: dict) -> str:
+    """Um artigo como fonte invisível da edição (o JS compõe as páginas)."""
+    cor = CORES_SECCAO.get(meta["seccao"], COR_DEFEITO)
+    corpo = markdown.markdown(meta["corpo"], extensions=["extra", "sane_lists"])
+    corpo = re.sub(r"<hr\s*/?>", '<div class="article-separator"></div>', corpo)
+    return (
+        f'    <article class="fonte" data-titulo="{html.escape(str(meta["titulo"]))}"'
+        f' data-seccao="{html.escape(str(meta["seccao"]))}"'
+        f' data-cor="{cor}"'
+        f' data-data="{data_bonita(meta["data"], MESES_PT)}"'
+        f' data-autor="{html.escape(str(meta["autor"]))}">\n'
+        f"{corpo}\n"
+        f"    </article>"
+    )
+
+
+def gerar_revista(artigos: list) -> None:
+    """Gera revista/index.html e revista/edicao-N.html para cada edição."""
+    PASTA_REVISTA.mkdir(exist_ok=True)
+    edicoes = ler_edicoes()
+    template_ed = TEMPLATE_EDICAO.read_text(encoding="utf-8")
+
+    esperados = {"index.html"}
+    cartoes = []
+    for ed in edicoes:
+        pecas = [a for a in artigos
+                 if a.get("edicao") == ed["numero"] and a.get("seccao")]
+        pecas.sort(key=lambda a: (
+            ORDEM_SECCOES.index(a["seccao"]) if a["seccao"] in ORDEM_SECCOES else 99,
+            a["data"]))
+
+        fonte = "\n".join(fonte_artigo(a) for a in pecas)
+        lista = "\n".join(
+            f'      <li><a href="../{a["slug"]}.html">'
+            f'{html.escape(str(a["titulo"]))}</a></li>' for a in pecas)
+        robots = "" if ed["publicado"] else '<meta name="robots" content="noindex">'
+
+        pagina = template_ed
+        for chave, valor in {
+            "{{NUMERO}}": str(ed["numero"]),
+            "{{TITULO_EDICAO}}": html.escape(str(ed["titulo"])),
+            "{{MES_ANO}}": data_bonita(ed["data"], MESES_PT),
+            "{{DESTAQUE}}": html.escape(str(ed["destaque"])),
+            "{{ROBOTS}}": robots,
+            "{{FONTE_ARTIGOS}}": fonte,
+            "{{LISTA_LEITURA}}": lista,
+        }.items():
+            pagina = pagina.replace(chave, valor)
+        pagina = pagina.replace("<body>", f"<body>\n{MARCA_GERADO}", 1)
+
+        nome = f"edicao-{ed['numero']}.html"
+        (PASTA_REVISTA / nome).write_text(pagina, encoding="utf-8")
+        esperados.add(nome)
+        estado = "publicada" if ed["publicado"] else "EM PREPARAÇÃO (noindex)"
+        print(f"  revista: {nome}  ({len(pecas)} artigos · {estado})")
+
+        if ed["publicado"]:
+            cartoes.append(
+                '    <a class="cartao" href="edicao-%d.html">\n'
+                '      <div class="num">Edição n.º %d</div>\n'
+                '      <h2>%s</h2>\n'
+                '      <div class="data">%s</div>\n'
+                '      <p>%s</p>\n'
+                '      <span class="ler">Folhear →</span>\n'
+                '    </a>' % (ed["numero"], ed["numero"],
+                             html.escape(str(ed["titulo"])),
+                             data_bonita(ed["data"], MESES_PT),
+                             html.escape(str(ed["destaque"]))))
+
+    if cartoes:
+        bloco = '  <div class="grelha">\n' + "\n".join(cartoes) + "\n  </div>"
+    else:
+        bloco = ('  <div class="vazio">A primeira edição está em preparação. '
+                 'Volta em breve.</div>')
+
+    capa = TEMPLATE_REVISTA.read_text(encoding="utf-8")
+    capa = capa.replace("{{EDICOES}}", bloco)
+    capa = capa.replace("<body>", f"<body>\n{MARCA_GERADO}", 1)
+    (PASTA_REVISTA / "index.html").write_text(capa, encoding="utf-8")
+    print(f"  revista/index.html actualizado ({len(cartoes)} edições publicadas)")
+
+    # órfãos: edições apagadas
+    for ficheiro in PASTA_REVISTA.glob("*.html"):
+        if ficheiro.name not in esperados:
+            if MARCA_GERADO in ficheiro.read_text(encoding="utf-8", errors="ignore"):
+                print(f"  órfão removido: revista/{ficheiro.name}")
+                ficheiro.unlink()
+
+
 def ler_pasta(pasta: Path) -> list:
     itens = []
     for md_file in sorted(pasta.glob("*.md")):
@@ -202,6 +330,7 @@ def main() -> int:
     # só os artigos entram na montra do index; as investigações têm secção própria
     actualizar_index(artigos)
     print(f"  index.html actualizado ({min(len(artigos), 3)} artigos na montra)")
+    gerar_revista(artigos)
     limpar_orfaos({a["slug"] for a in artigos + investigacoes})
     return 0
 
