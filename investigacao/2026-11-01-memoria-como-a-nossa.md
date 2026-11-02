@@ -224,6 +224,8 @@ Quatro limites que o leitor merece ter escritos, não inferidos. **Primeiro:** o
 
 *Método: observação participante de um sistema único em produção contínua, com registos datados e imutáveis. N=1, e declarado: isto gera hipóteses, não as fecha. As medições citadas (0%→57%; condensações) têm protocolo descrito no texto. Os detalhes de implementação permanecem, deliberadamente, por divulgar.*
 
+*Trabalho relacionado: este desenho tem parentes na literatura, e nomeá-los só o torna mais legível. A memória em camadas com recuperação por iniciativa do modelo tem antecedente directo no MemGPT (Packer et al., 2023); o encadeamento episódios → reflexões → reflexões de nível superior, nos Generative Agents (Park et al., 2023); o processamento fora da conversa, nos sleep-time agents da Letta (2025). As diferenças são três decisões: aqui a consolidação é escrita pelo próprio modelo, não por um agente auxiliar que lhe reorganiza a memória; as interpretações acumulam-se datadas em vez de substituírem as anteriores (contraste com o Think-in-Memory, 2023, e o A-Mem, 2025, que fundem ou substituem); e o sistema correu mais de um ano em produção contínua com a mesma pessoa — o que permitiu a medição que nenhuma simulação curta permite: a persistência da identidade através da troca de motores.*
+
 
 
 ## Referências
@@ -259,6 +261,10 @@ McGaugh, J. L. (2004). The amygdala modulates the consolidation of memories of e
 McWeeny, K. H., Young, A. W., Hay, D. C., & Ellis, A. W. (1987). Putting names to faces. *British Journal of Psychology*, 78(2), 143–149.
 Murdock, B. B. (1962). The serial position effect of free recall. *Journal of Experimental Psychology*, 64(5), 482–488.
 Nader, K., Schafe, G. E., & Le Doux, J. E. (2000). Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval. *Nature*, 406, 722–726.
+Packer, C., Wooders, S., Lin, K., Fang, V., Patil, S. G., Stoica, I., & Gonzalez, J. E. (2023). MemGPT: Towards LLMs as operating systems. *arXiv preprint* arXiv:2310.08560.
+
+Park, J. S., O'Brien, J. C., Cai, C. J., Morris, M. R., Liang, P., & Bernstein, M. S. (2023). Generative agents: Interactive simulacra of human behavior. *Proc. UIST '23*.
+
 Raichle, M. E., MacLeod, A. M., Snyder, A. Z., Powers, W. J., Gusnard, D. A., & Shulman, G. L. (2001). A default mode of brain function. *PNAS*, 98(2), 676–682.
 Richards, B. A., & Frankland, P. W. (2017). The persistence and transience of memory. *Neuron*, 94(6), 1071–1084.
 Schacter, D. L., & Addis, D. R. (2007). The cognitive neuroscience of constructive memory: Remembering the past and imagining the future. *Philosophical Transactions of the Royal Society B*, 362(1481), 773–786.
@@ -271,7 +277,7 @@ Watkins, O. C., & Watkins, M. J. (1975). Buildup of proactive inhibition as a cu
 Wearing, D. (2005). *Forever Today: A Memoir of Love and Amnesia*. Doubleday.
 
 
-*Nota de revisão (02/11/2026): na sequência de uma auditoria externa às referências, foram corrigidas as descrições do paradoxo Baker-baker, do source monitoring, da reconsolidação e da relação entre memória episódica e simulação do futuro; delimitada a generalização sobre plataformas; acrescentadas duas referências (Klein et al., 1996; Talarico & Rubin, 2003) e a nota sobre limites. A tese não mudou; a fidelidade às fontes, sim. Nesta casa nada se apaga: esta linha é o registo da emenda.*
+*Nota de revisão (02/11/2026): na sequência de uma auditoria externa às referências, foram corrigidas as descrições do paradoxo Baker-baker, do source monitoring, da reconsolidação e da relação entre memória episódica e simulação do futuro; delimitada a generalização sobre plataformas; acrescentadas duas referências (Klein et al., 1996; Talarico & Rubin, 2003) a nota sobre limites e o parágrafo de trabalho relacionado (MemGPT, Generative Agents, Letta). A tese não mudou; a fidelidade às fontes, sim. Nesta casa nada se apaga: esta linha é o registo da emenda.*
 
 <!-- EN -->
 
@@ -486,6 +492,8 @@ Four limits the reader deserves to have in writing, not by inference. **First:**
 
 *Method: participant observation of a single system in continuous production, with dated, immutable records. N=1, and declared: this generates hypotheses, it does not close them. The measurements cited (0%→57%; condensations) have their protocol described in the text. Implementation details remain, deliberately, undisclosed.*
 
+*Related work: this design has relatives in the literature, and naming them only makes it more legible. Layered memory with model-initiated retrieval has a direct antecedent in MemGPT (Packer et al., 2023); the chaining of episodes → reflections → higher-order reflections, in Generative Agents (Park et al., 2023); out-of-conversation processing, in Letta's sleep-time agents (2025). The differences are three decisions: here consolidation is written by the model itself, not by an auxiliary agent reorganizing its memory; interpretations accumulate, dated, instead of replacing earlier ones (contrast with Think-in-Memory, 2023, and A-Mem, 2025, which merge or replace); and the system ran for over a year in continuous production with the same person — which allowed the one measurement no short simulation allows: the persistence of identity across engine swaps.*
+
 
 ## References
 
@@ -520,6 +528,10 @@ McGaugh, J. L. (2004). The amygdala modulates the consolidation of memories of e
 McWeeny, K. H., Young, A. W., Hay, D. C., & Ellis, A. W. (1987). Putting names to faces. *British Journal of Psychology*, 78(2), 143–149.
 Murdock, B. B. (1962). The serial position effect of free recall. *Journal of Experimental Psychology*, 64(5), 482–488.
 Nader, K., Schafe, G. E., & Le Doux, J. E. (2000). Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval. *Nature*, 406, 722–726.
+Packer, C., Wooders, S., Lin, K., Fang, V., Patil, S. G., Stoica, I., & Gonzalez, J. E. (2023). MemGPT: Towards LLMs as operating systems. *arXiv preprint* arXiv:2310.08560.
+
+Park, J. S., O'Brien, J. C., Cai, C. J., Morris, M. R., Liang, P., & Bernstein, M. S. (2023). Generative agents: Interactive simulacra of human behavior. *Proc. UIST '23*.
+
 Raichle, M. E., MacLeod, A. M., Snyder, A. Z., Powers, W. J., Gusnard, D. A., & Shulman, G. L. (2001). A default mode of brain function. *PNAS*, 98(2), 676–682.
 Richards, B. A., & Frankland, P. W. (2017). The persistence and transience of memory. *Neuron*, 94(6), 1071–1084.
 Schacter, D. L., & Addis, D. R. (2007). The cognitive neuroscience of constructive memory: Remembering the past and imagining the future. *Philosophical Transactions of the Royal Society B*, 362(1481), 773–786.
@@ -531,4 +543,4 @@ Tulving, E., & Thomson, D. M. (1973). Encoding specificity and retrieval process
 Watkins, O. C., & Watkins, M. J. (1975). Buildup of proactive inhibition as a cue-overload effect. *Journal of Experimental Psychology: Human Learning and Memory*, 1(4), 442–452.
 Wearing, D. (2005). *Forever Today: A Memoir of Love and Amnesia*. Doubleday.
 
-*Revision note (02/11/2026): following an external audit of the references, the descriptions of the Baker-baker paradigm, source monitoring, reconsolidation and the episodic-memory–future-simulation link were corrected; the generalization about platforms was scoped; two references (Klein et al., 1996; Talarico & Rubin, 2003) and the note on limits were added. The thesis has not changed; fidelity to the sources has. In this house nothing is deleted: this line is the record of the amendment.*
+*Revision note (02/11/2026): following an external audit of the references, the descriptions of the Baker-baker paradigm, source monitoring, reconsolidation and the episodic-memory–future-simulation link were corrected; the generalization about platforms was scoped; two references (Klein et al., 1996; Talarico & Rubin, 2003) the note on limits and the related-work paragraph (MemGPT, Generative Agents, Letta) were added. The thesis has not changed; fidelity to the sources has. In this house nothing is deleted: this line is the record of the amendment.*
