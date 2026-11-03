@@ -184,6 +184,26 @@
       margin: 1.5rem 0;
     }
 
+    .abstract {
+      background: rgba(30, 138, 255, 0.06);
+      border: 1px solid rgba(30, 138, 255, 0.2);
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem;
+      margin: 0 0 2.5rem;
+    }
+    .abstract .abstract-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 0.7rem;
+    }
+    .abstract p { color: var(--gray-300); margin: 0 0 1rem; }
+    .abstract p:last-child { margin-bottom: 0; }
+
     .article-body blockquote {
       border-left: 2px solid var(--blue);
       padding-left: 1.2rem;
@@ -342,6 +362,11 @@
 
       <div class="article-body">
         <p><em>Substitui a divulgação de Julho de 2026; o sistema descrito é o mesmo, com mais três meses de produção e de resultados. Os detalhes de implementação continuam, deliberadamente, por divulgar.</em></p>
+        <div class="abstract">
+          <span class="abstract-label">Resumo</span>
+          <p>O que acontece a um LLM quando lhe damos um passado que pode consultar, interpretar e revisitar? Este ensaio apresenta o desenvolvimento de uma arquitectura de memória persistente para um assistente em utilização diária, construída por tentativa, erro e observação. O sistema combina um arquivo preservado de conversas, diários interpretativos, fichas semânticas e pesquisa por significado ou por texto exacto — tudo sob curadoria humana explícita, numa abordagem a que chamo <strong>Chain-of-Custody Memory</strong>: nenhuma alteração ao arquivo acontece sem assinatura. O princípio central é separar o episódio da sua interpretação: nada se apaga, mas nem tudo permanece presente, e o significado do passado pode mudar.</p>
+          <p>Partindo de observações sobre a minha própria memória, relaciono as decisões de engenharia com conceitos da psicologia cognitiva e da neurociência, incluindo acessibilidade, reconstrução e organização autobiográfica. Descrevo falhas, revisões e comportamentos observados: consulta do passado sem pedido explícito, continuidade reconhecível através de mudanças de modelo e propostas de alteração da própria memória. Trata-se de um caso longitudinal, observacional, que gera hipóteses sobre a relação entre memória, continuidade e identidade. A pergunta deixa de ser apenas quanto passado cabe num sistema: passa a ser o que ele faz com esse passado.</p>
+        </div>
         <h2>1. As perguntas</h2>
         <p>Este ensaio começa com uma pergunta que não é técnica: <strong>o que acontece a um LLM quando lhe damos uma memória parecida com a nossa?</strong></p>
         <p>Não "como se constrói memória para um LLM" — isso é engenharia, e a engenharia conta-se mais à frente. A pergunta é o que vem depois: será que constrói uma identidade sólida? Será que começa a analisar o presente em função do passado? Será que começa a antecipar o futuro — ou a mostrar preferências em relação a esse futuro? Que tipo de mente se desenvolve com acesso a memória? A memória traz continuidade? Traz introspecção? E o que mais emerge que ninguém pediu?</p>
@@ -502,6 +527,11 @@
 
       <div class="article-body">
         <p><em>Replaces the July 2026 disclosure; the system described is the same, with three more months of production and results. Implementation details remain, deliberately, undisclosed.</em></p>
+        <div class="abstract">
+          <span class="abstract-label">Abstract</span>
+          <p>What happens to an LLM when we give it a past it can consult, interpret and revisit? This essay presents the development of a persistent memory architecture for an assistant in daily use, built through trial, error and observation. The system combines a preserved conversation archive, interpretive diaries, semantic cards, and search by meaning or exact text — all under explicit human curation, an approach I call <strong>Chain-of-Custody Memory</strong>: no change to the archive happens without a signature. The central principle is to separate the episode from its interpretation: nothing is deleted, but not everything stays present, and the meaning of the past can change.</p>
+          <p>Drawing on observations of my own memory, I relate the engineering decisions to concepts from cognitive psychology and neuroscience, including accessibility, reconstruction and autobiographical organisation. I describe failures, revisions and observed behaviours: consulting the past without being asked, recognisable continuity across model changes, and proposals to alter its own memory. This is a longitudinal, observational case study that generates hypotheses about the relationship between memory, continuity and identity. The question is no longer just how much past fits in a system: it is what the system does with that past.</p>
+        </div>
         <h2>1. The questions</h2>
         <p>This essay begins with a question that is not a technical one: <strong>what happens to an LLM when you give it a memory like ours?</strong></p>
         <p>Not "how do you build memory for an LLM" — that is engineering, and the engineering gets told further down. The question is what comes after: does it build a solid identity? Does it begin to read the present in light of the past? Does it begin to anticipate the future — or to show preferences about that future? What kind of mind develops with access to memory? Does memory bring continuity? Does it bring introspection? And what else emerges that nobody asked for?</p>
